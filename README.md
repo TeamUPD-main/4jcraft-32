@@ -144,5 +144,10 @@ cd build/Minecraft.Client
 Submitting code to this repository authored by generative AI tools (LLMs, agentic coding tools, etc...) is strictly forbidden (see [CONTRIBUTING.md](./CONTRIBUTING.md)). Pull requests that are clearly vibe-coded or written by an LLM will be closed. Contributors are expected to both fully understand the code that they write **and** have the necessary skills to *maintain it*.
 
 ## Star History
-
-[![Star History Chart](https://api.star-history.com/image?repos=4jcraft/4jcraft&type=date&legend=top-left)](https://www.star-history.com/?repos=4jcraft%2F4jcraft&type=date&legend=top-left)
+<a href="https://www.star-history.com/?repos=4jcraft%2F4jcraft&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=4jcraft/4jcraft&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=4jcraft/4jcraft&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=4jcraft/4jcraft&type=date&legend=top-left" />
+ </picture>
+</a>
