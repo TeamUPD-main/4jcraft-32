@@ -14,11 +14,21 @@ python = pymod.find_installation('python3', required: true)
 cc = meson.get_compiler('cpp')
 
 # system deps
-gl_dep     = dependency('gl')
-glu_dep    = dependency('glu')
-sdl2_dep   = dependency('sdl2') # Yes.. i know sdl3 is out, but there's not point upgrading right now except when
+if host_machine.system() == 'emscripten'
+    # These are handled in Emscripten via -sUSE_<whatever>
+    gl_dep  = declare_dependency()
+    glu_dep = declare_dependency()
+    sdl2_dep = declare_dependency()
+    thread_dep = declare_dependency()
+    zlib_dep   = declare_dependency()
+else
+    gl_dep  = dependency('gl')
+    glu_dep = dependency('glu')
+    sdl2_dep   = dependency('sdl2') # Yes.. i know sdl3 is out, but there's not point upgrading right now except when
                                 # someone is gonna ask me "Hey juicey can you make it SDL3?" and i'd be like fuck you and still do it.
-thread_dep = dependency('threads')
+    thread_dep = dependency('threads')
+    zlib_dep = dependency('zlib')
+endif
 
 # compile flags (chagne ts juicey)
 global_cpp_args = [
@@ -36,6 +46,18 @@ global_cpp_defs = [
   '-D_DEBUG',
   '-DDEBUG',
 ]
+
+if host_machine.system() == 'emscripten'
+  add_project_arguments(
+    '-sUSE_SDL=2',
+    '-sUSE_WEBGL2=1',
+    '-sFULL_ES3=1',
+    '-sUSE_ZLIB=1',
+    '-pthread',
+    '-sPTHREAD_POOL_SIZE=4',
+    language: 'cpp'
+  )
+endif
 
 if get_option('enable_java_guis')
   global_cpp_defs += '-DENABLE_JAVA_GUIS'

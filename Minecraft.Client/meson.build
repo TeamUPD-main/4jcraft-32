@@ -35,7 +35,7 @@ platform_sources += run_command(
 ).stdout().strip().split('\n')
 
 # linux-specific files (everything in Platform/Linux)
-if host_machine.system() == 'linux'
+if host_machine.system() == 'linux' or host_machine.system() == 'emscripten'
   platform_sources += run_command(
     'sh', '-c',
     'find "'
@@ -59,7 +59,7 @@ client = executable('Minecraft.Client',
     glu_dep,
     thread_dep,
     thread_dep,
-    dependency('zlib'),
+    zlib_dep,
   ],
   cpp_args : global_cpp_args + global_cpp_defs + [
     '-DUNICODE', '-D_UNICODE',

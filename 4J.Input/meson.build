@@ -16,7 +16,11 @@ lib_input = static_library('4J_Input',
 )
 
 # We import SDL2 but not SDL3.. which is a bit sad,
-sdl_dep = dependency('sdl2', required : false)
+if host_machine.system() == 'emscripten'
+    sdl_dep = declare_dependency()
+else
+    sdl_dep = dependency('sdl2', required : false)
+endif
 
 input_dep = declare_dependency(
   link_with : lib_input,
