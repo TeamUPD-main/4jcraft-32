@@ -128,13 +128,78 @@ meson setup build
 
 ---
 
+
+## Building (Emscripten)
+
+### Dependencies
+
+Install the following packages before building (Debian/Ubuntu names shown):
+
+```bash
+sudo apt-get install -y build-essential libsdl2-dev libgl-dev libglu1-mesa-dev libpthread-stubs0-dev
+```
+
+#### Arch/Manjaro
+
+```bash
+sudo pacman -S base-devel gcc pkgconf cmake sdl2-compat mesa glu
+```
+
+#### Fedora/Red Hat/Nobara
+
+```bash
+sudo dnf in gcc gcc-c++ make cmake SDL2-devel mesa-libGL-devel mesa-libGLU-devel openssl-devel
+```
+
+Next you're going to need to get the [emsdk](https://github.com/emscripten-core/emsdk). Follow the instructions on installation in their README.
+
+This project uses the [Meson](https://mesonbuild.com/) build system (with [Ninja](https://ninja-build.org/)).
+
+#### Install Tooling
+
+Follow [this Quickstart guide](https://mesonbuild.com/Quick-guide.html) for installing or building Meson and Ninja on your respective distro.
+
+#### Configure & Build
+
+```bash
+# 1. Configure a build directory (we'll name it `build`)
+meson setup build --cross-file scripts/emscripten_native.txt
+
+# 2. Compile the project
+meson compile -C build
+```
+
+The binary is outputted to: `./build/Minecraft.Client/Minecraft.Client.js`, you can use Emscripten's own [Shell file](https://github.com/emscripten-core/emscripten/blob/main/html/shell.html).
+
 ## Running
 
 In order to run the compiled binary, you have a compiled copy of the game's assets in your current working directory. These assets are automatically copied to the `Minecraft.Client` folder in your build directory. To run the game, your current working directory must be in this folder.
 
 ```sh
 cd build/Minecraft.Client
-./Minecraft.Client
+# Using a shell-file from Emscripten/Emscripten-Core
+emrun index.html
+```
+
+#### Clean
+
+To perform a clean compilation:
+
+```bash
+meson compile --clean -C build
+```
+
+...or to reconfigure an existing build directory:
+
+```bash
+meson setup build --reconfigure 
+```
+
+...or to hard reset the build directory:
+
+```bash
+rm -rf ./build
+meson setup build --cross-file scripts/emscripten_native.txt
 ```
 
 ---
