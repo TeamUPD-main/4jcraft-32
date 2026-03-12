@@ -45,6 +45,15 @@ if host_machine.system() == 'linux' or host_machine.system() == 'emscripten'
   ).stdout().strip().split('\n')
 endif
 
+
+is_emscripten = host_machine.system() == 'emscripten'
+
+if is_emscripten
+    gl4es_dep = declare_dependency(link_args:[meson.current_source_dir() / 'Platform/Emscripten/gl4es/libGL4ES.a'])
+else
+    gl4es_dep = declare_dependency()
+endif
+
 client = executable('Minecraft.Client',
   client_sources + platform_sources + localisation[1],
   include_directories : include_directories('Platform'),
@@ -60,6 +69,7 @@ client = executable('Minecraft.Client',
     thread_dep,
     thread_dep,
     zlib_dep,
+    gl4es_dep,
   ],
   cpp_args : global_cpp_args + global_cpp_defs + [
     '-DUNICODE', '-D_UNICODE',

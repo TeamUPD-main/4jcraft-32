@@ -49,12 +49,17 @@ global_cpp_defs = [
 
 if host_machine.system() == 'emscripten'
   add_project_arguments(
+    '-pthread',
+    language: 'cpp'
+  )
+
+  add_project_link_arguments(
     '-sUSE_SDL=2',
     '-sUSE_WEBGL2=1',
-    '-sFULL_ES3=1',
-    '-sUSE_ZLIB=1',
-    '-pthread',
+    '-sLEGACY_GL_EMULATION=1',
+    '-sALLOW_MEMORY_GROWTH=1',
     '-sPTHREAD_POOL_SIZE=4',
+    '-sERROR_ON_UNDEFINED_SYMBOLS=0',
     language: 'cpp'
   )
 endif
