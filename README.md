@@ -142,3 +142,7 @@ cd build/Minecraft.Client
 ## Generative AI Policy
 
 Submitting code to this repository authored by generative AI tools (LLMs, agentic coding tools, etc...) is strictly forbidden (see [CONTRIBUTING.md](./CONTRIBUTING.md)). Pull requests that are clearly vibe-coded or written by an LLM will be closed. Contributors are expected to both fully understand the code that they write **and** have the necessary skills to *maintain it*.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/image?repos=4jcraft/4jcraft&type=date&legend=top-left)](https://www.star-history.com/?repos=4jcraft%2F4jcraft&type=date&legend=top-left)
