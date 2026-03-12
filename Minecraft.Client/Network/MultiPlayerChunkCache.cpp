@@ -9,6 +9,18 @@
 #include "../Level/ServerLevel.h"
 #include "../../Minecraft.World/Blocks/Tile.h"
 #include "../../Minecraft.World/Level/WaterLevelChunk.h"
+#if defined(__EMSCRIPTEN__)
+// DecalOverdose: since emscripten is acting retarded and can't find this in the winapi fucking header, i might as well put it here.
+static LONG InterlockedCompareExchangeRelease(
+	LONG volatile *Destination,
+	LONG Exchange,
+	LONG Comperand)
+{
+	LONG64 expected = Comperand;
+	__atomic_compare_exchange_n(Destination, &expected, Exchange, false, __ATOMIC_RELEASE, __ATOMIC_RELAXED);
+	return expected;
+}
+#endif // __EMSCRIPTEN__
 
 MultiPlayerChunkCache::MultiPlayerChunkCache(Level *level)
 {

@@ -86,6 +86,8 @@
 #define _XM_SSE_INTRINSICS_
 #elif defined(_M_ARM) || defined(_M_ARM64) || defined(_M_HYBRID_X86_ARM64) || defined(_M_ARM64EC) || __arm__ || __aarch64__
 #define _XM_ARM_NEON_INTRINSICS_
+#elif defined(__EMSCRIPTEN__)
+#define _XM_NO_INTRINSICS_
 #elif !defined(_XM_NO_INTRINSICS_)
 #error DirectX Math does not support this target
 #endif

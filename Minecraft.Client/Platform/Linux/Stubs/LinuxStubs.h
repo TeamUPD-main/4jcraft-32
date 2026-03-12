@@ -23,7 +23,10 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <locale>
+// DecalOverdose: YES I KNOW IT'S BAD BUT I'LL MAKE IT BETTER LATER OKAY?
+#ifndef __EMSCRIPTEN__
 #include <linux/mman.h>
+#endif // __emscripten__
 #include <sys/mman.h>
 #include <codecvt>
 

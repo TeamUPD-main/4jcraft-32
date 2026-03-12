@@ -1,0 +1,3 @@
+[submodule "Minecraft.World/Emscripten/md5"]
+	path = Minecraft.World/Emscripten/md5
+	url = https://github.com/pantsman0/md5

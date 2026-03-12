@@ -2,13 +2,15 @@
 #if defined(_WIN32)
 #include <xhash>
 #else
+#if !defined(__EMSCRIPTEN__)
 #include <openssl/md5.h>
+#include <openssl/evp.h>
+#endif // __EMSCRIPTEN__
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #endif // _WIN32
 #include "Hasher.h"
-#include <openssl/evp.h>
 
 Hasher::Hasher(std::wstring &salt)
 {
@@ -33,6 +35,9 @@ std::wstring Hasher::getHash(std::wstring &name)
 	//{
 	//	throw new RuntimeException(e);
 	//}
+#elif defined(__EMSCRIPTEN__)
+	std::wstring combined = salt + name;
+	return combined; // i'm lazy
 #else
 	// adapted from a SSL example
 	std::wstring combined = salt + name;
