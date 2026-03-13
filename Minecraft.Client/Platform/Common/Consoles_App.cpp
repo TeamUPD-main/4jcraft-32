@@ -4056,45 +4056,6 @@ void CMinecraftApp::loadMediaArchive()
 	{
 		m_mediaArchive = new ArchiveFile( File(mediapath) );
 	}
-#if 0
-	std::string path = "Common\\media.arc";
-	HANDLE hFile = CreateFile(	path.c_str(),
-								GENERIC_READ,
-								FILE_SHARE_READ,
-								NULL,
-								OPEN_EXISTING,
-								FILE_FLAG_SEQUENTIAL_SCAN,
-								NULL );
-
-	if( hFile != INVALID_HANDLE_VALUE )
-	{
-		File fileHelper(convStringToWstring(path));
-		DWORD dwFileSize = fileHelper.length();
-
-		// Initialize memory.
-		PBYTE m_fBody = new BYTE[ dwFileSize ];
-		ZeroMemory(m_fBody, dwFileSize);
-
-		DWORD m_fSize = 0;
-		BOOL hr = ReadFile(	hFile,
-							m_fBody,
-							dwFileSize,
-							&m_fSize,
-							NULL	);
-
-		assert( m_fSize == dwFileSize );
-
-		CloseHandle( hFile );
-
-		m_mediaArchive = new ArchiveFile(m_fBody, m_fSize);
-	}
-	else
-	{
-		assert( false );
-		// AHHHHHHHHHHHH
-		m_mediaArchive = NULL;
-	}
-#endif
 }
 
 void CMinecraftApp::loadStringTable()

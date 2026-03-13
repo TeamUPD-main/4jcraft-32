@@ -32,8 +32,11 @@ void CConsoleMinecraftApp::ExitGame()
 }
 void CConsoleMinecraftApp::FatalLoadError()
 {
+    // Mohamed: Temporarily disabling this so it can be easier to debug.
+#if !defined(__EMSCRIPTEN__)
     app.DebugPrintf("CConsoleMinecraftApp::FatalLoadError - asserting 0 and dying...\n");
     assert(0);
+#endif // __EMSCRIPTEN__
 }
 
 void CConsoleMinecraftApp::CaptureSaveThumbnail()
