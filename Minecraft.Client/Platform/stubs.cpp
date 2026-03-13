@@ -121,3 +121,17 @@ XCAMDEVICESTATE XCamGetStatus() { return XCAMDEVICESTATE_DISCONNECTED; }
 #endif
 
 #endif
+
+#ifdef __EMSCRIPTEN__
+
+extern "C" {
+    GLuint glGenLists(GLsizei) { return 1; }
+    void glNewList(GLuint, GLenum) {}
+    void glEndList() {}
+    void glCallList(GLuint) {}
+    GLboolean glIsList(GLuint) { return GL_TRUE; }
+    void glColorMaterial( GLenum face, GLenum mode ){}
+    void glMultiTexCoord2f(GLenum, GLfloat, GLfloat) {}
+}
+
+#endif
