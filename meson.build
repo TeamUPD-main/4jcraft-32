@@ -61,7 +61,6 @@ if host_machine.system() == 'emscripten'
     '-sPTHREAD_POOL_SIZE=4',
     '-sERROR_ON_UNDEFINED_SYMBOLS=0',
     '--use-port=zlib',
-    '--preload-file build/Minecraft.Client/Common@/Common',
     language: 'cpp'
   )
 endif
