@@ -66,6 +66,10 @@
 #ifdef __ORBIS__
 #include <save_data_dialog.h>
 #endif
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/threading.h>
+#endif
 
 #include "Leaderboards/LeaderboardManager.h"
 
@@ -4043,7 +4047,11 @@ void CMinecraftApp::loadMediaArchive()
 #elif _WINDOWS64
 	mediapath = L"Common\\Media\\MediaWindows64.arc";
 #elif __linux__
-	mediapath = L"Common/Media/MediaLinux.arc";
+	#if defined(__EMSCRIPTEN__)
+		mediapath = L"/Common/Media/MediaLinux.arc";
+	#else
+		mediapath = L"Common/Media/MediaLinux.arc";
+	#endif // __EMSCRIPTEN__
 #elif __ORBIS__
 	mediapath = L"Common\\Media\\MediaOrbis.arc";
 #elif _DURANGO
@@ -4060,7 +4068,7 @@ void CMinecraftApp::loadMediaArchive()
 
 void CMinecraftApp::loadStringTable()
 {
-#ifndef _XBOX
+#ifndef __EMSCRIPTEN__
 
 	if(m_stringTable!=NULL)
 	{
