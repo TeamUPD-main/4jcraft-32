@@ -53,6 +53,16 @@ std::wstring TexturePack::getPath(bool bTitleUpdateTexture /*= false*/)
 	{
 		wDrive= wstr + L"Common\\";
 	}
+#elif defined(__EMSCRIPTEN__)
+	if(bTitleUpdateTexture)
+	{
+		// Make the content package point to to the UPDATE: drive is needed
+		wDrive=L"/Common\\res\\TitleUpdate\\";
+	}
+	else
+	{
+		wDrive=L"/Common/";
+	}
 #else
 	if(bTitleUpdateTexture)
 	{

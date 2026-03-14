@@ -329,6 +329,17 @@ void UIController::SetupFont()
 		// 4J-JEV, Cyrillic characters have been added to this font now, (4/July/14)
 		//case XC_LANGUAGE_RUSSIAN:
 		//case XC_LANGUAGE_GREEK:
+#elif defined(__EMSCRIPTEN__)
+	case XC_LANGUAGE_JAPANESE:
+		m_mcTTFFont = new UITTFFont("/Common/Media/font/JPN/DFGMaruGothic-Md.ttf", 0x2022); // JPN
+		break;
+	case XC_LANGUAGE_SCHINESE: //TODO
+	case XC_LANGUAGE_TCHINESE:
+		m_mcTTFFont = new UITTFFont("/Common/Media/font/CHT/DFHeiMedium-B5.ttf", 0x2022); // CHT
+		break;
+	case XC_LANGUAGE_KOREAN:
+		m_mcTTFFont = new UITTFFont("/Common/Media/font/KOR/BOKMSD.ttf", 0x2022); // KOR
+		break;
 #else
 	case XC_LANGUAGE_JAPANESE:
 		m_mcTTFFont = new UITTFFont("Common/Media/font/JPN/DFGMaruGothic-Md.ttf", 0x2022); // JPN
