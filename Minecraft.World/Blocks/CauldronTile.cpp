@@ -6,7 +6,7 @@
 #include "../Headers/net.minecraft.world.entity.item.h"
 #include "../Headers/net.minecraft.world.entity.player.h"
 #include "../Headers/net.minecraft.world.h"
-#include "../../Minecraft.Client/Player/ServerPlayer.h"
+#include "../Minecraft.Client/ServerPlayer.h"
 
 const std::wstring CauldronTile::TEXTURE_INSIDE = L"cauldron_inner";
 const std::wstring CauldronTile::TEXTURE_BOTTOM = L"cauldron_bottom";
@@ -82,9 +82,10 @@ bool CauldronTile::use(Level* level, int x, int y, int z,
     }
 
     int currentData = level->getData(x, y, z);
+    int fillLevel = getFillLevel(currentData);
 
     if (item->id == Item::bucket_water_Id) {
-        if (currentData < 3) {
+        if (fillLevel < 3) {
             if (!player->abilities.instabuild) {
                 player->inventory->setItem(
                     player->inventory->selected,
@@ -92,11 +93,12 @@ bool CauldronTile::use(Level* level, int x, int y, int z,
                         new ItemInstance(Item::bucket_empty)));
             }
 
-            level->setData(x, y, z, 3);
+            level->setData(x, y, z, 3, Tile::UPDATE_CLIENTS);
+            level->updateNeighbourForOutputSignal(x, y, z, id);
         }
         return true;
     } else if (item->id == Item::glassBottle_Id) {
-        if (currentData > 0) {
+        if (fillLevel > 0) {
             std::shared_ptr<ItemInstance> potion =
                 std::shared_ptr<ItemInstance>(
                     new ItemInstance(Item::potion, 1, 0));
@@ -106,7 +108,7 @@ bool CauldronTile::use(Level* level, int x, int y, int z,
             }
             // 4J Stu - Brought forward change to update inventory when filling
             // bottles with water
-            else if (std::dynamic_pointer_cast<ServerPlayer>(player) != NULL) {
+            else if (player->instanceof(eTYPE_SERVERPLAYER)) {
                 std::dynamic_pointer_cast<ServerPlayer>(player)
                     ->refreshContainer(player->inventoryMenu);
             }
@@ -118,13 +120,15 @@ bool CauldronTile::use(Level* level, int x, int y, int z,
                                                nullptr);
                 }
             }
-            level->setData(x, y, z, currentData - 1);
+            level->setData(x, y, z, fillLevel - 1, Tile::UPDATE_CLIENTS);
+            level->updateNeighbourForOutputSignal(x, y, z, id);
         }
-    } else if (currentData > 0) {
+    } else if (fillLevel > 0) {
         ArmorItem* armor = dynamic_cast<ArmorItem*>(item->getItem());
         if (armor && armor->getMaterial() == ArmorItem::ArmorMaterial::CLOTH) {
             armor->clearColor(item);
-            level->setData(x, y, z, currentData - 1);
+            level->setData(x, y, z, fillLevel - 1, Tile::UPDATE_CLIENTS);
+            level->updateNeighbourForOutputSignal(x, y, z, id);
             return true;
         }
     }
@@ -138,7 +142,7 @@ void CauldronTile::handleRain(Level* level, int x, int y, int z) {
     int data = level->getData(x, y, z);
 
     if (data < 3) {
-        level->setData(x, y, z, data + 1);
+        level->setData(x, y, z, data + 1, Tile::UPDATE_CLIENTS);
     }
 }
 
@@ -149,3 +153,14 @@ int CauldronTile::getResource(int data, Random* random, int playerBonusLevel) {
 int CauldronTile::cloneTileId(Level* level, int x, int y, int z) {
     return Item::cauldron_Id;
 }
+
+bool CauldronTile::hasAnalogOutputSignal() { return true; }
+
+int CauldronTile::getAnalogOutputSignal(Level* level, int x, int y, int z,
+                                        int dir) {
+    int data = level->getData(x, y, z);
+
+    return getFillLevel(data);
+}
+
+int CauldronTile::getFillLevel(int data) { return data; }

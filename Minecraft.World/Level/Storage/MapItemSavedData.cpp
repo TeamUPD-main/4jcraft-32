@@ -460,11 +460,9 @@ void MapItemSavedData::tickCarriedBy(std::shared_ptr<Player> player,
             }
 
             // 			float xd = (float) (hp->player->x - x) / (1 <<
-            // scale); 			float yd = (float) (hp->player->z - z) / (1 << scale);
-            // 			int ww = 64;
-            // 			int hh = 64;
-            // 			if (xd >= -ww && yd >= -hh && xd <= ww && yd <=
-            // hh)
+            // scale); 			float yd = (float) (hp->player->z - z) /
+            // (1 << scale); 			int ww = 64; 			int hh = 64; 			if (xd >= -ww && yd >=
+            // -hh && xd <= ww && yd <= hh)
             // 			{
             // 				char img = 0;
             // 				char x = (char) (xd * 2 + 0.5);

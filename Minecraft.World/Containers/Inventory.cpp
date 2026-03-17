@@ -608,7 +608,7 @@ int Inventory::countMatches(std::shared_ptr<ItemInstance> itemInstance) {
     // for (unsigned int i = 0; i < armor.length; i++)
     //{
     //	if (armor[i] != NULL && armor[i]->sameItem(itemInstance)) count +=
-    //items[i]->count;
+    // items[i]->count;
     // }
     for (unsigned int i = 0; i < items.length; i++) {
         if (items[i] != NULL && items[i]->sameItemWithTags(itemInstance))

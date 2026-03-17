@@ -34,8 +34,8 @@ void ModifiableAttributeInstance::setBaseValue(double baseValue) {
 }
 
 // Returns a pointer to an internally managed vector of modifers by operation
-std::unordered_set<AttributeModifier*>* ModifiableAttributeInstance::getModifiers(
-    int operation) {
+std::unordered_set<AttributeModifier*>*
+ModifiableAttributeInstance::getModifiers(int operation) {
     return &modifiers[operation];
 }
 

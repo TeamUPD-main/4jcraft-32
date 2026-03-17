@@ -11,7 +11,7 @@ private:
     static const int DATA_IN_LOVE = 13;  // 4J added
 
     //	int inLove;							// 4J
-    //removed - now synched data
+    // removed - now synched data
     int loveTime;
     std::weak_ptr<Player> loveCause;
 

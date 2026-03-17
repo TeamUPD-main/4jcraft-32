@@ -375,7 +375,7 @@ void Animal::updateDespawnProtectedState() {
         if (((m_maxWanderX - m_minWanderX) > MAX_WANDER_DISTANCE) ||
             ((m_maxWanderZ - m_minWanderZ) > MAX_WANDER_DISTANCE)) {
             //			printf("Unprotecting : %d to %d, %d to %d\n",
-            //m_minWanderX, m_maxWanderX, m_minWanderZ, m_maxWanderZ );
+            // m_minWanderX, m_maxWanderX, m_minWanderZ, m_maxWanderZ );
             m_isDespawnProtected = false;
         }
 

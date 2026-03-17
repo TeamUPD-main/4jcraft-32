@@ -725,7 +725,7 @@ Stat* DurangoStats::get_itemsCrafted(int itemId) {
         // 4J-JEV:	These items can be crafted trivially to and from their
         // block equivalents,
         //	'Acquire Hardware' also relies on 'Count_Crafted(IronIngot) ==
-        //Count_Forged(IronIngot)" on the Stats server.
+        // Count_Forged(IronIngot)" on the Stats server.
         case Item::ironIngot_Id:
         case Item::goldIngot_Id:
         case Item::diamond_Id:

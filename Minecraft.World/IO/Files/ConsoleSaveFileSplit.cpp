@@ -173,7 +173,7 @@ void ConsoleSaveFileSplit::RegionFileReference::Compress() {
     //	std::int64_t endTime = System::currentTimeMillis();
     //	app.DebugPrintf("Compressing region file 0x%.8x from %d to %d bytes -
     //%dms\n", fileEntry->data.regionIndex, fileEntry->data.length,
-    //dataCompressedSize, endTime - startTime);
+    // dataCompressedSize, endTime - startTime);
 }
 
 // Decompress from dataCompressed -> data. See comment in Compress method for
@@ -253,7 +253,7 @@ void ConsoleSaveFileSplit::RegionFileReference::Decompress() {
     //	std::int64_t endTime = System::currentTimeMillis();
     //	app.DebugPrintf("Decompressing region file from 0x%.8x %d to %d bytes -
     //%dms\n", fileEntry->data.regionIndex, dataCompressedSize,
-    //fileEntry->data.length, endTime - startTime);//
+    // fileEntry->data.length, endTime - startTime);//
 }
 
 unsigned int ConsoleSaveFileSplit::RegionFileReference::GetCompressedSize() {
@@ -312,7 +312,7 @@ unsigned int ConsoleSaveFileSplit::RegionFileReference::GetCompressedSize() {
 // Release dataCompressed
 void ConsoleSaveFileSplit::RegionFileReference::ReleaseCompressed() {
     //	app.DebugPrintf("Releasing compressed data for region file from
-    //0x%.8x\n", fileEntry->data.regionIndex );
+    // 0x%.8x\n", fileEntry->data.regionIndex );
     free(dataCompressed);
     dataCompressed = NULL;
     dataCompressedSize = 0;
@@ -707,9 +707,9 @@ bool ConsoleSaveFileSplit::writeFile(FileEntry* file, const void* lpBuffer,
                nNumberOfBytesToWrite);
 
         //		app.DebugPrintf(">>>>>>>>>>>>>> writing a region file's
-        //data 0x%.8x, 0x%x offset %d of %d bytes (writing %d
-        //bytes)\n",file->data.regionIndex,fileRef->data,file->currentFilePointer,
-        //file->getFileSize(), nNumberOfBytesToWrite);
+        // data 0x%.8x, 0x%x offset %d of %d bytes (writing %d
+        // bytes)\n",file->data.regionIndex,fileRef->data,file->currentFilePointer,
+        // file->getFileSize(), nNumberOfBytesToWrite);
 
         file->currentFilePointer += nNumberOfBytesToWrite;
         file->updateLastModifiedTime();
@@ -774,9 +774,9 @@ bool ConsoleSaveFileSplit::zeroFile(FileEntry* file,
                nNumberOfBytesToWrite);
 
         //		app.DebugPrintf(">>>>>>>>>>>>>> writing a region file's
-        //data 0x%.8x, 0x%x offset %d of %d bytes (writing %d
-        //bytes)\n",file->data.regionIndex,fileRef->data,file->currentFilePointer,
-        //file->getFileSize(), nNumberOfBytesToWrite);
+        // data 0x%.8x, 0x%x offset %d of %d bytes (writing %d
+        // bytes)\n",file->data.regionIndex,fileRef->data,file->currentFilePointer,
+        // file->getFileSize(), nNumberOfBytesToWrite);
 
         file->currentFilePointer += nNumberOfBytesToWrite;
         file->updateLastModifiedTime();
@@ -952,8 +952,8 @@ void ConsoleSaveFileSplit::tick() {
 
         regionRef->Compress();
         //		app.DebugPrintf("Tick: Writing region 0x%.8x, compressed
-        //as %d bytes\n",regionRef->fileEntry->getRegionFileIndex(),
-        //regionRef->dataCompressedSize);
+        // as %d bytes\n",regionRef->fileEntry->getRegionFileIndex(),
+        // regionRef->dataCompressedSize);
         StorageManager.UpdateSubfile(regionRef->index,
                                      regionRef->dataCompressed,
                                      regionRef->dataCompressedSize);

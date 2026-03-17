@@ -608,7 +608,7 @@ void Stats::buildAdditionalStats() {
         // 4J-JEV:	WHY ON EARTH DO THESE ARRAYS HAVE TO BE SO PAINFULLY
         // LARGE WHEN THEY ARE GOING TO BE MOSTLY EMPTY!!!
         //			Either way, I'm making this one smaller because
-        //we don't need those record items (and we only need 2).
+        // we don't need those record items (and we only need 2).
         blocksPlaced = StatArray(1000);
 
         itemStat = new ItemStat(offset++, L"blockPlaced.flowerPot",

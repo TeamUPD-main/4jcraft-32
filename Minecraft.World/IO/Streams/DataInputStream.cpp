@@ -146,7 +146,7 @@ unsigned char DataInputStream::readUnsignedByte() {
 
 // Reads two input bytes and returns a char value. Let a be the first byte read
 // and b be the second byte. The value returned is: (char)((a << 8) | (b &
-//0xff))
+// 0xff))
 //
 // This method is suitable for reading bytes written by the writeChar method of
 // interface DataOutput. Returns: the char value read.
@@ -308,7 +308,7 @@ __int64 DataInputStream::readLong() {
 
 // Reads two input bytes and returns a short value. Let a be the first byte read
 // and b be the second byte. The value returned is: (short)((a << 8) | (b &
-//0xff))
+// 0xff))
 //
 // This method is suitable for reading the bytes written by the writeShort
 // method of interface DataOutput. Returns: the 16-bit value read.
@@ -381,8 +381,8 @@ std::wstring DataInputStream::readUTF() {
     unsigned short UTFLength = (unsigned short)(((a & 0xff) << 8) | (b & 0xff));
 
     //// 4J Stu - I decided while writing DataOutputStream that we didn't need
-    ///to bother using the UTF8 format / used in the java libs, and just write
-    ///in/out as wchar_t all the time
+    /// to bother using the UTF8 format / used in the java libs, and just write
+    /// in/out as wchar_t all the time
 
     /*for( unsigned short i = 0; i < UTFLength; i++)
     {

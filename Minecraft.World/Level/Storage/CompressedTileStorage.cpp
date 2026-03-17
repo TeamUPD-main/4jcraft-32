@@ -292,7 +292,7 @@ void CompressedTileStorage::setData(byteArray dataIn, unsigned int inOffset) {
     int offsets[512];
     int memToAlloc = 0;
     //	static int type0 = 0, type1 = 0, type2 = 0, type4 = 0, type8 = 0,
-    //chunkTotal = 0;
+    // chunkTotal = 0;
 
     // Loop round all blocks
     for (int i = 0; i < 512; i++) {
@@ -374,8 +374,8 @@ void CompressedTileStorage::setData(byteArray dataIn, unsigned int inOffset) {
 
     //	chunkTotal++;
     //	printf("%d: %d (0) %d (1) %d (2) %d (4) %d (8)\n", chunkTotal, type0 /
-    //chunkTotal, type1 / chunkTotal, type2 / chunkTotal, type4 / chunkTotal,
-    //type8 / chunkTotal);
+    // chunkTotal, type1 / chunkTotal, type2 / chunkTotal, type4 / chunkTotal,
+    // type8 / chunkTotal);
 
     memToAlloc += 1024;  // For the indices
     unsigned char* newIndicesAndData = (unsigned char*)XPhysicalAlloc(

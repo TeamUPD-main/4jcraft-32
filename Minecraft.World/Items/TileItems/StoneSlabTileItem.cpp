@@ -60,7 +60,8 @@ bool StoneSlabTileItem::useOn(std::shared_ptr<ItemInstance> instance,
             // 			level.playSound(x + 0.5f, y + 0.5f, z + 0.5f,
             // fullTile.soundType.getPlaceSound(),
             // (fullTile.soundType.getVolume() + 1) / 2,
-            // fullTile.soundType.getPitch() * 0.8f); 			instance.count--;
+            // fullTile.soundType.getPitch() * 0.8f);
+            // instance.count--;
             level->playSound(x + 0.5f, y + 0.5f, z + 0.5f,
                              fullTile->soundType->getStepSound(),
                              (fullTile->soundType->getVolume() + 1) / 2,

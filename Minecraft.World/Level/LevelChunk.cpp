@@ -1056,7 +1056,8 @@ bool LevelChunk::setTileAndData(int x, int y, int z, int _tile, int _data) {
                     blocks->set(x, y % Level::COMPRESSED_CHUNK_SECTION_HEIGHT,
                                 z, 0);
                     //					blocks[x <<
-                    //level->depthBitsPlusFour | z << level->depthBits | y] = 0;
+                    // level->depthBitsPlusFour | z << level->depthBits | y] =
+                    // 0;
                 }
             }
         }
@@ -1085,7 +1086,7 @@ bool LevelChunk::setTileAndData(int x, int y, int z, int _tile, int _data) {
     // AP - changed the method of EntityTile detection cos it's well slow on
     // Vita mate
     //	else if (old > 0 && dynamic_cast<EntityTile *>(Tile::tiles[old]) !=
-    //NULL)
+    // NULL)
     else if (old > 0 && Tile::tiles[_tile] != NULL &&
              Tile::tiles[_tile]->isEntityTile()) {
         std::shared_ptr<TileEntity> te = getTileEntity(x, y, z);
@@ -2510,7 +2511,7 @@ byteArray LevelChunk::getReorderedBlocksAndData(int x0, int y0, int z0, int xs,
     //
     // unsigned int offset = Level::CHUNK_TILE_COUNT;
     //// Don't bother reordering block data, block light or sky light as they
-    ///don't seem to make much difference
+    /// don't seem to make much difference
     // byteArray dataData = byteArray(rawBuffer.data+offset,
     // Level::HALF_CHUNK_TILE_COUNT); lc->getDataData(dataData); offset +=
     // Level::HALF_CHUNK_TILE_COUNT; byteArray blockLightData =
@@ -2564,7 +2565,7 @@ void LevelChunk::reorderBlocksAndDataToXZY(int y0, int xs, int ys, int zs,
     // setBlocksAndData(*data, x0, y0, z0, x1, y1, z1, p);
 
     //// If it is a full chunk, we'll need to rearrange into the order the rest
-    ///of the game expects
+    /// of the game expects
     // if( xs == 16 && ys == 128 && zs == 16 && ( ( x & 15 ) == 0 ) && ( y == 0
     // ) && ( ( z & 15 ) == 0 ) )
     //{

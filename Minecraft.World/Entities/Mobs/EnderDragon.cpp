@@ -919,7 +919,8 @@ void EnderDragon::findNewTarget() {
             //		setSynchedAction(e_EnderdragonAction_Sitting_Flaming);
             // #if PRINT_DRAGON_STATE_CHANGE_MESSAGES
             //		app.DebugPrintf("Dragon action is now:
-            //SittingFlaming\n"); #endif 		m_actionTicks = FLAME_TICKS;
+            // SittingFlaming\n"); #endif 		m_actionTicks =
+            // FLAME_TICKS;
 
             m_flameAttacks = 0;
             setSynchedAction(e_EnderdragonAction_Sitting_Scanning);

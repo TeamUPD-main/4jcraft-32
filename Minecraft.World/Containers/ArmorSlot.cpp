@@ -33,18 +33,18 @@ Icon* ArmorSlot::getNoItemIcon() { return ArmorItem::getEmptyIcon(slotNum); }
 //
 //	ArmorItem *thisItem = (ArmorItem *)thisItemI->getItem();
 //	bool thisIsDyableArmor = thisItem->getMaterial() ==
-//ArmorItem::ArmorMaterial::CLOTH; 	bool itemIsDye = item->id ==
-//Item::dye_powder_Id; 	return thisIsDyableArmor && itemIsDye;
+// ArmorItem::ArmorMaterial::CLOTH; 	bool itemIsDye = item->id ==
+// Item::dye_powder_Id; 	return thisIsDyableArmor && itemIsDye;
 //}
 //
 // std::shared_ptr<ItemInstance>
 // ArmorSlot::combine(std::shared_ptr<ItemInstance> item)
 //{
 //	std::shared_ptr<CraftingContainer> craftSlots =
-//std::shared_ptr<CraftingContainer>( new CraftingContainer(NULL, 2, 2) );
+// std::shared_ptr<CraftingContainer>( new CraftingContainer(NULL, 2, 2) );
 //	craftSlots->setItem(0, item);
 //	craftSlots->setItem(1, getItem()); // Armour item needs to go second
 //	std::shared_ptr<ItemInstance> result =
-//ArmorDyeRecipe::assembleDyedArmor(craftSlots); 	craftSlots->setItem(0,
-//nullptr); 	craftSlots->setItem(1, nullptr); 	return result;
+// ArmorDyeRecipe::assembleDyedArmor(craftSlots); 	craftSlots->setItem(0,
+// nullptr); 	craftSlots->setItem(1, nullptr); 	return result;
 //}

@@ -385,7 +385,7 @@ std::shared_ptr<Packet> Packet::getPacket(int id) {
     //	catch (exception e)
     //	{
     //		// TODO 4J JEV print stack trace, newInstance doesnt throw an
-    //exception in c++ yet.
+    // exception in c++ yet.
     //        printf("Skipping packet with id %d" , id);
     //        return NULL;
     //    }

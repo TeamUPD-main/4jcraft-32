@@ -26,8 +26,7 @@ public:
     Achievement(int id, const std::wstring& name, int x, int y, Tile* icon,
                 Achievement* prerequisite);
     Achievement(int id, const std::wstring& name, int x, int y,
-                std::shared_ptr<ItemInstance> icon,
-                Achievement* prerequisite);
+                std::shared_ptr<ItemInstance> icon, Achievement* prerequisite);
 
     Achievement* setAwardLocallyOnly();
     Achievement* setGolden();

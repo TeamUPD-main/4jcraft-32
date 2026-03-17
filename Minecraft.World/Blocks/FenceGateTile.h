@@ -13,8 +13,8 @@ public:
     virtual void updateShape(
         LevelSource* level, int x, int y, int z, int forceData = -1,
         std::shared_ptr<TileEntity> forceEntity = std::shared_ptr<
-            TileEntity>());  // 4J added forceData, forceEntity param // Brought
-                             // forward from 1.2.3
+            TileEntity>());  // 4J added forceData, forceEntity param
+                             // // Brought forward from 1.2.3
     virtual bool blocksLight();
     virtual bool isSolidRender(bool isServerLevel = false);
     virtual bool isCubeShaped();
@@ -23,7 +23,8 @@ public:
                                   int face);
     virtual int getRenderShape();
     virtual void setPlacedBy(Level* level, int x, int y, int z,
-                             std::shared_ptr<Mob> by);
+                             std::shared_ptr<LivingEntity> by,
+                             std::shared_ptr<ItemInstance> itemInstance);
     virtual bool use(Level* level, int x, int y, int z,
                      std::shared_ptr<Player> player, int clickedFace,
                      float clickX, float clickY, float clickZ,

@@ -40,7 +40,8 @@ private:
     std::weak_ptr<LivingEntity> target;
 
 public:
-    NearestAttackableTargetGoal(PathfinderMob* mob, const std::type_info& targetType,
+    NearestAttackableTargetGoal(PathfinderMob* mob,
+                                const std::type_info& targetType,
                                 int randomInterval, bool mustSee,
                                 bool mustReach = false,
                                 EntitySelector* entitySelector = NULL);

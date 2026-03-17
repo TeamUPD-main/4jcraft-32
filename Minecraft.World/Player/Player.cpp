@@ -822,7 +822,7 @@ void Player::prepareCustomTextures() {
         //	if(app.DefaultCapeExists())
         //	{
         //		this->customTextureUrl2=
-        //std::wstring(L"Default_Cape.png");
+        // std::wstring(L"Default_Cape.png");
         //	}
         //	else
         //	{
@@ -967,7 +967,7 @@ void Player::touch(std::shared_ptr<Entity> entity) {
 // bool Player::addResource(int resource)
 //{
 //	return inventory->add(std::shared_ptr<ItemInstance>( new
-//ItemInstance(resource, 1, 0) ) );
+// ItemInstance(resource, 1, 0) ) );
 //}
 
 int Player::getScore() { return score; }

@@ -53,8 +53,8 @@ Achievement::Achievement(int id, const std::wstring& name, int x, int y,
       y(y),
       prerequisite(prerequisite) {}
 
-      Achievement::Achievement(int id, const std::wstring& name, int x, int y,
-                               Tile* icon, Achievement* prerequisite)
+Achievement::Achievement(int id, const std::wstring& name, int x, int y,
+                         Tile* icon, Achievement* prerequisite)
     : Stat(Achievements::ACHIEVEMENT_OFFSET + id,
            I18n::get(std::wstring(L"achievement.").append(name))),
       desc(I18n::get(
@@ -64,9 +64,9 @@ Achievement::Achievement(int id, const std::wstring& name, int x, int y,
       y(y),
       prerequisite(prerequisite) {}
 
-      Achievement::Achievement(int id, const std::wstring& name, int x, int y,
-                               std::shared_ptr<ItemInstance> icon,
-                               Achievement* prerequisite)
+Achievement::Achievement(int id, const std::wstring& name, int x, int y,
+                         std::shared_ptr<ItemInstance> icon,
+                         Achievement* prerequisite)
     : Stat(Achievements::ACHIEVEMENT_OFFSET + id,
            I18n::get(std::wstring(L"achievement.").append(name))),
       desc(I18n::get(
@@ -76,14 +76,13 @@ Achievement::Achievement(int id, const std::wstring& name, int x, int y,
       y(y),
       prerequisite(prerequisite) {}
 
-          /**
-           * @brief Sets the decription formatter (DescFormatter)
-           * @param descFormatter Pointer to the DescFormatter formatting the
-           * description text.
-           * @return self
-           **/
-          Achievement
-          * Achievement::setDescFormatter(DescFormatter * descFormatter) {
+/**
+ * @brief Sets the decription formatter (DescFormatter)
+ * @param descFormatter Pointer to the DescFormatter formatting the
+ * description text.
+ * @return self
+ **/
+Achievement* Achievement::setDescFormatter(DescFormatter* descFormatter) {
     this->descFormatter = descFormatter;
     return this;
 }

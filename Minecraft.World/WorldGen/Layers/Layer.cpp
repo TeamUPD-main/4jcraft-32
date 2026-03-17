@@ -34,7 +34,7 @@ LayerArray Layer::getDefaultLayers(__int64 seed, LevelType* levelType) {
     islandLayer = std::shared_ptr<Layer>(new ZoomLayer(2003, islandLayer));
     islandLayer = std::shared_ptr<Layer>(new AddIslandLayer(4, islandLayer));
     //	islandLayer = std::shared_ptr<Layer>(new AddMushroomIslandLayer(5,
-    //islandLayer));		// 4J - old position of mushroom island layer
+    // islandLayer));		// 4J - old position of mushroom island layer
 
     int zoomLevel = 4;
     if (levelType == LevelType::lvl_largeBiomes) {

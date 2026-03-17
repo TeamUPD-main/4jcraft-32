@@ -475,7 +475,7 @@ void Socket::SocketOutputStreamNetwork::writeWithFlags(byteArray b,
             // QNET_GETSENDQUEUESIZE_BYTES  ); 		if( queueSize > 24000 )
             // 		{
             // 			//printf("Queue size is: %d, forcing
-            // doWork()\n",queueSize); 			g_NetworkManager.DoWork();
+            // doWork()\n",queueSize); g_NetworkManager.DoWork();
             // 		}
         } else {
             // printf( "Sent %u bytes of data from \"%ls\" to \"%ls\"\n",

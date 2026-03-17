@@ -4,11 +4,11 @@
 #include "BiomeSource.h"
 
 class FixedBiomeSource : public BiomeSource {
-   private:
+private:
     Biome* biome;
     float temperature, downfall;
 
-   public:
+public:
     using BiomeSource::getTemperature;
     FixedBiomeSource(Biome* fixed, float temperature, float downfall);
     virtual Biome* getBiome(ChunkPos* cp);
@@ -39,7 +39,6 @@ class FixedBiomeSource : public BiomeSource {
                                const std::vector<Biome*> allowed,
                                Random* random);
     virtual bool containsOnly(int x, int z, int r, Biome* allowed);
-    virtual bool containsOnly(
-        int x, int z, int r,
-        const std::vector<Biome*> allowed);
+    virtual bool containsOnly(int x, int z, int r,
+                              const std::vector<Biome*> allowed);
 };

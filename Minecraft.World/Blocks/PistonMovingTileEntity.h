@@ -1,9 +1,8 @@
-#pragma once
-#include "TileEntities/EntityTile.h"
+#include "TileEntities/BaseEntityTile.h"
 
 class PistonPieceEntity;
 
-class PistonMovingPiece : public EntityTile {
+class PistonMovingPiece : public BaseEntityTile {
 public:
     PistonMovingPiece(int id);
 

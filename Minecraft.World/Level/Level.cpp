@@ -3177,7 +3177,7 @@ void Level::checkLight(LightLayer::variety layer, int xc, int yc, int zc,
     // toCheck array) on L2 to try and stop any cached data getting knocked out
     // of L2 by other non-cached reads (or vice-versa)
     //	if( cache ) XLockL2(XLOCKL2_INDEX_TITLE, cache, 128 * 1024,
-    //XLOCKL2_LOCK_SIZE_1_WAY, 0 );
+    // XLOCKL2_LOCK_SIZE_1_WAY, 0 );
 
     {
         int cc = getBrightnessCached(cache, layer, xc, yc, zc);

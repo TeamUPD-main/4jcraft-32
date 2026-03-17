@@ -409,6 +409,7 @@ private:
     static int extraWanderCount;
     static int extraWanderTicks;
     static TlsKey tlsIdx;
+
 public:
     static void tickExtraWandering();
     static void countFlagsForPIX();

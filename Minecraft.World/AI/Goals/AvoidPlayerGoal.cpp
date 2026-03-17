@@ -20,8 +20,9 @@ bool AvoidPlayerGoalEntitySelector::matches(
     return entity->isAlive() && m_parent->mob->getSensing()->canSee(entity);
 }
 
-AvoidPlayerGoal::AvoidPlayerGoal(PathfinderMob* mob, const std::type_info& avoidType,
-                                 float maxDist, double walkSpeedModifier,
+AvoidPlayerGoal::AvoidPlayerGoal(PathfinderMob* mob,
+                                 const std::type_info& avoidType, float maxDist,
+                                 double walkSpeedModifier,
                                  double sprintSpeedModifier)
     : avoidType(avoidType) {
     this->mob = mob;

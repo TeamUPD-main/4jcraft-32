@@ -26,7 +26,8 @@ BucketItem::BucketItem(int id, int content) : Item(id) {
 bool BucketItem::TestUse(Level* level, std::shared_ptr<Player> player) {
     // 	double x = player->xo + (player->x - player->xo);
     // 	double y = player->yo + (player->y - player->yo) + 1.62 -
-    // player->heightOffset; 	double z = player->zo + (player->z - player->zo);
+    // player->heightOffset; 	double z = player->zo + (player->z -
+    // player->zo);
 
     bool pickLiquid = content == 0;
     HitResult* hr = getPlayerPOVHitResult(level, player, pickLiquid);

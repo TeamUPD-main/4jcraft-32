@@ -21,7 +21,7 @@ void ExperienceCommand::execute(std::shared_ptr<CommandSender> source,
 
     //	player.increaseXp(amount);
     //	logAdminAction(source, "commands.xp.success", amount,
-    //player.getAName());
+    // player.getAName());
     //}
 }
 

@@ -91,7 +91,7 @@ int Entity::getSmallId() {
                 // Has set up the entityIdRemovingFlags vector in this case, so
                 // we should check against this when allocating new ids
                 //				app.DebugPrintf("getSmallId:
-                //Removed entities found\n");
+                // Removed entities found\n");
                 puiRemovedFlags = entityIdRemovingFlags;
             }
         }
@@ -109,7 +109,8 @@ int Entity::getSmallId() {
                 if (puiRemovedFlags) {
                     if (puiRemovedFlags[i] & uiMask) {
                         //						app.DebugPrintf("Avoiding
-                        //using ID %d (0x%x)\n", i * 32 + j,puiRemovedFlags[i]);
+                        // using ID %d (0x%x)\n", i * 32 +
+                        // j,puiRemovedFlags[i]);
                         uiMask >>= 1;
                         continue;
                     }

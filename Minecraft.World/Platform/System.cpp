@@ -86,8 +86,8 @@ __int64 System::nanoTime() {
 __int64 System::currentTimeMillis() {
 #ifdef __PS3__
     //	sys_time_get_current_time() obtains the elapsed time since Epoch
-    //(1970/01/01 00:00:00 UTC). 	The value is separated into two parts: sec
-    //stores the elapsed time in seconds, and nsec
+    //(1970/01/01 00:00:00 UTC). 	The value is separated into two parts:
+    //sec stores the elapsed time in seconds, and nsec
     //  stores the value that is smaller than a second in nanoseconds.
     sys_time_sec_t sec;
     sys_time_nsec_t nsec;

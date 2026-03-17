@@ -29,9 +29,8 @@ void SetThreadName(std::uint32_t threadId, const char* threadName) {
 #endif
 #ifdef _XBOX
     __try {
-        RaiseException(
-            0x406D1388, 0, sizeof(info) / sizeof(std::uint32_t),
-            reinterpret_cast<std::uint32_t*>(&info));
+        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(std::uint32_t),
+                       reinterpret_cast<std::uint32_t*>(&info));
     } __except (GetExceptionCode() == 0x406D1388 ? EXCEPTION_CONTINUE_EXECUTION
                                                  : EXCEPTION_EXECUTE_HANDLER) {
     }

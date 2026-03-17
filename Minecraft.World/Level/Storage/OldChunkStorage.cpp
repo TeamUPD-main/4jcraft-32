@@ -536,8 +536,8 @@ LevelChunk* OldChunkStorage::load(Level* level, CompoundTag* tag) {
     delete[] tag->getByteArray(L"BlockLight").data;
 
     //	levelChunk->skyLight = new DataLayer(tag->getByteArray(L"SkyLight"),
-    //level->depthBits); 	levelChunk->blockLight = new
-    //DataLayer(tag->getByteArray(L"BlockLight"), level->depthBits);
+    // level->depthBits); 	levelChunk->blockLight = new
+    // DataLayer(tag->getByteArray(L"BlockLight"), level->depthBits);
 
     delete[] levelChunk->heightmap.data;
     levelChunk->heightmap = tag->getByteArray(L"HeightMap");

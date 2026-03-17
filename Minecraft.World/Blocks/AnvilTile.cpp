@@ -44,15 +44,24 @@ void AnvilTile::registerIcons(IconRegister* iconRegister) {
 }
 
 void AnvilTile::setPlacedBy(Level* level, int x, int y, int z,
-                            std::shared_ptr<Mob> by) {
+                            std::shared_ptr<LivingEntity> by,
+                            std::shared_ptr<ItemInstance> itemInstance) {
     int dir = (Mth::floor(by->yRot * 4 / (360) + 0.5)) & 3;
     int dmg = level->getData(x, y, z) >> 2;
 
     dir = ++dir % 4;
-    if (dir == 0) level->setData(x, y, z, Direction::NORTH | (dmg << 2));
-    if (dir == 1) level->setData(x, y, z, Direction::EAST | (dmg << 2));
-    if (dir == 2) level->setData(x, y, z, Direction::SOUTH | (dmg << 2));
-    if (dir == 3) level->setData(x, y, z, Direction::WEST | (dmg << 2));
+    if (dir == 0)
+        level->setData(x, y, z, Direction::NORTH | (dmg << 2),
+                       Tile::UPDATE_CLIENTS);
+    if (dir == 1)
+        level->setData(x, y, z, Direction::EAST | (dmg << 2),
+                       Tile::UPDATE_CLIENTS);
+    if (dir == 2)
+        level->setData(x, y, z, Direction::SOUTH | (dmg << 2),
+                       Tile::UPDATE_CLIENTS);
+    if (dir == 3)
+        level->setData(x, y, z, Direction::WEST | (dmg << 2),
+                       Tile::UPDATE_CLIENTS);
 }
 
 bool AnvilTile::use(Level* level, int x, int y, int z,

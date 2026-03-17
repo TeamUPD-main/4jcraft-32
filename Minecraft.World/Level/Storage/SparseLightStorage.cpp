@@ -443,7 +443,7 @@ void SparseLightStorage::addNewPlane(int y) {
             // try again
             queueForDelete(dataPointer);
             //			printf("Marking for delete (fail) 0x%x\n",
-            //dataPointer);
+            // dataPointer);
         }
     } while (!success);
 }
@@ -513,7 +513,7 @@ void SparseLightStorage::updateDataAndCount(__int64 newDataAndCount) {
             success = true;
             // Queue old data to be deleted
             //			printf("Marking for delete 0x%x (full
-            //replace)\n", lastDataPointer);
+            // replace)\n", lastDataPointer);
             queueForDelete(lastDataPointer);
         }
     } while (!success);
@@ -595,13 +595,13 @@ int SparseLightStorage::compress() {
             // Failed to write. Don't bother trying again... being very
             // conservative here.
             //			printf("Marking for delete 0x%x (compress
-            //fail)\n", newIndicesAndData);
+            // fail)\n", newIndicesAndData);
             queueForDelete(newIndicesAndData);
         } else {
             // Success
             queueForDelete(planeIndices);
 //			printf("Successfully compressed to %d planes, to delete
-//0x%x\n", planesToAlloc, planeIndices);
+// 0x%x\n", planesToAlloc, planeIndices);
 #ifdef LIGHT_COMPRESSION_STATS
             count = planesToAlloc;
 #endif

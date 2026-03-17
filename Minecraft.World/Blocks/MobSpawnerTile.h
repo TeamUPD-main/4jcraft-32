@@ -1,9 +1,9 @@
 #pragma once
-#include "TileEntities/EntityTile.h"
+#include "TileEntities/BaseEntityTile.h"
 
 class Random;
 
-class MobSpawnerTile : public EntityTile {
+class MobSpawnerTile : public BaseEntityTile {
     friend class Tile;
 
 protected:
