@@ -34,8 +34,7 @@ void MerchantResultSlot::onQuickCraft(std::shared_ptr<ItemInstance> picked,
 void MerchantResultSlot::checkTakeAchievements(
     std::shared_ptr<ItemInstance> carried) {
     carried->onCraftedBy(
-        player->level,
-        std::dynamic_pointer_cast<Player>(player->shared_from_this()),
+        player->level, std::dynamic_pointer_cast<Player>(player->shared_from_this()),
         removeCount);
     removeCount = 0;
 }

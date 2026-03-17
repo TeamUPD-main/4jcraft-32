@@ -22,12 +22,12 @@ int WeightedPressurePlateTile::getSignalStrength(Level* level, int x, int y,
     int weightOfEntities =
         level->getEntitiesOfClass(typeid(Entity), getSensitiveAABB(x, y, z))
             ->size();
-    int count = min(weightOfEntities, maxWeight);
+    int count = std::min(weightOfEntities, maxWeight);
 
     if (count <= 0) {
         return 0;
     } else {
-        float pct = min(maxWeight, count) / (float)maxWeight;
+        float pct = std::min(maxWeight, count) / (float)maxWeight;
         return Mth::ceil(pct * Redstone::SIGNAL_MAX);
     }
 }

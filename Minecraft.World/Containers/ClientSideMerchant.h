@@ -6,17 +6,17 @@ class MerchantContainer;
 class MerchantRecipeList;
 class MerchantRecipe;
 
-class ClientSideMerchant
-    : public Merchant,
-      public std::enable_shared_from_this<ClientSideMerchant> {
+class ClientSideMerchant : public Merchant,
+                           public enable_shared_from_this<ClientSideMerchant> {
 private:
     MerchantContainer* container;
     std::shared_ptr<Player> source;
     MerchantRecipeList* currentOffers;
-    int m_name;
+    std::wstring m_name;
 
 public:
-    ClientSideMerchant(std::shared_ptr<Player> source, int name);
+    ClientSideMerchant(std::shared_ptr<Player> source,
+                       const std::wstring& name);
     ~ClientSideMerchant();
 
     void createContainer();  // 4J Added
@@ -27,5 +27,5 @@ public:
     void overrideOffers(MerchantRecipeList* recipeList);
     void notifyTrade(MerchantRecipe* activeRecipe);
     void notifyTradeUpdated(std::shared_ptr<ItemInstance> item);
-    int getDisplayName();
+    std::wstring getDisplayName();
 };

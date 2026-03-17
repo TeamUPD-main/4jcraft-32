@@ -312,7 +312,7 @@ std::shared_ptr<ItemInstance> HopperTileEntity::tryMoveInItem(
             success = true;
         } else if (canMergeItems(current, item)) {
             int space = item->getMaxStackSize() - current->count;
-            int count = min(item->count, space);
+            int count = std::min(item->count, space);
 
             item->count -= count;
             current->count += count;

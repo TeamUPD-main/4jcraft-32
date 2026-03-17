@@ -4,20 +4,20 @@
 #include "../Headers/net.minecraft.world.level.h"
 #include "../Headers/net.minecraft.world.item.h"
 #include "../Headers/net.minecraft.world.item.enchantment.h"
-#include "RepairMenu.h"
+#include "AnvilMenu.h"
 
-RepairMenu::RepairMenu(std::shared_ptr<Inventory> inventory, Level* level,
-                       int xt, int yt, int zt, std::shared_ptr<Player> player) {
+AnvilMenu::AnvilMenu(std::shared_ptr<Inventory> inventory, Level* level, int xt,
+                     int yt, int zt, std::shared_ptr<Player> player) {
     resultSlots = std::shared_ptr<ResultContainer>(new ResultContainer());
     repairSlots = std::shared_ptr<RepairContainer>(
-        new RepairContainer(this, IDS_REPAIR_AND_NAME, 2));
+        new RepairContainer(this, IDS_REPAIR_AND_NAME, true, 2));
     cost = 0;
     repairItemCountCost = 0;
 
     this->level = level;
-    this->x = xt;
-    this->y = yt;
-    this->z = zt;
+    x = xt;
+    y = yt;
+    z = zt;
     this->player = player;
 
     addSlot(new Slot(repairSlots, INPUT_SLOT, 27, 43 + 4));
@@ -38,13 +38,13 @@ RepairMenu::RepairMenu(std::shared_ptr<Inventory> inventory, Level* level,
     }
 }
 
-void RepairMenu::slotsChanged(std::shared_ptr<Container> container) {
+void AnvilMenu::slotsChanged(std::shared_ptr<Container> container) {
     AbstractContainerMenu::slotsChanged();
 
     if (container == repairSlots) createResult();
 }
 
-void RepairMenu::createResult() {
+void AnvilMenu::createResult() {
     std::shared_ptr<ItemInstance> input = repairSlots->getItem(INPUT_SLOT);
     cost = 0;
     int price = 0;
@@ -83,8 +83,8 @@ void RepairMenu::createResult() {
 
             if (result->isDamageableItem() &&
                 Item::items[result->id]->isValidRepairItem(input, addition)) {
-                int repairAmount = std::min(result->getDamageValue(),
-                                            result->getMaxDamage() / 4);
+                int repairAmount =
+                    std::min(result->getDamageValue(), result->getMaxDamage() / 4);
                 if (repairAmount <= 0) {
                     resultSlots->setItem(0, nullptr);
                     cost = 0;
@@ -95,11 +95,11 @@ void RepairMenu::createResult() {
                         int resultDamage =
                             result->getDamageValue() - repairAmount;
                         result->setAuxValue(resultDamage);
-                        price += std::max(1, repairAmount / 100) +
-                                 enchantments->size();
+                        price +=
+                            max(1, repairAmount / 100) + enchantments->size();
 
                         repairAmount = std::min(result->getDamageValue(),
-                                                result->getMaxDamage() / 4);
+                                           result->getMaxDamage() / 4);
                         count++;
                     }
                     repairItemCountCost = count;
@@ -123,11 +123,11 @@ void RepairMenu::createResult() {
 
                     if (resultDamage < result->getAuxValue()) {
                         result->setAuxValue(resultDamage);
-                        price += std::max(1, additional / 100);
+                        price += max(1, additional / 100);
                         if (DEBUG_COST) {
                             app.DebugPrintf(
                                 "Repairing; price is now %d (went up by %d)\n",
-                                price, std::max(1, additional / 100));
+                                price, max(1, additional / 100));
                         }
                     }
                 }
@@ -143,12 +143,14 @@ void RepairMenu::createResult() {
                     int current =
                         localIt != enchantments->end() ? localIt->second : 0;
                     int level = it->second;
-                    level = (current == level) ? level += 1
-                                               : std::max(level, current);
+                    level =
+                        (current == level) ? level += 1 : max(level, current);
                     int extra = level - current;
                     bool compatible = enchantment->canEnchant(input);
 
-                    if (player->abilities.instabuild) compatible = true;
+                    if (player->abilities.instabuild ||
+                        input->id == EnchantedBookItem::enchantedBook_Id)
+                        compatible = true;
 
                     for (AUTO_VAR(it2, enchantments->begin());
                          it2 != enchantments->end(); ++it2) {
@@ -189,7 +191,7 @@ void RepairMenu::createResult() {
                             break;
                     }
 
-                    if (usingBook) fee = std::max(1, fee / 2);
+                    if (usingBook) fee = max(1, fee / 2);
 
                     price += fee * extra;
                     if (DEBUG_COST) {
@@ -203,9 +205,21 @@ void RepairMenu::createResult() {
             }
         }
 
-        if (itemName.length() > 0 &&
-            !equalsIgnoreCase(itemName, input->getHoverName()) &&
-            itemName.length() > 0) {
+        if (itemName.empty()) {
+            if (input->hasCustomHoverName()) {
+                namingCost = input->isDamageableItem() ? 7 : input->count * 5;
+
+                price += namingCost;
+                if (DEBUG_COST) {
+                    app.DebugPrintf(
+                        "Un-naming cost; price is now %d (went up by %d)",
+                        price, namingCost);
+                }
+                result->resetHoverName();
+            }
+        } else if (itemName.length() > 0 &&
+                   !equalsIgnoreCase(itemName, input->getHoverName()) &&
+                   itemName.length() > 0) {
             namingCost = input->isDamageableItem() ? 7 : input->count * 5;
 
             price += namingCost;
@@ -252,7 +266,7 @@ void RepairMenu::createResult() {
                     break;
             }
 
-            if (usingBook) fee = std::max(1, fee / 2);
+            if (usingBook) fee = max(1, fee / 2);
 
             tax += count + level * fee;
             if (DEBUG_COST) {
@@ -262,7 +276,7 @@ void RepairMenu::createResult() {
             }
         }
 
-        if (usingBook) tax = std::max(1, tax / 2);
+        if (usingBook) tax = max(1, tax / 2);
 
         cost = tax + price;
         if (price <= 0) {
@@ -309,20 +323,20 @@ void RepairMenu::createResult() {
     }
 }
 
-void RepairMenu::sendData(int id, int value) {
+void AnvilMenu::sendData(int id, int value) {
     AbstractContainerMenu::sendData(id, value);
 }
 
-void RepairMenu::addSlotListener(ContainerListener* listener) {
+void AnvilMenu::addSlotListener(ContainerListener* listener) {
     AbstractContainerMenu::addSlotListener(listener);
     listener->setContainerData(this, DATA_TOTAL_COST, cost);
 }
 
-void RepairMenu::setData(int id, int value) {
+void AnvilMenu::setData(int id, int value) {
     if (id == DATA_TOTAL_COST) cost = value;
 }
 
-void RepairMenu::removed(std::shared_ptr<Player> player) {
+void AnvilMenu::removed(std::shared_ptr<Player> player) {
     AbstractContainerMenu::removed(player);
     if (level->isClientSide) return;
 
@@ -334,16 +348,16 @@ void RepairMenu::removed(std::shared_ptr<Player> player) {
     }
 }
 
-bool RepairMenu::stillValid(std::shared_ptr<Player> player) {
+bool AnvilMenu::stillValid(std::shared_ptr<Player> player) {
     if (level->getTile(x, y, z) != Tile::anvil_Id) return false;
     if (player->distanceToSqr(x + 0.5, y + 0.5, z + 0.5) > 8 * 8) return false;
     return true;
 }
 
-std::shared_ptr<ItemInstance> RepairMenu::quickMoveStack(
+std::shared_ptr<ItemInstance> AnvilMenu::quickMoveStack(
     std::shared_ptr<Player> player, int slotIndex) {
     std::shared_ptr<ItemInstance> clicked = nullptr;
-    Slot* slot = slots->at(slotIndex);
+    Slot* slot = slots.at(slotIndex);
     if (slot != NULL && slot->hasItem()) {
         std::shared_ptr<ItemInstance> stack = slot->getItem();
         clicked = stack->copy();
@@ -379,10 +393,16 @@ std::shared_ptr<ItemInstance> RepairMenu::quickMoveStack(
     return clicked;
 }
 
-void RepairMenu::setItemName(const std::wstring& name) {
-    this->itemName = name;
+void AnvilMenu::setItemName(const std::wstring& name) {
+    itemName = name;
     if (getSlot(RESULT_SLOT)->hasItem()) {
-        getSlot(RESULT_SLOT)->getItem()->setHoverName(itemName);
+        std::shared_ptr<ItemInstance> item = getSlot(RESULT_SLOT)->getItem();
+
+        if (name.empty()) {
+            item->resetHoverName();
+        } else {
+            item->setHoverName(itemName);
+        }
     }
     createResult();
 }

@@ -31,8 +31,7 @@ void ResultSlot::onQuickCraft(std::shared_ptr<ItemInstance> picked, int count) {
 
 void ResultSlot::checkTakeAchievements(std::shared_ptr<ItemInstance> carried) {
     carried->onCraftedBy(
-        player->level,
-        std::dynamic_pointer_cast<Player>(player->shared_from_this()),
+        player->level, std::dynamic_pointer_cast<Player>(player->shared_from_this()),
         removeCount);
     removeCount = 0;
 
@@ -83,28 +82,26 @@ void ResultSlot::onTake(std::shared_ptr<Player> player,
             craftSlots->removeItem(i, 1);
 
             if (item->getItem()->hasCraftingRemainingItem()) {
-                // (TheApathetic)
                 std::shared_ptr<ItemInstance> craftResult =
                     std::shared_ptr<ItemInstance>(new ItemInstance(
                         item->getItem()->getCraftingRemainingItem()));
 
                 /*
-                 * Try to place this in the player's inventory (See we.java
-                 * for new method)
+                 * Try to place this in the player's inventory (See we.java for
+                 * new method)
                  */
                 if (item->getItem()->shouldMoveCraftingResultToInventory(
                         item) &&
-                    this->player->inventory->add(craftResult)) {
+                    player->inventory->add(craftResult)) {
                     continue;
                 }
 
-                // If this slot is now empty, place it there (current
-                // behavior)
+                // If this slot is now empty, place it there (current behavior)
                 if (craftSlots->getItem(i) == NULL) {
                     craftSlots->setItem(i, craftResult);
                 } else {
                     // Finally, if nothing else, just drop the item
-                    this->player->drop(craftResult);
+                    player->drop(craftResult);
                 }
             }
         }

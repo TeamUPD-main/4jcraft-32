@@ -6,7 +6,6 @@ class Player;
 
 class Merchant {
 public:
-    virtual ~Merchant() {}
     virtual void setTradingPlayer(std::shared_ptr<Player> player) = 0;
     virtual std::shared_ptr<Player> getTradingPlayer() = 0;
     virtual MerchantRecipeList* getOffers(
@@ -14,5 +13,5 @@ public:
     virtual void overrideOffers(MerchantRecipeList* recipeList) = 0;
     virtual void notifyTrade(MerchantRecipe* activeRecipe) = 0;
     virtual void notifyTradeUpdated(std::shared_ptr<ItemInstance> item) = 0;
-    virtual int getDisplayName() = 0;
+    virtual std::wstring getDisplayName() = 0;
 };

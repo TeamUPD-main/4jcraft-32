@@ -10,10 +10,9 @@ MerchantMenu::MerchantMenu(std::shared_ptr<Inventory> inventory,
     trader = merchant;
     this->level = level;
 
-    tradeContainer = std::shared_ptr<MerchantContainer>(
-        new MerchantContainer(std::dynamic_pointer_cast<Player>(
-                                  inventory->player->shared_from_this()),
-                              merchant));
+    tradeContainer = std::shared_ptr<MerchantContainer>(new MerchantContainer(
+        std::dynamic_pointer_cast<Player>(inventory->player->shared_from_this()),
+        merchant));
     addSlot(new Slot(tradeContainer, PAYMENT1_SLOT, SELLSLOT1_X, ROW2_Y));
     addSlot(new Slot(tradeContainer, PAYMENT2_SLOT, SELLSLOT2_X, ROW2_Y));
     addSlot(new MerchantResultSlot(inventory->player, merchant, tradeContainer,
@@ -64,7 +63,7 @@ std::shared_ptr<ItemInstance> MerchantMenu::quickMoveStack(
     std::shared_ptr<ItemInstance> clicked = nullptr;
     Slot* slot = NULL;
 
-    if (slotIndex < slots->size()) slot = slots->at(slotIndex);
+    if (slotIndex < slots.size()) slot = slots.at(slotIndex);
     if (slot != NULL && slot->hasItem()) {
         std::shared_ptr<ItemInstance> stack = slot->getItem();
         clicked = stack->copy();

@@ -21,5 +21,6 @@ public:
     Icon* getNoItemIcon();
     // virtual bool mayCombine(std::shared_ptr<ItemInstance> item); // 4J Added
     // virtual std::shared_ptr<ItemInstance>
-    // combine(std::shared_ptr<ItemInstance> item); // 4J Added
+    // combine(std::shared_ptr<ItemInstance> item);
+    // // 4J Added
 };
