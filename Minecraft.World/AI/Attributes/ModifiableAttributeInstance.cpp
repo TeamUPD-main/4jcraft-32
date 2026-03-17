@@ -34,16 +34,16 @@ void ModifiableAttributeInstance::setBaseValue(double baseValue) {
 }
 
 // Returns a pointer to an internally managed vector of modifers by operation
-unordered_set<AttributeModifier*>* ModifiableAttributeInstance::getModifiers(
+std::unordered_set<AttributeModifier*>* ModifiableAttributeInstance::getModifiers(
     int operation) {
     return &modifiers[operation];
 }
 
 // Returns a pointer to a new vector of all modifiers
 void ModifiableAttributeInstance::getModifiers(
-    unordered_set<AttributeModifier*>& result) {
+    std::unordered_set<AttributeModifier*>& result) {
     for (int i = 0; i < AttributeModifier::TOTAL_OPERATIONS; i++) {
-        unordered_set<AttributeModifier*>* opModifiers = &modifiers[i];
+        std::unordered_set<AttributeModifier*>* opModifiers = &modifiers[i];
 
         for (AUTO_VAR(it, opModifiers->begin()); it != opModifiers->end();
              ++it) {
@@ -64,7 +64,7 @@ AttributeModifier* ModifiableAttributeInstance::getModifier(eMODIFIER_ID id) {
 }
 
 void ModifiableAttributeInstance::addModifiers(
-    unordered_set<AttributeModifier*>* modifiers) {
+    std::unordered_set<AttributeModifier*>* modifiers) {
     for (AUTO_VAR(it, modifiers->begin()); it != modifiers->end(); ++it) {
         addModifier(*it);
     }
@@ -114,7 +114,7 @@ void ModifiableAttributeInstance::removeModifier(eMODIFIER_ID id) {
 }
 
 void ModifiableAttributeInstance::removeModifiers() {
-    unordered_set<AttributeModifier*> removingModifiers;
+    std::unordered_set<AttributeModifier*> removingModifiers;
     getModifiers(removingModifiers);
 
     for (AUTO_VAR(it, removingModifiers.begin()); it != removingModifiers.end();
@@ -134,7 +134,7 @@ double ModifiableAttributeInstance::getValue() {
 
 double ModifiableAttributeInstance::calculateValue() {
     double base = getBaseValue();
-    unordered_set<AttributeModifier*>* modifiers;
+    std::unordered_set<AttributeModifier*>* modifiers;
 
     modifiers = getModifiers(AttributeModifier::OPERATION_ADDITION);
     for (AUTO_VAR(it, modifiers->begin()); it != modifiers->end(); ++it) {

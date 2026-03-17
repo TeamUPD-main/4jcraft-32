@@ -4,7 +4,7 @@
 
 class ServersideAttributeMap : public BaseAttributeMap {
 private:
-    unordered_set<AttributeInstance*> dirtyAttributes;
+    std::unordered_set<AttributeInstance*> dirtyAttributes;
 
 protected:
     // 4J: Remove legacy name
@@ -20,6 +20,6 @@ public:
     virtual AttributeInstance* registerAttribute(Attribute* attribute);
     virtual void onAttributeModified(
         ModifiableAttributeInstance* attributeInstance);
-    virtual unordered_set<AttributeInstance*>* getDirtyAttributes();
-    virtual unordered_set<AttributeInstance*>* getSyncableAttributes();
+    virtual std::unordered_set<AttributeInstance*>* getDirtyAttributes();
+    virtual std::unordered_set<AttributeInstance*>* getSyncableAttributes();
 };

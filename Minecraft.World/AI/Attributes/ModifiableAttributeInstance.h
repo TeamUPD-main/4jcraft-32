@@ -6,7 +6,7 @@ class ModifiableAttributeInstance : public AttributeInstance {
 private:
     BaseAttributeMap* attributeMap;
     Attribute* attribute;
-    unordered_set<AttributeModifier*>
+    std::unordered_set<AttributeModifier*>
         modifiers[AttributeModifier::TOTAL_OPERATIONS];
     std::unordered_map<unsigned int, AttributeModifier*> modifierById;
     double baseValue;
@@ -21,10 +21,10 @@ public:
     Attribute* getAttribute();
     double getBaseValue();
     void setBaseValue(double baseValue);
-    unordered_set<AttributeModifier*>* getModifiers(int operation);
-    void getModifiers(unordered_set<AttributeModifier*>& result);
+    std::unordered_set<AttributeModifier*>* getModifiers(int operation);
+    void getModifiers(std::unordered_set<AttributeModifier*>& result);
     AttributeModifier* getModifier(eMODIFIER_ID id);
-    void addModifiers(unordered_set<AttributeModifier*>* modifiers);
+    void addModifiers(std::unordered_set<AttributeModifier*>* modifiers);
     void addModifier(AttributeModifier* modifier);
 
 private:

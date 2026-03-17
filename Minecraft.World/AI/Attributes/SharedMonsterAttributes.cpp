@@ -40,7 +40,7 @@ CompoundTag* SharedMonsterAttributes::saveAttribute(
     tag->putInt(L"ID", attribute->getId());
     tag->putDouble(L"Base", instance->getBaseValue());
 
-    unordered_set<AttributeModifier*> modifiers;
+    std::unordered_set<AttributeModifier*> modifiers;
     instance->getModifiers(modifiers);
 
     if (!modifiers.empty()) {
