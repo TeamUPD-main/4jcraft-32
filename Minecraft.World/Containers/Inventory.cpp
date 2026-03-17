@@ -425,7 +425,7 @@ ListTag<CompoundTag>* Inventory::save(ListTag<CompoundTag>* listTag) {
     for (unsigned int i = 0; i < items.length; i++) {
         if (items[i] != NULL) {
             CompoundTag* tag = new CompoundTag();
-            tag->putByte(L"Slot", (byte)i);
+            tag->putByte(L"Slot", (uint8_t)i);
             items[i]->save(tag);
             listTag->add(tag);
         }
@@ -433,7 +433,7 @@ ListTag<CompoundTag>* Inventory::save(ListTag<CompoundTag>* listTag) {
     for (unsigned int i = 0; i < armor.length; i++) {
         if (armor[i] != NULL) {
             CompoundTag* tag = new CompoundTag();
-            tag->putByte(L"Slot", (byte)(i + 100));
+            tag->putByte(L"Slot", (uint8_t)(i + 100));
             armor[i]->save(tag);
             listTag->add(tag);
         }
