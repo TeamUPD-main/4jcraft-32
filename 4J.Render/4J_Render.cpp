@@ -547,6 +547,8 @@ void C4JRender::SetWindowSize(int w, int h) {
 }
 void C4JRender::SetFullscreen(bool fs) { s_fullscreen = fs; }
 bool C4JRender::ShouldClose() { return !s_window || s_shouldClose; }
+
+void C4JRender::Close() { s_window = nullptr; }
 void C4JRender::GetFramebufferSize(int& w, int& h) {
     w = s_windowWidth;
     h = s_windowHeight;
