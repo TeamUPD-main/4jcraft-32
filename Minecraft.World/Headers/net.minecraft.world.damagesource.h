@@ -1,5 +1,7 @@
 #pragma once
 
-#include "../Util/DamageSource.h"
-#include "../Entities/EntityDamageSource.h"
-#include "../Entities/IndirectEntityDamageSource.h"
+#include "../DamageSource/CombatEntry.h"
+#include "../DamageSource/CombatTracker.h"
+#include "../DamageSource/DamageSource.h"
+#include "../DamageSource/EntityDamageSource.h"
+#include "../DamageSource/IndirectEntityDamageSource.h"
