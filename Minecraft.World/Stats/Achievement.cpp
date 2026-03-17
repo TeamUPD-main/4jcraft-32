@@ -43,7 +43,7 @@ void Achievement::_init() {
  * @param prerequisite Achievement object that is required to unlock this one
  */
 Achievement::Achievement(int id, const std::wstring& name, int x, int y,
-                         Item* icon, Achievement* prerequisite)
+                         Item* icon, Achievement* requires)
     : Stat(Achievements::ACHIEVEMENT_OFFSET + id,
            I18n::get(std::wstring(L"achievement.").append(name))),
       desc(I18n::get(
@@ -51,10 +51,10 @@ Achievement::Achievement(int id, const std::wstring& name, int x, int y,
       icon(new ItemInstance(icon)),
       x(x),
       y(y),
-      prerequisite(prerequisite) {}
+      requires(requires) {}
 
-Achievement::Achievement(int id, const std::wstring& name, int x, int y,
-                         Tile* icon, Achievement* prerequisite)
+      Achievement::Achievement(int id, const std::wstring& name, int x, int y,
+                               Tile* icon, Achievement* requires)
     : Stat(Achievements::ACHIEVEMENT_OFFSET + id,
            I18n::get(std::wstring(L"achievement.").append(name))),
       desc(I18n::get(
@@ -62,11 +62,11 @@ Achievement::Achievement(int id, const std::wstring& name, int x, int y,
       icon(new ItemInstance(icon)),
       x(x),
       y(y),
-      prerequisite(prerequisite) {}
+      requires(requires) {}
 
-Achievement::Achievement(int id, const std::wstring& name, int x, int y,
-                         std::shared_ptr<ItemInstance> icon,
-                         Achievement* prerequisite)
+      Achievement::Achievement(int id, const std::wstring& name, int x, int y,
+                               std::shared_ptr<ItemInstance> icon,
+                               Achievement* requires)
     : Stat(Achievements::ACHIEVEMENT_OFFSET + id,
            I18n::get(std::wstring(L"achievement.").append(name))),
       desc(I18n::get(
@@ -74,34 +74,10 @@ Achievement::Achievement(int id, const std::wstring& name, int x, int y,
       icon(icon),
       x(x),
       y(y),
-      prerequisite(prerequisite) {}
+      requires(requires) {}
 
-/**
- * @brief Sets the decription formatter (DescFormatter)
- * @param descFormatter Pointer to the DescFormatter formatting the
- * description text.
- * @return self
- **/
-Achievement* Achievement::setDescFormatter(DescFormatter* descFormatter) {
-    this->descFormatter = descFormatter;
-    return this;
-}
-
-/**
- * @brief Returns whether the Achivement is golden
- * @return boolean
- */
-bool Achievement::isGolden() { return isGoldenVar; }
-
-int Achievement::getAchievementID() {
-    return id - Achievements::ACHIEVEMENT_OFFSET;
-}
-
-/**
- * @brief Marks the achievement as locally awarded only.
- * @return self
- */
-Achievement* Achievement::setAwardLocallyOnly() {
+          Achievement
+          * Achievement::setAwardLocallyOnly() {
     awardLocallyOnly = true;
     return this;
 }
@@ -147,4 +123,25 @@ std::wstring Achievement::getDescription() {
         return descFormatter->format(desc);
     }
     return desc;
+}
+ * description text.
+ * @return self
+ **/
+Achievement* Achievement::setDescFormatter(DescFormatter* descFormatter) {
+    this->descFormatter = descFormatter;
+    return this;
+}
+
+/**
+ * @brief Returns whether the Achivement is golden
+ * @return boolean
+ */
+bool Achievement::isGolden() { return isGoldenVar; }
+
+/**
+ * @brief Marks the achievement as locally awarded only.
+ * @return self
+ */
+int Achievement::getAchievementID() {
+    return id - Achievements::ACHIEVEMENT_OFFSET;
 }
