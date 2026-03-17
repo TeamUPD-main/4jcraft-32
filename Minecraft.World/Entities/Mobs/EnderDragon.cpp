@@ -2,7 +2,9 @@
 #include "../../Headers/net.minecraft.world.level.h"
 #include "../../Headers/net.minecraft.world.level.tile.h"
 #include "../../Headers/net.minecraft.world.entity.h"
+#include "../../Headers/net.minecraft.world.entity.ai.attributes.h"
 #include "../../Headers/net.minecraft.world.entity.boss.h"
+#include "../../Headers/net.minecraft.world.entity.monster.h"
 #include "../../Headers/net.minecraft.world.entity.projectile.h"
 #include "../../Headers/net.minecraft.world.phys.h"
 #include "../../Headers/net.minecraft.world.damagesource.h"
@@ -48,10 +50,8 @@ void EnderDragon::_init() {
     // 4J Stu - This function call had to be moved here from the Entity ctor to
     // ensure that the derived version of the function is called
     this->defineSynchedData();
-
-    // 4J Stu - This function call had to be moved here from the Entity ctor to
-    // ensure that the derived version of the function is called
-    health = getMaxHealth();
+    registerAttributes();
+    setHealth(getMaxHealth());
 
     xTarget = yTarget = zTarget = 0.0;
     posPointer = -1;
@@ -86,33 +86,9 @@ void EnderDragon::_init() {
     m_currentPath = NULL;
 }
 
-EnderDragon::EnderDragon(Level* level) : BossMob(level) {
+EnderDragon::EnderDragon(Level* level) : Mob(level) {
     _init();
 
-    head = std::shared_ptr<BossMobPart>(new BossMobPart(this, L"head", 6, 6));
-    neck = std::shared_ptr<BossMobPart>(
-        new BossMobPart(this, L"neck", 6, 6));  // 4J Added
-    body = std::shared_ptr<BossMobPart>(new BossMobPart(this, L"body", 8, 8));
-    tail1 = std::shared_ptr<BossMobPart>(new BossMobPart(this, L"tail", 4, 4));
-    tail2 = std::shared_ptr<BossMobPart>(new BossMobPart(this, L"tail", 4, 4));
-    tail3 = std::shared_ptr<BossMobPart>(new BossMobPart(this, L"tail", 4, 4));
-    wing1 = std::shared_ptr<BossMobPart>(new BossMobPart(this, L"wing", 4, 4));
-    wing2 = std::shared_ptr<BossMobPart>(new BossMobPart(this, L"wing", 4, 4));
-
-    subEntities.push_back(head);
-    subEntities.push_back(neck);  // 4J Added
-    subEntities.push_back(body);
-    subEntities.push_back(tail1);
-    subEntities.push_back(tail2);
-    subEntities.push_back(tail3);
-    subEntities.push_back(wing1);
-    subEntities.push_back(wing2);
-
-    maxHealth = 200;
-    setHealth(maxHealth);
-
-    this->textureIdx =
-        TN_MOB_ENDERDRAGON;  // 4J was "/mob/enderdragon/ender.png";
     setSize(16, 8);
 
     noPhysics = true;
@@ -123,6 +99,43 @@ EnderDragon::EnderDragon(Level* level) : BossMob(level) {
     m_iGrowlTimer = 100;
 
     noCulling = true;
+}
+
+// 4J - split off from ctor so we can use shared_from_this()
+void EnderDragon::AddParts() {
+    head = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"head", 6,
+        6));
+    neck = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"neck", 6,
+        6));  // 4J Added
+    body = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"body", 8,
+        8));
+    tail1 = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4,
+        4));
+    tail2 = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4,
+        4));
+    tail3 = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4,
+        4));
+    wing1 = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"wing", 4,
+        4));
+    wing2 = std::shared_ptr<MultiEntityMobPart>(new MultiEntityMobPart(
+        std::dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"wing", 4,
+        4));
+
+    subEntities.push_back(head);
+    subEntities.push_back(neck);  // 4J Added
+    subEntities.push_back(body);
+    subEntities.push_back(tail1);
+    subEntities.push_back(tail2);
+    subEntities.push_back(tail3);
+    subEntities.push_back(wing1);
+    subEntities.push_back(wing2);
 }
 
 EnderDragon::~EnderDragon() {
@@ -136,10 +149,14 @@ EnderDragon::~EnderDragon() {
     if (m_currentPath != NULL) delete m_currentPath;
 }
 
-void EnderDragon::defineSynchedData() {
-    BossMob::defineSynchedData();
+void EnderDragon::registerAttributes() {
+    Mob::registerAttributes();
 
-    entityData->define(DATA_ID_SYNCHED_HEALTH, maxHealth);
+    getAttribute(SharedMonsterAttributes::MAX_HEALTH)->setBaseValue(200);
+}
+
+void EnderDragon::defineSynchedData() {
+    Mob::defineSynchedData();
 
     // 4J Added for new dragon behaviour
     entityData->define(DATA_ID_SYNCHED_ACTION,
@@ -147,7 +164,7 @@ void EnderDragon::defineSynchedData() {
 }
 
 void EnderDragon::getLatencyPos(doubleArray result, int step, float a) {
-    if (health <= 0) {
+    if (getHealth() <= 0) {
         a = 0;
     }
 
@@ -173,21 +190,20 @@ void EnderDragon::getLatencyPos(doubleArray result, int step, float a) {
 }
 
 void EnderDragon::aiStep() {
-    if (!level->isClientSide) {
-        entityData->set(DATA_ID_SYNCHED_HEALTH, health);
-    } else {
+    if (level->isClientSide) {
         // 4J Stu - If saved when dead we need to make sure that the actual
         // health is updated correctly on the client Fix for TU9: Content:
         // Gameplay: Enderdragon respawns after loading game which was
         // previously saved at point of hes death
-        health = getSynchedHealth();
+        setHealth(getHealth());
 
         float flap = Mth::cos(flapTime * PI * 2);
         float oldFlap = Mth::cos(oFlapTime * PI * 2);
 
         if (oldFlap <= -0.3f && flap >= -0.3f) {
             level->playLocalSound(x, y, z, eSoundType_MOB_ENDERDRAGON_MOVE, 1,
-                                  0.8f + random->nextFloat() * .3f, 100.0f);
+                                  0.8f + random->nextFloat() * .3f, false,
+                                  100.0f);
         }
         // play a growl every now and then
         if (!(getSynchedAction() == e_EnderdragonAction_Sitting_Flaming ||
@@ -197,7 +213,7 @@ void EnderDragon::aiStep() {
             if (m_iGrowlTimer < 0) {
                 level->playLocalSound(x, y, z, eSoundType_MOB_ENDERDRAGON_GROWL,
                                       0.5f, 0.8f + random->nextFloat() * .3f,
-                                      100.0f);
+                                      false, 100.0f);
                 m_iGrowlTimer = 200 + (random->nextInt(200));
             }
         }
@@ -205,7 +221,7 @@ void EnderDragon::aiStep() {
 
     oFlapTime = flapTime;
 
-    if (health <= 0) {
+    if (getHealth() <= 0) {
         //            level.addParticle("explode", x + random.nextFloat() *
         //            bbWidth * 2 - bbWidth, y + random.nextFloat() * bbHeight,
         //            z + random.nextFloat() * bbWidth * 2 - bbWidth, 0, 0, 0);
@@ -352,7 +368,7 @@ void EnderDragon::aiStep() {
             // AP - changed this to use playLocalSound because no sound could be
             // heard with playSound (cos it's a stub function)
             level->playLocalSound(x, y, z, eSoundType_MOB_ENDERDRAGON_GROWL,
-                                  0.5f, 0.8f + random->nextFloat() * .3f,
+                                  0.5f, 0.8f + random->nextFloat() * .3f, false,
                                   100.0f);
         }
     } else {
@@ -447,10 +463,10 @@ void EnderDragon::aiStep() {
 
                 for (AUTO_VAR(it, targets->begin()); it != targets->end();
                      ++it) {
-                    std::shared_ptr<Mob> e =
-                        std::dynamic_pointer_cast<Mob>(*it);
-                    if (e != NULL) {
+                    if ((*it)->instanceof(eTYPE_LIVINGENTITY)) {
                         // app.DebugPrintf("Attacking entity with acid\n");
+                        std::shared_ptr<LivingEntity> e =
+                            std::dynamic_pointer_cast<LivingEntity>(*it);
                         e->hurt(DamageSource::dragonbreath, 2);
                     }
                 }
@@ -685,7 +701,7 @@ void EnderDragon::aiStep() {
 
     // Curls/straightens the tail
     for (int i = 0; i < 3; i++) {
-        std::shared_ptr<BossMobPart> part = nullptr;
+        std::shared_ptr<MultiEntityMobPart> part = nullptr;
 
         if (i == 0) part = tail1;
         if (i == 1) part = tail2;
@@ -745,8 +761,8 @@ void EnderDragon::aiStep() {
                     std::shared_ptr<DragonFireball> ie =
                         std::shared_ptr<DragonFireball>(new DragonFireball(
                             level,
-                            std::dynamic_pointer_cast<Mob>(shared_from_this()),
-                            xdd, ydd, zdd));
+                            std::dynamic_pointer_cast<Mob>(shared_from_this()), xdd,
+                            ydd, zdd));
                     ie->x = startingX;
                     ie->y = startingY;
                     ie->z = startingZ;
@@ -782,20 +798,19 @@ void EnderDragon::checkCrystals() {
     if (nearestCrystal != NULL) {
         if (nearestCrystal->removed) {
             if (!level->isClientSide) {
-                hurt(head, DamageSource::explosion, 10);
+                hurt(head, DamageSource::explosion(NULL), 10);
             }
 
             nearestCrystal = nullptr;
         } else if (tickCount % 10 == 0) {
-            if (health < maxHealth) health++;
+            if (getHealth() < getMaxHealth()) setHealth(getHealth() + 1);
         }
     }
 
     if (random->nextInt(10) == 0) {
         float maxDist = 32;
-        std::vector<std::shared_ptr<Entity> >* crystals =
-            level->getEntitiesOfClass(typeid(EnderCrystal),
-                                      bb->grow(maxDist, maxDist, maxDist));
+        std::vector<std::shared_ptr<Entity> >* crystals = level->getEntitiesOfClass(
+            typeid(EnderCrystal), bb->grow(maxDist, maxDist, maxDist));
 
         std::shared_ptr<EnderCrystal> crystal = nullptr;
         double nearest = Double::MAX_VALUE;
@@ -836,9 +851,10 @@ void EnderDragon::knockBack(std::vector<std::shared_ptr<Entity> >* entities) {
 
     // for (Entity e : entities)
     for (AUTO_VAR(it, entities->begin()); it != entities->end(); ++it) {
-        std::shared_ptr<Mob> e = std::dynamic_pointer_cast<Mob>(*it);
-        if (e != NULL)  //(e instanceof Mob)
+        if ((*it)->instanceof(eTYPE_LIVINGENTITY))  //(e instanceof Mob)
         {
+            std::shared_ptr<LivingEntity> e =
+                std::dynamic_pointer_cast<LivingEntity>(*it);
             double xd = e->x - xm;
             double zd = e->z - zm;
             double dd = xd * xd + zd * zd;
@@ -850,12 +866,12 @@ void EnderDragon::knockBack(std::vector<std::shared_ptr<Entity> >* entities) {
 void EnderDragon::hurt(std::vector<std::shared_ptr<Entity> >* entities) {
     // for (int i = 0; i < entities->size(); i++)
     for (AUTO_VAR(it, entities->begin()); it != entities->end(); ++it) {
-        std::shared_ptr<Mob> e =
-            std::dynamic_pointer_cast<Mob>(*it);  // entities.get(i);
-        if (e != NULL)                            //(e instanceof Mob)
+        if ((*it)->instanceof(eTYPE_LIVINGENTITY))  //(e instanceof Mob)
         {
+            std::shared_ptr<LivingEntity> e =
+                std::dynamic_pointer_cast<LivingEntity>(*it);  // entities.get(i);
             DamageSource* damageSource = DamageSource::mobAttack(
-                std::dynamic_pointer_cast<Mob>(shared_from_this()));
+                std::dynamic_pointer_cast<LivingEntity>(shared_from_this()));
             e->hurt(damageSource, 10);
             delete damageSource;
         }
@@ -873,10 +889,10 @@ void EnderDragon::findNewTarget() {
                 m_currentPath->isDone()) {
                 // Distance is 64, which is the radius of the circle
                 int eggHeight =
-                    std::max(level->seaLevel + 5,
-                             level->getTopSolidBlock(
-                                 PODIUM_X_POS,
-                                 PODIUM_Z_POS));  // level->getHeightmap(4,4);
+                    max(level->seaLevel + 5,
+                        level->getTopSolidBlock(
+                            PODIUM_X_POS,
+                            PODIUM_Z_POS));  // level->getHeightmap(4,4);
                 playerNearestToEgg = level->getNearestPlayer(
                     PODIUM_X_POS, eggHeight, PODIUM_Z_POS, 64.0);
                 double dist = 64.0f;
@@ -932,8 +948,6 @@ void EnderDragon::findNewTarget() {
 #endif
             m_actionTicks = 0;
             break;
-        default:
-            break;
     };
 
     newTarget = false;
@@ -950,7 +964,7 @@ void EnderDragon::findNewTarget() {
 
             // To get the angle to the player correct when landing, head to a
             // node diametrically opposite the player, then swoop in to 4,4
-            int eggHeight = std::max(
+            int eggHeight = max(
                 level->seaLevel + 5,
                 level->getTopSolidBlock(
                     PODIUM_X_POS, PODIUM_Z_POS));  // level->getHeightmap(4,4);
@@ -1067,12 +1081,13 @@ bool EnderDragon::checkWalls(AABB* bb) {
                 int t = level->getTile(x, y, z);
                 // 4J Stu - Don't remove fire
                 if (t == 0 || t == Tile::fire_Id) {
-                } else if (t == Tile::obsidian_Id || t == Tile::whiteStone_Id ||
-                           t == Tile::unbreakable_Id) {
+                } else if (t == Tile::obsidian_Id || t == Tile::endStone_Id ||
+                           t == Tile::unbreakable_Id ||
+                           !level->getGameRules()->getBoolean(
+                               GameRules::RULE_MOBGRIEFING)) {
                     hitWall = true;
                 } else {
-                    destroyedTile = true;
-                    level->setTile(x, y, z, 0);
+                    destroyedTile = level->removeTile(x, y, z) || destroyedTile;
                 }
             }
         }
@@ -1088,9 +1103,9 @@ bool EnderDragon::checkWalls(AABB* bb) {
     return hitWall;
 }
 
-bool EnderDragon::hurt(std::shared_ptr<BossMobPart> bossMobPart,
-                       DamageSource* source, int damage) {
-    if (bossMobPart != head) {
+bool EnderDragon::hurt(std::shared_ptr<MultiEntityMobPart> MultiEntityMobPart,
+                       DamageSource* source, float damage) {
+    if (MultiEntityMobPart != head) {
         damage = damage / 4 + 1;
     }
 
@@ -1103,18 +1118,19 @@ bool EnderDragon::hurt(std::shared_ptr<BossMobPart> bossMobPart,
     // zTarget = z - cc1 * 5 + (random->nextFloat() - 0.5f) * 2;
     // attackTarget = NULL;
 
-    if (source == DamageSource::explosion ||
-        (std::dynamic_pointer_cast<Player>(source->getEntity()) != NULL)) {
-        int healthBefore = health;
+    if (source->getEntity() != NULL &&
+            source->getEntity()->instanceof(eTYPE_PLAYER) ||
+        source->isExplosion()) {
+        int healthBefore = getHealth();
         reallyHurt(source, damage);
 
         // if(!level->isClientSide) app.DebugPrintf("Health is now %d\n",
         // health);
-        if (health <= 0 &&
+        if (getHealth() <= 0 &&
             !(getSynchedAction() == e_EnderdragonAction_Sitting_Flaming ||
               getSynchedAction() == e_EnderdragonAction_Sitting_Scanning ||
               getSynchedAction() == e_EnderdragonAction_Sitting_Attacking)) {
-            health = 1;
+            setHealth(1);
 
             if (setSynchedAction(e_EnderdragonAction_LandingApproach)) {
                 if (m_currentPath != NULL) {
@@ -1133,7 +1149,7 @@ bool EnderDragon::hurt(std::shared_ptr<BossMobPart> bossMobPart,
         if (getSynchedAction() == e_EnderdragonAction_Sitting_Flaming ||
             getSynchedAction() == e_EnderdragonAction_Sitting_Scanning ||
             getSynchedAction() == e_EnderdragonAction_Sitting_Attacking) {
-            m_sittingDamageReceived += healthBefore - health;
+            m_sittingDamageReceived += healthBefore - getHealth();
 
             if (m_sittingDamageReceived >
                 (SITTING_ALLOWED_DAMAGE_PERCENTAGE * getMaxHealth())) {
@@ -1149,11 +1165,17 @@ bool EnderDragon::hurt(std::shared_ptr<BossMobPart> bossMobPart,
     return true;
 }
 
+bool EnderDragon::hurt(DamageSource* source, float damage) { return false; }
+
+bool EnderDragon::reallyHurt(DamageSource* source, float damage) {
+    return Mob::hurt(source, damage);
+}
+
 void EnderDragon::tickDeath() {
     if (getSynchedAction() != e_EnderdragonAction_Sitting_Flaming &&
         getSynchedAction() != e_EnderdragonAction_Sitting_Scanning &&
         getSynchedAction() != e_EnderdragonAction_Sitting_Attacking) {
-        if (!level->isClientSide) health = 1;
+        if (!level->isClientSide) setHealth(1);
         return;
     }
 
@@ -1176,10 +1198,8 @@ void EnderDragon::tickDeath() {
             }
         }
         if (dragonDeathTime == 1) {
-            // level->globalLevelEvent(LevelEvent::SOUND_DRAGON_DEATH, (int) x,
-            // (int) y, (int) z, 0);
-            level->levelEvent(LevelEvent::SOUND_DRAGON_DEATH, (int)x, (int)y,
-                              (int)z, 0);
+            level->globalLevelEvent(LevelEvent::SOUND_DRAGON_DEATH, (int)x,
+                                    (int)y, (int)z, 0);
         }
     }
     move(0, 0.1f, 0);
@@ -1225,15 +1245,18 @@ void EnderDragon::spawnExitPortal(int x, int z) {
                     if (yy < y) {
                         if (d > r - 1 - 0.5) {
                         } else {
-                            level->setTile(xx, yy, zz, Tile::unbreakable_Id);
+                            level->setTileAndUpdate(xx, yy, zz,
+                                                    Tile::unbreakable_Id);
                         }
                     } else if (yy > y) {
-                        level->setTile(xx, yy, zz, 0);
+                        level->setTileAndUpdate(xx, yy, zz, 0);
                     } else {
                         if (d > r - 1 - 0.5) {
-                            level->setTile(xx, yy, zz, Tile::unbreakable_Id);
+                            level->setTileAndUpdate(xx, yy, zz,
+                                                    Tile::unbreakable_Id);
                         } else {
-                            level->setTile(xx, yy, zz, Tile::endPortalTile_Id);
+                            level->setTileAndUpdate(xx, yy, zz,
+                                                    Tile::endPortalTile_Id);
                         }
                     }
                 }
@@ -1241,15 +1264,15 @@ void EnderDragon::spawnExitPortal(int x, int z) {
         }
     }
 
-    level->setTile(x, y + 0, z, Tile::unbreakable_Id);
-    level->setTile(x, y + 1, z, Tile::unbreakable_Id);
-    level->setTile(x, y + 2, z, Tile::unbreakable_Id);
-    level->setTile(x - 1, y + 2, z, Tile::torch_Id);
-    level->setTile(x + 1, y + 2, z, Tile::torch_Id);
-    level->setTile(x, y + 2, z - 1, Tile::torch_Id);
-    level->setTile(x, y + 2, z + 1, Tile::torch_Id);
-    level->setTile(x, y + 3, z, Tile::unbreakable_Id);
-    level->setTile(x, y + 4, z, Tile::dragonEgg_Id);
+    level->setTileAndUpdate(x, y + 0, z, Tile::unbreakable_Id);
+    level->setTileAndUpdate(x, y + 1, z, Tile::unbreakable_Id);
+    level->setTileAndUpdate(x, y + 2, z, Tile::unbreakable_Id);
+    level->setTileAndUpdate(x - 1, y + 2, z, Tile::torch_Id);
+    level->setTileAndUpdate(x + 1, y + 2, z, Tile::torch_Id);
+    level->setTileAndUpdate(x, y + 2, z - 1, Tile::torch_Id);
+    level->setTileAndUpdate(x, y + 2, z + 1, Tile::torch_Id);
+    level->setTileAndUpdate(x, y + 3, z, Tile::unbreakable_Id);
+    level->setTileAndUpdate(x, y + 4, z, Tile::dragonEgg_Id);
 
     // 4J-PB - The podium can be floating with nothing under it, so put some
     // whiteStone under it if this is the case
@@ -1257,7 +1280,7 @@ void EnderDragon::spawnExitPortal(int x, int z) {
         for (int xx = x - (r - 1); xx <= x + (r - 1); xx++) {
             for (int zz = z - (r - 1); zz <= z + (r - 1); zz++) {
                 if (level->isEmptyTile(xx, yy, zz)) {
-                    level->setTile(xx, yy, zz, Tile::whiteStone_Id);
+                    level->setTileAndUpdate(xx, yy, zz, Tile::endStone_Id);
                 }
             }
         }
@@ -1274,13 +1297,17 @@ std::vector<std::shared_ptr<Entity> >* EnderDragon::getSubEntities() {
 
 bool EnderDragon::isPickable() { return false; }
 
-// Fix for TU9 Enderdragon sound hits being the player sound hits - moved this
-// forward from later version
-int EnderDragon::getHurtSound() { return eSoundType_MOB_ENDERDRAGON_HIT; }
+Level* EnderDragon::getLevel() { return level; }
 
-int EnderDragon::getSynchedHealth() {
-    return entityData->getInteger(DATA_ID_SYNCHED_HEALTH);
+int EnderDragon::getAmbientSound() {
+    return eSoundType_MOB_ENDERDRAGON_GROWL;  //"mob.enderdragon.growl";
 }
+
+int EnderDragon::getHurtSound() {
+    return eSoundType_MOB_ENDERDRAGON_HIT;  //"mob.enderdragon.hit";
+}
+
+float EnderDragon::getSoundVolume() { return 5; }
 
 // 4J Added for new dragon behaviour
 bool EnderDragon::setSynchedAction(EEnderdragonAction action,
@@ -1294,8 +1321,6 @@ bool EnderDragon::setSynchedAction(EEnderdragonAction action,
                 case e_EnderdragonAction_LandingApproach:
                     validTransition = true;
                     break;
-                default:
-                    break;
             };
             break;
         case e_EnderdragonAction_StrafePlayer:
@@ -1304,16 +1329,12 @@ bool EnderDragon::setSynchedAction(EEnderdragonAction action,
                 case e_EnderdragonAction_LandingApproach:
                     validTransition = true;
                     break;
-                default:
-                    break;
             };
             break;
         case e_EnderdragonAction_LandingApproach:
             switch (action) {
                 case e_EnderdragonAction_Landing:
                     validTransition = true;
-                    break;
-                default:
                     break;
             };
             break;
@@ -1323,16 +1344,12 @@ bool EnderDragon::setSynchedAction(EEnderdragonAction action,
                 case e_EnderdragonAction_Sitting_Scanning:
                     validTransition = true;
                     break;
-                default:
-                    break;
             };
             break;
         case e_EnderdragonAction_Takeoff:
             switch (action) {
                 case e_EnderdragonAction_HoldingPattern:
                     validTransition = true;
-                    break;
-                default:
                     break;
             };
             break;
@@ -1343,8 +1360,6 @@ bool EnderDragon::setSynchedAction(EEnderdragonAction action,
                 case e_EnderdragonAction_Takeoff:
                     validTransition = true;
                     break;
-                default:
-                    break;
             };
             break;
         case e_EnderdragonAction_Sitting_Scanning:
@@ -1353,8 +1368,6 @@ bool EnderDragon::setSynchedAction(EEnderdragonAction action,
                 case e_EnderdragonAction_Sitting_Attacking:
                 case e_EnderdragonAction_Takeoff:
                     validTransition = true;
-                    break;
-                default:
                     break;
             };
             break;
@@ -1365,11 +1378,7 @@ bool EnderDragon::setSynchedAction(EEnderdragonAction action,
                 case e_EnderdragonAction_Takeoff:
                     validTransition = true;
                     break;
-                default:
-                    break;
             };
-            break;
-        default:
             break;
     };
 
@@ -1412,10 +1421,10 @@ void EnderDragon::handleCrystalDestroyed(DamageSource* source) {
             app.DebugPrintf("Dragon action is now: LandingApproach\n");
 #endif
         }
-    } else if (std::dynamic_pointer_cast<Player>(source->getEntity()) != NULL) {
+    } else if (source->getEntity() != NULL &&
+               source->getEntity()->instanceof(eTYPE_PLAYER)) {
         if (setSynchedAction(e_EnderdragonAction_StrafePlayer)) {
-            attackTarget =
-                std::dynamic_pointer_cast<Player>(source->getEntity());
+            attackTarget = std::dynamic_pointer_cast<Player>(source->getEntity());
 #if PRINT_DRAGON_STATE_CHANGE_MESSAGES
             app.DebugPrintf("Dragon action is now: StrafePlayer\n");
 #endif
@@ -1508,9 +1517,8 @@ int EnderDragon::findClosestNode() {
             }
             // Fix for #77202 - TU9: Content: Gameplay: The Ender Dragon
             // sometimes flies through terrain Add minimum height
-            nodeY =
-                std::max((level->seaLevel + 10),
-                         level->getTopSolidBlock(nodeX, nodeZ) + yAdjustment);
+            nodeY = max((level->seaLevel + 10),
+                        level->getTopSolidBlock(nodeX, nodeZ) + yAdjustment);
 
             app.DebugPrintf("Node %d is at (%d,%d,%d)\n", i, nodeX, nodeY,
                             nodeZ);
@@ -1697,7 +1705,7 @@ void EnderDragon::addAdditonalSaveData(CompoundTag* entityTag) {
     entityTag->putShort(L"RemainingCrystals", m_remainingCrystalsCount);
     entityTag->putInt(L"DragonState", (int)getSynchedAction());
 
-    BossMob::addAdditonalSaveData(entityTag);
+    Mob::addAdditonalSaveData(entityTag);
 }
 
 void EnderDragon::readAdditionalSaveData(CompoundTag* tag) {
@@ -1709,7 +1717,7 @@ void EnderDragon::readAdditionalSaveData(CompoundTag* tag) {
     if (tag->contains(L"DragonState"))
         setSynchedAction((EEnderdragonAction)tag->getInt(L"DragonState"), true);
 
-    BossMob::readAdditionalSaveData(tag);
+    Mob::readAdditionalSaveData(tag);
 }
 
 float EnderDragon::getTilt(float a) {
