@@ -11,9 +11,7 @@ private:
 
 public:
     JumpControl(Mob* mob);
-    virtual ~JumpControl() {}
 
     void jump();
-    // genuinly, why tf is this VIRTUAL
     virtual void tick();
 };
