@@ -643,6 +643,8 @@ void C4JRender::GetFramebufferSize(int& w, int& h) {
     h = s_windowHeight;
 }
 
+void C4JRender::Close() { s_window = nullptr; }
+
 void C4JRender::Shutdown() {
     pthread_mutex_lock(&s_glCallMtx);
     for (auto& kv : s_chunkPool) kv.second.destroy();

@@ -210,6 +210,7 @@ public:
     bool Suspended();
     void Resume();
     bool ShouldClose();
+    void Close();
     void Shutdown();
 };
 
