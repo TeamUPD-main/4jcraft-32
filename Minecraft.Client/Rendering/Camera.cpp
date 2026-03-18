@@ -1,4 +1,5 @@
 #include "../Platform/stdafx.h"
+#include <cstring>
 #include "Camera.h"
 #include "../Utils/MemoryTracker.h"
 #include "../../Minecraft.World/Headers/net.minecraft.world.entity.player.h"
@@ -22,8 +23,14 @@ float Camera::xa2 = 0.0f;
 float Camera::za2 = 0.0f;
 
 void Camera::prepare(std::shared_ptr<Player> player, bool mirror) {
-    glGetFloat(GL_MODELVIEW_MATRIX, modelview);
-    glGetFloat(GL_PROJECTION_MATRIX, projection);
+    {
+        const float* _4j_tmp = RenderManager.MatrixGet(GL_MODELVIEW_MATRIX);
+        if (_4j_tmp) memcpy(modelview->_getDataPointer(), _4j_tmp, 64);
+    }
+    {
+        const float* _4j_tmp = RenderManager.MatrixGet(GL_PROJECTION_MATRIX);
+        if (_4j_tmp) memcpy(projection->_getDataPointer(), _4j_tmp, 64);
+    }
 
     /* Original java code for reference
 glGetInteger(GL_VIEWPORT, viewport);

@@ -1,4 +1,5 @@
 #include "../Platform/stdafx.h"
+#include <cstring>
 #include "../../Minecraft.World/IO/Streams/FloatBuffer.h"
 #include "Frustum.h"
 
@@ -33,9 +34,6 @@ void Frustum::normalizePlane(float** frustum, int side) {
     float magnitude = (float)sqrt(frustum[side][A] * frustum[side][A] +
                                   frustum[side][B] * frustum[side][B] +
                                   frustum[side][C] * frustum[side][C]);
-
-    // Then we divide the plane's values by it's magnitude.
-    // This makes it easier to work with.
     frustum[side][A] /= magnitude;
     frustum[side][B] /= magnitude;
     frustum[side][C] /= magnitude;
@@ -43,28 +41,17 @@ void Frustum::normalizePlane(float** frustum, int side) {
 }
 
 void Frustum::calculateFrustum() {
-    _proj->clear();
-    _modl->clear();
-    _clip->clear();
+    // Listening to Iyowa and reading this mess is a fever dream.
+    {
+        const float* p = RenderManager.MatrixGet(GL_PROJECTION_MATRIX);
+        if (p) memcpy(&proj[0], p, 16 * sizeof(float));
+    }
+    {
+        const float* m = RenderManager.MatrixGet(GL_MODELVIEW_MATRIX);
+        if (m) memcpy(&modl[0], m, 16 * sizeof(float));
+    }
 
-    // glGetFloatv() is used to extract information about our OpenGL world.
-    // Below, we pass in GL_PROJECTION_MATRIX to abstract our projection matrix.
-    // It then stores the matrix into an array of [16].
-    glGetFloat(GL_PROJECTION_MATRIX, _proj);
-
-    // By passing in GL_MODELVIEW_MATRIX, we can abstract our model view matrix.
-    // This also stores it in an array of [16].
-    glGetFloat(GL_MODELVIEW_MATRIX, _modl);
-
-    _proj->flip()->limit(16);
-    _proj->get(&proj);
-    _modl->flip()->limit(16);
-    _modl->get(&modl);
-
-    // Now that we have our modelview and projection matrix, if we combine these
-    // 2 matrices, it will give us our clipping planes.  To combine 2 matrices,
-    // we multiply them.
-
+    // Multiply modelview * projection to get the clip matrix.
     clip[0] = modl[0] * proj[0] + modl[1] * proj[4] + modl[2] * proj[8] +
               modl[3] * proj[12];
     clip[1] = modl[0] * proj[1] + modl[1] * proj[5] + modl[2] * proj[9] +
@@ -101,63 +88,47 @@ void Frustum::calculateFrustum() {
     clip[15] = modl[12] * proj[3] + modl[13] * proj[7] + modl[14] * proj[11] +
                modl[15] * proj[15];
 
-    // Now we actually want to get the sides of the frustum.  To do this we take
-    // the clipping planes we received above and extract the sides from them.
+    // Extract frustum planes from the clip matrix.
 
-    // This will extract the RIGHT side of the frustum
+    // RIGHT
     m_Frustum[RIGHT][A] = clip[3] - clip[0];
     m_Frustum[RIGHT][B] = clip[7] - clip[4];
     m_Frustum[RIGHT][C] = clip[11] - clip[8];
     m_Frustum[RIGHT][D] = clip[15] - clip[12];
-
-    // Now that we have a normal (A,B,C) and a distance (D) to the plane,
-    // we want to normalize that normal and distance.
-
-    // Normalize the RIGHT side
     normalizePlane(m_Frustum, RIGHT);
 
-    // This will extract the LEFT side of the frustum
+    // LEFT
     m_Frustum[LEFT][A] = clip[3] + clip[0];
     m_Frustum[LEFT][B] = clip[7] + clip[4];
     m_Frustum[LEFT][C] = clip[11] + clip[8];
     m_Frustum[LEFT][D] = clip[15] + clip[12];
-
-    // Normalize the LEFT side
     normalizePlane(m_Frustum, LEFT);
 
-    // This will extract the BOTTOM side of the frustum
+    // BOTTOM
     m_Frustum[BOTTOM][A] = clip[3] + clip[1];
     m_Frustum[BOTTOM][B] = clip[7] + clip[5];
     m_Frustum[BOTTOM][C] = clip[11] + clip[9];
     m_Frustum[BOTTOM][D] = clip[15] + clip[13];
-
-    // Normalize the BOTTOM side
     normalizePlane(m_Frustum, BOTTOM);
 
-    // This will extract the TOP side of the frustum
+    // TOP
     m_Frustum[TOP][A] = clip[3] - clip[1];
     m_Frustum[TOP][B] = clip[7] - clip[5];
     m_Frustum[TOP][C] = clip[11] - clip[9];
     m_Frustum[TOP][D] = clip[15] - clip[13];
-
-    // Normalize the TOP side
     normalizePlane(m_Frustum, TOP);
 
-    // This will extract the BACK side of the frustum
+    // BACK
     m_Frustum[BACK][A] = clip[3] - clip[2];
     m_Frustum[BACK][B] = clip[7] - clip[6];
     m_Frustum[BACK][C] = clip[11] - clip[10];
     m_Frustum[BACK][D] = clip[15] - clip[14];
-
-    // Normalize the BACK side
     normalizePlane(m_Frustum, BACK);
 
-    // This will extract the FRONT side of the frustum
+    // FRONT
     m_Frustum[FRONT][A] = clip[3] + clip[2];
     m_Frustum[FRONT][B] = clip[7] + clip[6];
     m_Frustum[FRONT][C] = clip[11] + clip[10];
     m_Frustum[FRONT][D] = clip[15] + clip[14];
-
-    // Normalize the FRONT side
     normalizePlane(m_Frustum, FRONT);
 }

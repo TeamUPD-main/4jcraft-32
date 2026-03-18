@@ -1,5 +1,4 @@
-#ifdef __linux__
-
+#include "../../Minecraft.World/Platform/stdafx.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glext.h>
@@ -8,136 +7,240 @@
 #include "../../Minecraft.World/IO/Streams/IntBuffer.h"
 #include "../../Minecraft.World/IO/Streams/FloatBuffer.h"
 #include "../../Minecraft.World/IO/Streams/ByteBuffer.h"
+#include "../../Minecraft.World/Util/ArrayWithLength.h"
+#include "../../4J.Render/4J_Render.h"
 
-int glGenTextures() {
+// Undefine macros from header to avoid argument mismatch during implementation
+#undef glGenTextures
+#undef glDeleteTextures
+#undef glTexCoordPointer
+#undef glNormalPointer
+#undef glColorPointer
+#undef glVertexPointer
+#undef glTexImage2D
+#undef glCallLists
+#undef glReadPixels
+#undef glFog
+#undef glLight
+#undef glLightModel
+#undef glTexGen
+#undef glGenQueriesARB
+#undef glGetQueryObjectuARB
+
+// ---------------------------------------------------------
+// 1. The "_4J" versions (Used by files that include 4J_Render.h)
+// ---------------------------------------------------------
+
+int glGenTextures_4J() {
     GLuint id = 0;
     ::glGenTextures(1, &id);
     return (int)id;
 }
 
-void glGenTextures(IntBuffer* buf) {
+void glGenTextures_4J(int n, unsigned int* textures) {
+    ::glGenTextures(n, textures);
+}
+
+void glGenTextures_4J(IntBuffer* buf) {
     GLuint id = 0;
     ::glGenTextures(1, &id);
     buf->put((int)id);
     buf->flip();
 }
 
-void glDeleteTextures(int id) {
+void glDeleteTextures_4J(int id) {
     GLuint uid = (GLuint)id;
     ::glDeleteTextures(1, &uid);
 }
 
-void glDeleteTextures(IntBuffer* buf) {
-    int id = buf->get(0);
-    GLuint uid = (GLuint)id;
-    ::glDeleteTextures(1, &uid);
+void glDeleteTextures_4J(int n, const unsigned int* textures) {
+    ::glDeleteTextures(n, textures);
 }
 
-void glLight(int light, int pname, FloatBuffer* params) {
-    ::glLightfv((GLenum)light, (GLenum)pname, params->_getDataPointer());
+void glDeleteTextures_4J(IntBuffer* buf) {
+    if (buf->limit() > 0) {
+        GLuint id = (GLuint)buf->get(0);
+        ::glDeleteTextures(1, &id);
+    }
 }
 
-void glLightModel(int pname, FloatBuffer* params) {
-    ::glLightModelfv((GLenum)pname, params->_getDataPointer());
-}
-
-void glGetFloat(int pname, FloatBuffer* params) {
-    ::glGetFloatv((GLenum)pname, params->_getDataPointer());
-}
-
-void glTexGen(int coord, int pname, FloatBuffer* params) {
-    ::glTexGenfv((GLenum)coord, (GLenum)pname, params->_getDataPointer());
-}
-
-void glFog(int pname, FloatBuffer* params) {
-    ::glFogfv((GLenum)pname, params->_getDataPointer());
-}
-
-void glTexCoordPointer(int size, int type, FloatBuffer* pointer) {
+void glTexCoordPointer_4J(int size, int type, FloatBuffer* pointer) {
     ::glTexCoordPointer(size, (GLenum)type, 0, pointer->_getDataPointer());
 }
 
-void glNormalPointer(int type, ByteBuffer* pointer) {
+void glNormalPointer_4J(int type, ByteBuffer* pointer) {
     ::glNormalPointer((GLenum)type, 0, pointer->getBuffer());
 }
 
-void glColorPointer(int size, bool normalized, int stride,
-                    ByteBuffer* pointer) {
-    (void)normalized;
+void glColorPointer_4J(int size, bool normalized, int stride,
+                       ByteBuffer* pointer) {
     ::glColorPointer(size, GL_UNSIGNED_BYTE, stride, pointer->getBuffer());
 }
 
-void glVertexPointer(int size, int type, FloatBuffer* pointer) {
+void glVertexPointer_4J(int size, int type, FloatBuffer* pointer) {
     ::glVertexPointer(size, (GLenum)type, 0, pointer->_getDataPointer());
 }
 
-void glEndList(int) { ::glEndList(); }
+void glTexImage2D_4J(int target, int level, int internalformat, int width,
+                     int height, int border, int format, int type,
+                     void* pixels) {
+    ::glTexImage2D((GLenum)target, level, internalformat, width, height, border,
+                   (GLenum)format, (GLenum)type, pixels);
+}
 
-void glTexImage2D(int target, int level, int internalformat, int width,
-                  int height, int border, int format, int type,
-                  ByteBuffer* pixels) {
+void glTexImage2D_4J(int target, int level, int internalformat, int width,
+                     int height, int border, int format, int type,
+                     ByteBuffer* pixels) {
     void* data = pixels ? pixels->getBuffer() : nullptr;
     ::glTexImage2D((GLenum)target, level, internalformat, width, height, border,
                    (GLenum)format, (GLenum)type, data);
 }
 
-void glCallLists(IntBuffer* lists) {
+void glCallLists_4J(IntBuffer* lists) {
     int count = lists->limit() - lists->position();
     ::glCallLists(count, GL_INT, lists->getBuffer());
 }
 
-static PFNGLGENQUERIESARBPROC _glGenQueriesARB = nullptr;
-static PFNGLBEGINQUERYARBPROC _glBeginQueryARB = nullptr;
-static PFNGLENDQUERYARBPROC _glEndQueryARB = nullptr;
-static PFNGLGETQUERYOBJECTUIVARBPROC _glGetQueryObjectuivARB = nullptr;
-static bool _queriesInitialized = false;
-
-static void initQueryFuncs() {
-    if (_queriesInitialized) return;
-    _queriesInitialized = true;
-    _glGenQueriesARB =
+void glGenQueries_4J(IntBuffer* buf) {
+    static PFNGLGENQUERIESARBPROC real =
         (PFNGLGENQUERIESARBPROC)dlsym(RTLD_DEFAULT, "glGenQueriesARB");
-    _glBeginQueryARB =
-        (PFNGLBEGINQUERYARBPROC)dlsym(RTLD_DEFAULT, "glBeginQueryARB");
-    _glEndQueryARB = (PFNGLENDQUERYARBPROC)dlsym(RTLD_DEFAULT, "glEndQueryARB");
-    _glGetQueryObjectuivARB = (PFNGLGETQUERYOBJECTUIVARBPROC)dlsym(
-        RTLD_DEFAULT, "glGetQueryObjectuivARB");
-}
-
-void glGenQueriesARB(IntBuffer* buf) {
-    initQueryFuncs();
-    if (_glGenQueriesARB) {
+    if (real) {
         GLuint id = 0;
-        _glGenQueriesARB(1, &id);
+        real(1, &id);
         buf->put((int)id);
         buf->flip();
     }
 }
 
-void glBeginQueryARB(int target, int id) {
-    initQueryFuncs();
-    if (_glBeginQueryARB) _glBeginQueryARB((GLenum)target, (GLuint)id);
-}
-
-void glEndQueryARB(int target) {
-    initQueryFuncs();
-    if (_glEndQueryARB) _glEndQueryARB((GLenum)target);
-}
-
-void glGetQueryObjectuARB(int id, int pname, IntBuffer* params) {
-    initQueryFuncs();
-    if (_glGetQueryObjectuivARB) {
+void glGetQueryObjectu_4J(int id, int pname, IntBuffer* params) {
+    static PFNGLGETQUERYOBJECTUIVARBPROC real =
+        (PFNGLGETQUERYOBJECTUIVARBPROC)dlsym(RTLD_DEFAULT,
+                                             "glGetQueryObjectuivARB");
+    if (real) {
         GLuint val = 0;
-        _glGetQueryObjectuivARB((GLuint)id, (GLenum)pname, &val);
+        real((GLuint)id, (GLenum)pname, &val);
         params->put((int)val);
         params->flip();
     }
 }
 
-void glReadPixels(int x, int y, int width, int height, int format, int type,
-                  ByteBuffer* pixels) {
+void glReadPixels_4J(int x, int y, int width, int height, int format, int type,
+                     ByteBuffer* pixels) {
     ::glReadPixels(x, y, width, height, (GLenum)format, (GLenum)type,
                    pixels->getBuffer());
 }
 
-#endif
+void glFog_4J(int pname, FloatBuffer* params) {
+    float* p = params->_getDataPointer();
+    if (pname == 0x0B66 /* GL_FOG_COLOR */) {
+        RenderManager.StateSetFogColour(p[0], p[1], p[2]);
+    }
+    ::glFogfv((GLenum)pname, p);
+}
+
+void glLight_4J(int light, int pname, FloatBuffer* params) {
+    float* p = params->_getDataPointer();
+    if (pname == 0x1203 /* GL_POSITION */) {
+        RenderManager.StateSetLightDirection(light == 0x4000 ? 0 : 1, p[0],
+                                             p[1], p[2]);
+    } else if (pname == 0x1200 /* GL_AMBIENT */) {
+        RenderManager.StateSetLightAmbientColour(p[0], p[1], p[2]);
+    } else if (pname == 0x1201 /* GL_DIFFUSE */) {
+        RenderManager.StateSetLightColour(light == 0x4000 ? 0 : 1, p[0], p[1],
+                                          p[2]);
+    }
+    ::glLightfv((GLenum)light, (GLenum)pname, p);
+}
+
+void glLightModel_4J(int pname, FloatBuffer* params) {
+    float* p = params->_getDataPointer();
+    if (pname == 0x0B53 /* GL_LIGHT_MODEL_AMBIENT */) {
+        RenderManager.StateSetLightAmbientColour(p[0], p[1], p[2]);
+    }
+    ::glLightModelfv((GLenum)pname, p);
+}
+
+void glTexGen_4J(int coord, int pname, FloatBuffer* params) {
+    ::glTexGenfv((GLenum)coord, (GLenum)pname, params->_getDataPointer());
+}
+
+// fallbacks
+int glGenTextures() { return glGenTextures_4J(); }
+void glGenTextures(IntBuffer* buf) { glGenTextures_4J(buf); }
+
+void glDeleteTextures(int id) { glDeleteTextures_4J(id); }
+void glDeleteTextures(IntBuffer* buf) { glDeleteTextures_4J(buf); }
+
+void glTexCoordPointer(int size, int type, FloatBuffer* pointer) {
+    glTexCoordPointer_4J(size, type, pointer);
+}
+void glNormalPointer(int type, ByteBuffer* pointer) {
+    glNormalPointer_4J(type, pointer);
+}
+void glColorPointer(int size, bool normalized, int stride,
+                    ByteBuffer* pointer) {
+    glColorPointer_4J(size, normalized, stride, pointer);
+}
+void glVertexPointer(int size, int type, FloatBuffer* pointer) {
+    glVertexPointer_4J(size, type, pointer);
+}
+
+void glTexImage2D(int target, int level, int internalformat, int width,
+                  int height, int border, int format, int type,
+                  ByteBuffer* pixels) {
+    glTexImage2D_4J(target, level, internalformat, width, height, border,
+                    format, type, pixels);
+}
+
+void glCallLists(IntBuffer* lists) { glCallLists_4J(lists); }
+void glGenQueriesARB(IntBuffer* buf) { glGenQueries_4J(buf); }
+void glGetQueryObjectuARB(int id, int pname, IntBuffer* params) {
+    glGetQueryObjectu_4J(id, pname, params);
+}
+void glReadPixels(int x, int y, int width, int height, int format, int type,
+                  ByteBuffer* pixels) {
+    glReadPixels_4J(x, y, width, height, format, type, pixels);
+}
+void glFog(int pname, FloatBuffer* params) { glFog_4J(pname, params); }
+void glLight(int light, int pname, FloatBuffer* params) {
+    glLight_4J(light, pname, params);
+}
+void glLightModel(int pname, FloatBuffer* params) {
+    glLightModel_4J(pname, params);
+}
+void glTexGen(int coord, int pname, FloatBuffer* params) {
+    glTexGen_4J(coord, pname, params);
+}
+
+// c hooks, disgust.
+extern "C" {
+void glFogfv(GLenum pname, const GLfloat* params) {
+    static void (*real)(GLenum, const GLfloat*) =
+        (void (*)(GLenum, const GLfloat*))dlsym(RTLD_NEXT, "glFogfv");
+    if (pname == 0x0B66)
+        RenderManager.StateSetFogColour(params[0], params[1], params[2]);
+    if (real) real(pname, params);
+}
+void glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
+    static void (*real)(GLenum, GLenum, const GLfloat*) =
+        (void (*)(GLenum, GLenum, const GLfloat*))dlsym(RTLD_NEXT, "glLightfv");
+    if (pname == 0x1203)
+        RenderManager.StateSetLightDirection(light == 0x4000 ? 0 : 1, params[0],
+                                             params[1], params[2]);
+    else if (pname == 0x1200)
+        RenderManager.StateSetLightAmbientColour(params[0], params[1],
+                                                 params[2]);
+    else if (pname == 0x1201)
+        RenderManager.StateSetLightColour(light == 0x4000 ? 0 : 1, params[0],
+                                          params[1], params[2]);
+    if (real) real(light, pname, params);
+}
+void glLightModelfv(GLenum pname, const GLfloat* params) {
+    static void (*real)(GLenum, const GLfloat*) =
+        (void (*)(GLenum, const GLfloat*))dlsym(RTLD_NEXT, "glLightModelfv");
+    if (pname == 0x0B53)
+        RenderManager.StateSetLightAmbientColour(params[0], params[1],
+                                                 params[2]);
+    if (real) real(pname, params);
+}
+}

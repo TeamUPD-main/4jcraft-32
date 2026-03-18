@@ -15,4 +15,5 @@ lib_render = static_library('4J_Render',
 render_dep = declare_dependency(
   link_with : lib_render,
   include_directories : include_directories('.'),
+  dependencies : [sdl2_dep, gl_dep]
 )

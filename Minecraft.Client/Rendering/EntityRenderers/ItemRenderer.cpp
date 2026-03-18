@@ -10,6 +10,22 @@
 #include "../../../Minecraft.World/Util/StringHelpers.h"
 #include "../../../Minecraft.World/Headers/net.minecraft.world.h"
 #include "../../GameState/Options.h"
+// I have zero faith in 4jcraft for this task,
+// and even if they do manage to get a working & playable port on linux 
+// I'd rather use a different fork (especially since I may contribute). 
+// 4jcraft's github repo is extremely unprofessional. 
+// There will be PRs merged with 80k lines of code altered and the PR description will just say something like
+// "meow" or "mmm yummy."
+// Not to mention most commit messages are just things like "skjdfhaufhafalkfjdashf".
+
+// There also doesn't seem like much organization or planning. 
+// Sort of just feels like the maintainer merges whatever PRs come in without really reviewing.
+// So I'm wondering if there's a different project that is more professional/structured and perhaps created by actual developers?
+
+// Note: looking for efforts on making native linux ports, not windows builds running through wine/proton
+
+
+#define DEG2RAD (3.14159265358979f / 180.f)  // YES I KNOW.
 
 ItemRenderer::ItemRenderer() : EntityRenderer() {
     random = new Random();
@@ -35,7 +51,13 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
     random->setSeed(187);
     std::shared_ptr<ItemInstance> item = itemEntity->getItem();
 
-    glPushMatrix();
+    // still debugging this, but it seems like the item renderer is doing some
+    // weird shit
+    RenderManager.MatrixMode(GL_PROJECTION);
+    RenderManager.MatrixPush();
+    RenderManager.MatrixMode(GL_MODELVIEW);
+    RenderManager.MatrixPush();
+
     float bob =
         Mth::sin((itemEntity->age + a) / 10.0f + itemEntity->bobOffs) * 0.1f +
         0.1f;
@@ -47,18 +69,19 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
     if (itemEntity->getItem()->count > 5) count = 3;
     if (itemEntity->getItem()->count > 20) count = 4;
 
-    glTranslatef((float)x, (float)y + bob, (float)z);
+    RenderManager.MatrixTranslate((float)x, (float)y + bob, (float)z);
+
     glEnable(GL_RESCALE_NORMAL);
 
     Tile* tile = Tile::tiles[item->id];
     if (item->getIconType() == Icon::TYPE_TERRAIN && tile != NULL &&
         TileRenderer::canRender(tile->getRenderShape())) {
-        glRotatef(spin, 0, 1, 0);
+        RenderManager.MatrixRotate(spin * DEG2RAD, 0, 1, 0);
 
         if (m_bItemFrame) {
-            glScalef(1.25f, 1.25f, 1.25f);
-            glTranslatef(0, 0.05f, 0);
-            glRotatef(-90, 0, 1, 0);
+            RenderManager.MatrixScale(1.25f, 1.25f, 1.25f);
+            RenderManager.MatrixTranslate(0, 0.05f, 0);
+            RenderManager.MatrixRotate(-90.f * DEG2RAD, 0, 1, 0);
         }
 
         bindTexture(TN_TERRAIN);  // 4J was L"/terrain.png"
@@ -69,29 +92,29 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
             s = 0.5f;
         }
 
-        glScalef(s, s, s);
+        RenderManager.MatrixScale(s, s, s);
         for (int i = 0; i < count; i++) {
-            glPushMatrix();
+            RenderManager.MatrixPush();
             if (i > 0) {
                 float xo = (random->nextFloat() * 2 - 1) * 0.2f / s;
                 float yo = (random->nextFloat() * 2 - 1) * 0.2f / s;
                 float zo = (random->nextFloat() * 2 - 1) * 0.2f / s;
-                glTranslatef(xo, yo, zo);
+                RenderManager.MatrixTranslate(xo, yo, zo);
             }
             // 4J - change brought forward from 1.8.2
             float br = SharedConstants::TEXTURE_LIGHTING
                            ? 1.0f
                            : itemEntity->getBrightness(a);
             tileRenderer->renderTile(tile, item->getAuxValue(), br);
-            glPopMatrix();
+            RenderManager.MatrixPop();
         }
     } else if (item->getItem()->hasMultipleSpriteLayers()) {
         if (m_bItemFrame) {
-            glScalef(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
-            glTranslatef(0, -0.05f, 0);
-            glDisable(GL_LIGHTING);
+            RenderManager.MatrixScale(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
+            RenderManager.MatrixTranslate(0, -0.05f, 0);
+            RenderManager.StateSetLightingEnable(false);
         } else {
-            glScalef(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
+            RenderManager.MatrixScale(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
         }
 
         bindTexture(TN_GUI_ITEMS);  // 4J was "/gui/items.png"
@@ -108,8 +131,8 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
                 float red = ((col >> 16) & 0xff) / 255.0f;
                 float g = ((col >> 8) & 0xff) / 255.0f;
                 float b = ((col) & 0xff) / 255.0f;
-
-                glColor4f(red * brightness, g * brightness, b * brightness, 1);
+                RenderManager.StateSetColour(red * brightness, g * brightness,
+                                             b * brightness, 1.f);
                 renderItemBillboard(itemEntity, icon, count, a,
                                     red * brightness, g * brightness,
                                     b * brightness);
@@ -119,11 +142,11 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
         }
     } else {
         if (m_bItemFrame) {
-            glScalef(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
-            glTranslatef(0, -0.05f, 0);
-            glDisable(GL_LIGHTING);
+            RenderManager.MatrixScale(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
+            RenderManager.MatrixTranslate(0, -0.05f, 0);
+            RenderManager.StateSetLightingEnable(false);
         } else {
-            glScalef(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
+            RenderManager.MatrixScale(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
         }
 
         // 4J Stu - For rendering the static compass, we give it a non-zero aux
@@ -144,18 +167,26 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
             float brightness = SharedConstants::TEXTURE_LIGHTING
                                    ? 1
                                    : itemEntity->getBrightness(a);
-
-            glColor4f(red * brightness, g * brightness, b * brightness, 1);
+            RenderManager.StateSetColour(red * brightness, g * brightness,
+                                         b * brightness, 1.f);
             renderItemBillboard(itemEntity, icon, count, a, red * brightness,
                                 g * brightness, b * brightness);
         } else {
             renderItemBillboard(itemEntity, icon, count, a, 1, 1, 1);
         }
     }
+
     glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+
+    // El stacko.
+    RenderManager.MatrixMode(GL_MODELVIEW);
+    RenderManager.MatrixPop();
+    RenderManager.MatrixMode(GL_PROJECTION);
+    RenderManager.MatrixPop();
+    RenderManager.MatrixMode(GL_MODELVIEW);
+
     if (m_bItemFrame) {
-        glEnable(GL_LIGHTING);
+        RenderManager.StateSetLightingEnable(true);
     }
 }
 
@@ -181,109 +212,117 @@ void ItemRenderer::renderItemBillboard(std::shared_ptr<ItemEntity> entity,
         // rendered from a larger than standard source texture.
         int iconWidth = icon->getWidth();
         int LOD = -1;  // Default to not doing anything special with LOD forcing
-        if (iconWidth == 32) {
+        if (iconWidth == 32)
             LOD = 1;  // Force LOD level 1 to achieve texture reads from 256x256
                       // map
-        } else if (iconWidth == 64) {
+        else if (iconWidth == 64)
             LOD = 2;  // Force LOD level 2 to achieve texture reads from 256x256
                       // map
-        }
         RenderManager.StateSetForceLOD(LOD);
 
-        glPushMatrix();
+        RenderManager.MatrixPush();
         if (m_bItemFrame) {
-            glRotatef(180, 0, 1, 0);
+            RenderManager.MatrixRotate(180.f * DEG2RAD, 0, 1, 0);
         } else {
-            glRotatef(
-                ((entity->age + a) / 20.0f + entity->bobOffs) * Mth::RADDEG, 0,
-                1, 0);
+            RenderManager.MatrixRotate(
+                ((entity->age + a) / 20.0f + entity->bobOffs) * Mth::RADDEG *
+                    DEG2RAD,
+                0, 1, 0);
         }
 
         float width = 1 / 16.0f;
         float margin = 0.35f / 16.0f;
         std::shared_ptr<ItemInstance> item = entity->getItem();
         int items = item->count;
-
-        if (items < 2) {
+        if (items < 2)
             count = 1;
-        } else if (items < 16) {
+        else if (items < 16)
             count = 2;
-        } else if (items < 32) {
+        else if (items < 32)
             count = 3;
-        } else {
+        else
             count = 4;
-        }
 
-        glTranslatef(-xo, -yo, -((width + margin) * count / 2));
+        RenderManager.MatrixTranslate(-xo, -yo,
+                                      -((width + margin) * count / 2));
 
         for (int i = 0; i < count; i++) {
-            glTranslatef(0, 0, width + margin);
+            RenderManager.MatrixTranslate(0, 0, width + margin);
             if (item->getIconType() == Icon::TYPE_TERRAIN &&
                 Tile::tiles[item->id] != NULL) {
                 bindTexture(TN_TERRAIN);  // Was L"/terrain.png");
             } else {
                 bindTexture(TN_GUI_ITEMS);  // L"/gui/items.png");
             }
-            glColor4f(red, green, blue, 1);
+            RenderManager.StateSetColour(red, green, blue, 1.f);
             // 4J Stu - u coords were swapped in Java
-            // ItemInHandRenderer::renderItem3D(t, u1, v0, u0, v1,
-            // icon->getSourceWidth(), icon->getSourceHeight(), width, false);
             ItemInHandRenderer::renderItem3D(
                 t, u0, v0, u1, v1, icon->getSourceWidth(),
                 icon->getSourceHeight(), width, false);
 
             if (item != NULL && item->isFoil()) {
-                glDepthFunc(GL_EQUAL);
-                glDisable(GL_LIGHTING);
+                RenderManager.StateSetDepthFunc(GL_EQUAL);
+                RenderManager.StateSetLightingEnable(false);
+                RenderManager.StateSetDepthMask(false);
                 entityRenderDispatcher->textures->bindTexture(
-                    TN__BLUR__MISC_GLINT);  // was L"%blur%/misc/glint.png");
-                glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_COLOR, GL_ONE);
+                    TN__BLUR__MISC_GLINT);  // was L"%blur%/misc/glint.png"
+                RenderManager.StateSetBlendEnable(true);
+                RenderManager.StateSetBlendFunc(GL_SRC_COLOR, GL_ONE);
                 float br = 0.76f;
-                glColor4f(0.5f * br, 0.25f * br, 0.8f * br, 1);
-                glMatrixMode(GL_TEXTURE);
-                glPushMatrix();
+                RenderManager.StateSetColour(0.5f * br, 0.25f * br, 0.8f * br,
+                                             1.f);
+
+                // glint matrix
+                RenderManager.MatrixMode(GL_TEXTURE);
+                RenderManager.MatrixPush();
                 float ss = 1 / 8.0f;
-                glScalef(ss, ss, ss);
+                RenderManager.MatrixScale(ss, ss, ss);
                 float sx =
                     Minecraft::currentTimeMillis() % (3000) / (3000.0f) * 8;
-                glTranslatef(sx, 0, 0);
-                glRotatef(-50, 0, 0, 1);
-
+                RenderManager.MatrixTranslate(sx, 0, 0);
+                RenderManager.MatrixRotate(-50.f * DEG2RAD, 0, 0, 1);
+                RenderManager.MatrixMode(GL_MODELVIEW);
                 ItemInHandRenderer::renderItem3D(t, 0, 0, 1, 1, 255, 255, width,
                                                  true);
-                glPopMatrix();
-                glPushMatrix();
-                glScalef(ss, ss, ss);
+                RenderManager.MatrixMode(GL_TEXTURE);
+                RenderManager.MatrixPop();
+
+                RenderManager.MatrixPush();
+                RenderManager.MatrixScale(ss, ss, ss);
                 sx = Minecraft::currentTimeMillis() % (3000 + 1873) /
                      (3000 + 1873.0f) * 8;
-                glTranslatef(-sx, 0, 0);
-                glRotatef(10, 0, 0, 1);
+                RenderManager.MatrixTranslate(-sx, 0, 0);
+                RenderManager.MatrixRotate(10.f * DEG2RAD, 0, 0, 1);
+                RenderManager.MatrixMode(GL_MODELVIEW);
                 ItemInHandRenderer::renderItem3D(t, 0, 0, 1, 1, 255, 255, width,
                                                  true);
-                glPopMatrix();
-                glMatrixMode(GL_MODELVIEW);
-                glDisable(GL_BLEND);
-                glEnable(GL_LIGHTING);
-                glDepthFunc(GL_LEQUAL);
+                RenderManager.MatrixMode(GL_TEXTURE);
+                RenderManager.MatrixPop();
+
+                RenderManager.MatrixMode(GL_MODELVIEW);
+                RenderManager.StateSetBlendEnable(false);
+                RenderManager.StateSetLightingEnable(true);
+                RenderManager.StateSetDepthFunc(GL_LEQUAL);
+                RenderManager.StateSetDepthMask(true);
             }
         }
 
-        glPopMatrix();
-
+        RenderManager.MatrixPop();
         RenderManager.StateSetForceLOD(-1);
     } else {
         for (int i = 0; i < count; i++) {
-            glPushMatrix();
+            RenderManager.MatrixPush();
             if (i > 0) {
                 float _xo = (random->nextFloat() * 2 - 1) * 0.3f;
                 float _yo = (random->nextFloat() * 2 - 1) * 0.3f;
                 float _zo = (random->nextFloat() * 2 - 1) * 0.3f;
-                glTranslatef(_xo, _yo, _zo);
+                RenderManager.MatrixTranslate(_xo, _yo, _zo);
             }
             if (!m_bItemFrame)
-                glRotatef(180 - entityRenderDispatcher->playerRotY, 0, 1, 0);
-            glColor4f(red, green, blue, 1);
+                RenderManager.MatrixRotate(
+                    (180.f - entityRenderDispatcher->playerRotY) * DEG2RAD, 0,
+                    1, 0);
+            RenderManager.StateSetColour(red, green, blue, 1.f);
             t->begin();
             t->normal(0, 1, 0);
             t->vertexUV((float)(0 - xo), (float)(0 - yo), (float)(0),
@@ -295,8 +334,7 @@ void ItemRenderer::renderItemBillboard(std::shared_ptr<ItemEntity> entity,
             t->vertexUV((float)(0 - xo), (float)(1 - yo), (float)(0),
                         (float)(u0), (float)(v0));
             t->end();
-
-            glPopMatrix();
+            RenderManager.MatrixPop();
         }
     }
 }
@@ -306,10 +344,6 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
                                  float y, float fScale, float fAlpha) {
     renderGuiItem(font, textures, item, x, y, fScale, fScale, fAlpha, true);
 }
-
-#ifdef _XBOX
-extern IDirect3DDevice9* g_pD3DDevice;
-#endif
 
 // 4J - this used to take x and y as ints, and no scale and alpha - but this
 // interface is now implemented as a wrapper round this more fully featured one
@@ -326,51 +360,48 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
         TileRenderer::canRender(Tile::tiles[itemId]->getRenderShape())) {
         PIXBeginNamedEvent(0, "3D gui item render %d\n", itemId);
         MemSect(31);
-        textures->bindTexture(TN_TERRAIN);  // L"/terrain.png"));
+        textures->bindTexture(TN_TERRAIN);  // L"/terrain.png"
         MemSect(0);
 
         Tile* tile = Tile::tiles[itemId];
-        glPushMatrix();
-        // 4J - original code left here for reference
+
+        RenderManager.MatrixMode(GL_PROJECTION);
+        RenderManager.MatrixPush();
+        RenderManager.MatrixMode(GL_MODELVIEW);
+        RenderManager.MatrixPush();
+
         // 4jcraft: re-enable said original code to fix hotbar block rendering
-#if 1
-        glTranslatef((float)(x), (float)(y), 0.0f);
-        // glScalef(fScale, fScale, fScale);
-        glScalef(fScaleX, fScaleY,
-                 1.0f);  // 4jcraft: tweaked to use the new variables
-        glTranslatef(-2.0f, 3.0f, -3.0f + blitOffset);
-        glScalef(10.0f, 10.0f, 10.0f);
-        glTranslatef(1.0f, 0.5f, 8.0f);
-        glScalef(1.0f, 1.0f, -1.0f);
-        glRotatef(180.0f + 30.0f, 1.0f, 0.0f, 0.0f);
-        glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-#else
-        glTranslatef(x, y, 0.0f);  // Translate to screen coords
-        glScalef(16.0f * fScaleX, 16.0f * fScaleY,
-                 1.0f);                  // Scale to 0 to 16*scale range
-        glTranslatef(0.5f, 0.5f, 0.0f);  // Translate to 0 to 1 range
-        glScalef(
-            0.55f, 0.55f,
-            -1.0f);  // Scale to occupy full -0.5 to 0.5 bounding region (just
-                     // touching top & bottom) 0.55 comes from
-                     // 1/(1+sqrt(2)/sqrt(3)) which is determined by the angles
-                     // that the cube is rotated in an orthographic projection
-        glRotatef(180.0f + 30.0f, 1.0f, 0.0f,
-                  0.0f);  // Rotate round x axis (centre at origin)
-        glRotatef(45.0f, 0.0f, 1.0f,
-                  0.0f);  // Rotate round y axis (centre at origin)
-#endif
+        // sorry sally to ruin ur code
+        RenderManager.MatrixTranslate((float)(x), (float)(y), 0.0f);
+        RenderManager.MatrixScale(
+            fScaleX, fScaleY,
+            1.0f);  // 4jcraft: tweaked to use the new variables
+        RenderManager.MatrixTranslate(-2.0f, 3.0f, -3.0f + blitOffset);
+        RenderManager.MatrixScale(10.0f, 10.0f, 10.0f);
+        RenderManager.MatrixTranslate(1.0f, 0.5f, 8.0f);
+        RenderManager.MatrixScale(1.0f, 1.0f, -1.0f);
+        RenderManager.MatrixRotate((180.0f + 30.0f) * DEG2RAD, 1.0f, 0.0f,
+                                   0.0f);
+        RenderManager.MatrixRotate(45.0f * DEG2RAD, 0.0f, 1.0f, 0.0f);
+
         // 4J-PB - pass the alpha value in - the grass block render has the top
         // surface coloured differently to the rest of the block
-        glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+        RenderManager.MatrixRotate(-90.0f * DEG2RAD, 0.0f, 1.0f, 0.0f);
+
         tileRenderer->renderTile(tile, itemAuxValue, 1, fAlpha, useCompiled);
 
-        glPopMatrix();
+        // Restore deh stacks
+        RenderManager.MatrixMode(GL_MODELVIEW);
+        RenderManager.MatrixPop();
+        RenderManager.MatrixMode(GL_PROJECTION);
+        RenderManager.MatrixPop();
+        RenderManager.MatrixMode(GL_MODELVIEW);
+
         PIXEndNamedEvent();
+
     } else if (Item::items[itemId]->hasMultipleSpriteLayers()) {
         PIXBeginNamedEvent(0, "Potion gui item render %d\n", itemIcon);
-        // special double-layered
-        glDisable(GL_LIGHTING);
+        RenderManager.StateSetLightingEnable(false);
         textures->bindTexture(TN_GUI_ITEMS);  // "/gui/items.png"
 
         for (int layer = 0; layer <= 1; layer++) {
@@ -382,7 +413,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            if (setColor) glColor4f(r, g, b, fAlpha);
+            if (setColor) RenderManager.StateSetColour(r, g, b, fAlpha);
             // scale the x and y by the scale factor
             if ((fScaleX != 1.0f) || (fScaleY != 1.0f)) {
                 blit(x, y, fillingIcon, 16 * fScaleX, 16 * fScaleY);
@@ -390,25 +421,19 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
                 blit((int)x, (int)y, fillingIcon, 16, 16);
             }
         }
-        glEnable(GL_LIGHTING);
+        RenderManager.StateSetLightingEnable(true);
         PIXEndNamedEvent();
+
     } else {
         PIXBeginNamedEvent(0, "2D gui item render %d\n", itemIcon);
-        glDisable(GL_LIGHTING);
+        RenderManager.StateSetLightingEnable(false);
         MemSect(31);
         if (item->getIconType() == Icon::TYPE_TERRAIN) {
-            textures->bindTexture(TN_TERRAIN);  // L"/terrain.png"));
+            textures->bindTexture(TN_TERRAIN);  // L"/terrain.png"
         } else {
-            textures->bindTexture(
-                TN_GUI_ITEMS);  // L"/gui/items.png"));
-#ifdef _XBOX
-                                //  4J - make sure we've got linear sampling on
-                                //  minification here as non-mipmapped things
-                                //  like this currently
-            // default to having point sampling, which makes very small icons
-            // render rather badly
-            g_pD3DDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-#endif
+            textures->bindTexture(TN_GUI_ITEMS);  // L"/gui/items.png"
+            // 4J - make sure we've got linear sampling on minification here as
+            // non-mipmapped things
         }
         MemSect(0);
 
@@ -421,7 +446,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
         float g = ((col >> 8) & 0xff) / 255.0f;
         float b = ((col) & 0xff) / 255.0f;
 
-        if (setColor) glColor4f(r, g, b, fAlpha);
+        if (setColor) RenderManager.StateSetColour(r, g, b, fAlpha);
 
         // scale the x and y by the scale factor
         if ((fScaleX != 1.0f) || (fScaleY != 1.0f)) {
@@ -429,10 +454,11 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
         } else {
             blit((int)x, (int)y, itemIcon, 16, 16);
         }
-        glEnable(GL_LIGHTING);
+        RenderManager.StateSetLightingEnable(true);
         PIXEndNamedEvent();
     }
-    glEnable(GL_CULL_FACE);
+
+    RenderManager.StateSetFaceCull(true);
 }
 
 // 4J - original interface, now just a wrapper for preceding overload
@@ -458,35 +484,36 @@ void ItemRenderer::renderAndDecorateItem(
 // enabled to do general interface fading (ie from the gui rather than xui). In
 // this case we dno't want to enable/disable blending, and do need to restore
 // the blend state when we are done.
+
+// EPIC SPELLIGN MISTAKE LMAOOO
 void ItemRenderer::renderAndDecorateItem(
     Font* font, Textures* textures, const std::shared_ptr<ItemInstance> item,
     float x, float y, float fScaleX, float fScaleY, float fAlpha, bool isFoil,
     bool isConstantBlended, bool useCompiled) {
-    if (item == NULL) {
-        return;
-    }
+    if (item == NULL) return;
 
     renderGuiItem(font, textures, item, x, y, fScaleX, fScaleY, fAlpha,
                   useCompiled);
 
     if (isFoil || item->isFoil()) {
-        glDepthFunc(GL_GREATER);
-        glDisable(GL_LIGHTING);
-        glDepthMask(false);
+        RenderManager.StateSetDepthFunc(GL_GREATER);
+        RenderManager.StateSetLightingEnable(false);
+        RenderManager.StateSetDepthMask(false);
         textures->bindTexture(
             TN__BLUR__MISC_GLINT);  // 4J was "%blur%/misc/glint.png"
         blitOffset -= 50;
-        if (!isConstantBlended) glEnable(GL_BLEND);
+        if (!isConstantBlended) RenderManager.StateSetBlendEnable(true);
 
-        glBlendFunc(GL_DST_COLOR,
-                    GL_ONE);  // 4J - changed blend equation from GL_DST_COLOR,
-                              // GL_DST_COLOR so we can fade this out
+        // 4J - changed blend equation from GL_DST_COLOR, GL_DST_COLOR so we can
+        // fade this out
+        RenderManager.StateSetBlendFunc(GL_DST_COLOR, GL_ONE);
 
         float blendFactor =
             isConstantBlended ? Gui::currentGuiBlendFactor : 1.0f;
+        // 4J - scale back colourisation with blendFactor
+        RenderManager.StateSetColour(0.5f * blendFactor, 0.25f * blendFactor,
+                                     0.8f * blendFactor, 1.f);
 
-        glColor4f(0.5f * blendFactor, 0.25f * blendFactor, 0.8f * blendFactor,
-                  1);  // 4J - scale back colourisation with blendFactor
         // scale the x and y by the scale factor
         if ((fScaleX != 1.0f) || (fScaleY != 1.0f)) {
             // 4J Stu - Scales were multiples of 20, making 16 to not overlap in
@@ -496,16 +523,17 @@ void ItemRenderer::renderAndDecorateItem(
         } else {
             blitGlint(x * 431278612.0f + y * 32178161.0f, x - 2, y - 2, 20, 20);
         }
-        glColor4f(1.0f, 1.0f, 1.0f, 1);  // 4J added
-        if (!isConstantBlended) glDisable(GL_BLEND);
 
-        glDepthMask(true);
+        RenderManager.StateSetColour(1.f, 1.f, 1.f, 1.f);  // 4J added
+        if (!isConstantBlended) RenderManager.StateSetBlendEnable(false);
+        RenderManager.StateSetDepthMask(true);
         blitOffset += 50;
-        glEnable(GL_LIGHTING);
-        glDepthFunc(GL_LEQUAL);
+        RenderManager.StateSetLightingEnable(true);
+        RenderManager.StateSetDepthFunc(GL_LEQUAL);
 
         if (isConstantBlended)
-            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+            RenderManager.StateSetBlendFunc(GL_CONSTANT_ALPHA,
+                                            GL_ONE_MINUS_CONSTANT_ALPHA);
     }
 }
 
@@ -552,14 +580,13 @@ void ItemRenderer::blitGlint(int id, float x, float y, float w, float h) {
     float yy1f = yy1 / sfy;
 
     for (int i = 0; i < 2; i++) {
-        if (i == 0) glBlendFunc(GL_SRC_COLOR, GL_ONE);
-        if (i == 1) glBlendFunc(GL_SRC_COLOR, GL_ONE);
+        if (i == 0) RenderManager.StateSetBlendFunc(GL_SRC_COLOR, GL_ONE);
+        if (i == 1) RenderManager.StateSetBlendFunc(GL_SRC_COLOR, GL_ONE);
         float sx = Minecraft::currentTimeMillis() % (3000 + i * 1873) /
                    (3000.0f + i * 1873) * 256;
         float sy = 0;
+        float vv = (i == 1) ? -1.f : 4.f;
         Tesselator* t = Tesselator::getInstance();
-        float vv = 4;
-        if (i == 1) vv = -1;
         t->begin();
         t->vertexUV(xx0f, yy1f, blitOffset, (sx + h * vv) * us, (sy + h) * vs);
         t->vertexUV(xx1f, yy1f, blitOffset, (sx + w + h * vv) * us,
@@ -581,33 +608,33 @@ void ItemRenderer::renderGuiItemDecorations(Font* font, Textures* textures,
                                             int x, int y,
                                             const std::wstring& countText,
                                             float fAlpha) {
-    if (item == NULL) {
-        return;
-    }
+    if (item == NULL) return;
 
-    glEnable(GL_BLEND);
+    // this file is a mess i hate it worst file i ever modified
+    RenderManager.StateSetBlendEnable(true);
     RenderManager.StateSetBlendFactor(0xffffff |
                                       (((unsigned int)(fAlpha * 0xff)) << 24));
-    glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+    RenderManager.StateSetBlendFunc(GL_CONSTANT_ALPHA,
+                                    GL_ONE_MINUS_CONSTANT_ALPHA);
+
     if (item->count > 1 || !countText.empty() ||
         item->GetForceNumberDisplay()) {
         MemSect(31);
         std::wstring amount = countText;
         if (amount.empty()) {
             int count = item->count;
-            if (count > 64) {
+            if (count > 64)
                 amount = _toString<int>(64) + L"+";
-            } else {
+            else
                 amount = _toString<int>(item->count);
-            }
         }
         MemSect(0);
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
+        RenderManager.StateSetLightingEnable(false);
+        RenderManager.StateSetDepthTestEnable(false);
         font->drawShadow(amount, x + 19 - 2 - font->width(amount), y + 6 + 3,
                          0xffffff);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
+        RenderManager.StateSetLightingEnable(true);
+        RenderManager.StateSetDepthTestEnable(true);
     }
 
     if (item->isDamaged()) {
@@ -616,31 +643,30 @@ void ItemRenderer::renderGuiItemDecorations(Font* font, Textures* textures,
         int cc =
             (int)Math::round(255.0 - (double)item->getDamageValue() * 255.0 /
                                          (double)item->getMaxDamage());
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_TEXTURE_2D);
+
+        RenderManager.StateSetLightingEnable(false);
+        RenderManager.StateSetDepthTestEnable(false);
+        RenderManager.StateSetTextureEnable(false);
 
         Tesselator* t = Tesselator::getInstance();
-
         int ca = (255 - cc) << 16 | (cc) << 8;
         int cb = ((255 - cc) / 4) << 16 | (255 / 4) << 8;
         fillRect(t, x + 2, y + 13, 13, 2, 0x000000);
         fillRect(t, x + 2, y + 13, 12, 1, cb);
         fillRect(t, x + 2, y + 13, p, 1, ca);
 
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
-        glColor4f(1, 1, 1, 1);
+        RenderManager.StateSetTextureEnable(true);
+        RenderManager.StateSetLightingEnable(true);
+        RenderManager.StateSetDepthTestEnable(true);
+        RenderManager.StateSetColour(1.f, 1.f, 1.f, 1.f);
+
     } else if (item->hasPotionStrengthBar()) {
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_TEXTURE_2D);
+        RenderManager.StateSetLightingEnable(false);
+        RenderManager.StateSetDepthTestEnable(false);
+        RenderManager.StateSetTextureEnable(false);
 
         Tesselator* t = Tesselator::getInstance();
-
         fillRect(t, x + 3, y + 13, 11, 2, 0x000000);
-        // fillRect(t, x + 2, y + 13, 13, 1, 0x1dabc0);
         fillRect(t, x + 3, y + 13,
                  m_iPotionStrengthBarWidth[item->GetPotionStrength()], 2,
                  0x00e1eb);
@@ -648,12 +674,13 @@ void ItemRenderer::renderGuiItemDecorations(Font* font, Textures* textures,
         fillRect(t, x + 2 + 3 + 3, y + 13, 1, 2, 0x000000);
         fillRect(t, x + 2 + 3 + 3 + 3, y + 13, 1, 2, 0x000000);
 
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
-        glColor4f(1, 1, 1, 1);
+        RenderManager.StateSetTextureEnable(true);
+        RenderManager.StateSetLightingEnable(true);
+        RenderManager.StateSetDepthTestEnable(true);
+        RenderManager.StateSetColour(1.f, 1.f, 1.f, 1.f);
     }
-    glDisable(GL_BLEND);
+
+    RenderManager.StateSetBlendEnable(false);
 }
 
 const int ItemRenderer::m_iPotionStrengthBarWidth[] = {3, 6, 9, 11};
@@ -707,9 +734,6 @@ void ItemRenderer::blit(float x, float y, int sx, int sy, float w, float h) {
     // 4J - subtracting 0.5f (actual screen pixels, so need to compensate for
     // physical & game width) from each x & y coordinate to compensate for
     // centre of pixels in directx vs openGL
-    float f = (0.5f * (float)Minecraft::GetInstance()->width) /
-              (float)Minecraft::GetInstance()->width_phys;
-
     t->vertexUV(xx0f, yy1f, (float)(blitOffset), (float)((sx + 0) * us),
                 (float)((sy + 16) * vs));
     t->vertexUV(xx1f, yy1f, (float)(blitOffset), (float)((sx + 16) * us),
@@ -756,9 +780,6 @@ void ItemRenderer::blit(float x, float y, Icon* tex, float w, float h) {
     // 4J - subtracting 0.5f (actual screen pixels, so need to compensate for
     // physical & game width) from each x & y coordinate to compensate for
     // centre of pixels in directx vs openGL
-    float f = (0.5f * (float)Minecraft::GetInstance()->width) /
-              (float)Minecraft::GetInstance()->width_phys;
-
     t->vertexUV(xx0f, yy1f, blitOffset, tex->getU0(true), tex->getV1(true));
     t->vertexUV(xx1f, yy1f, blitOffset, tex->getU1(true), tex->getV1(true));
     t->vertexUV(xx1f, yy0f, blitOffset, tex->getU1(true), tex->getV0(true));

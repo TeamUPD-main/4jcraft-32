@@ -1,3 +1,4 @@
+#define GL_MATRIX_COMPAT
 #include "../Platform/stdafx.h"
 #include "GameRenderer.h"
 #include "EntityRenderers/ItemInHandRenderer.h"
@@ -426,7 +427,9 @@ void GameRenderer::bobHurt(float a) {
     if (player->getHealth() <= 0) {
         float duration = player->deathTime + a;
 
-        glRotatef(40 - (40 * 200) / (duration + 200), 0, 0, 1);
+        RenderManager.MatrixRotate((float)(40 - (40 * 200) / (duration + 200)) *
+                                       (3.14159265358979f / 180.f),
+                                   0, 0, 1);
     }
 
     if (hurt < 0) return;
@@ -435,9 +438,12 @@ void GameRenderer::bobHurt(float a) {
 
     float rr = player->hurtDir;
 
-    glRotatef(-rr, 0, 1, 0);
-    glRotatef(-hurt * 14, 0, 0, 1);
-    glRotatef(+rr, 0, 1, 0);
+    RenderManager.MatrixRotate((float)(-rr) * (3.14159265358979f / 180.f), 0, 1,
+                               0);
+    RenderManager.MatrixRotate(
+        (float)(-hurt * 14) * (3.14159265358979f / 180.f), 0, 0, 1);
+    RenderManager.MatrixRotate((float)(+rr) * (3.14159265358979f / 180.f), 0, 1,
+                               0);
 }
 
 void GameRenderer::bobView(float a) {
@@ -453,11 +459,17 @@ void GameRenderer::bobView(float a) {
     float b = -(player->walkDist + wda * a);
     float bob = player->oBob + (player->bob - player->oBob) * a;
     float tilt = player->oTilt + (player->tilt - player->oTilt) * a;
-    glTranslatef((float)Mth::sin(b * PI) * bob * 0.5f,
-                 -(float)abs(Mth::cos(b * PI) * bob), 0);
-    glRotatef((float)Mth::sin(b * PI) * bob * 3, 0, 0, 1);
-    glRotatef((float)abs(Mth::cos(b * PI - 0.2f) * bob) * 5, 1, 0, 0);
-    glRotatef((float)tilt, 1, 0, 0);
+    RenderManager.MatrixTranslate((float)Mth::sin(b * PI) * bob * 0.5f,
+                                  -(float)abs(Mth::cos(b * PI) * bob), 0);
+    RenderManager.MatrixRotate((float)((float)Mth::sin(b * PI) * bob * 3) *
+                                   (3.14159265358979f / 180.f),
+                               0, 0, 1);
+    RenderManager.MatrixRotate(
+        (float)((float)abs(Mth::cos(b * PI - 0.2f) * bob) * 5) *
+            (3.14159265358979f / 180.f),
+        1, 0, 0);
+    RenderManager.MatrixRotate(
+        (float)((float)tilt) * (3.14159265358979f / 180.f), 1, 0, 0);
 }
 
 void GameRenderer::moveCameraToPlayer(float a) {
@@ -470,11 +482,14 @@ void GameRenderer::moveCameraToPlayer(float a) {
     double y = player->yo + (player->y - player->yo) * a - heightOffset;
     double z = player->zo + (player->z - player->zo) * a;
 
-    glRotatef(cameraRollO + (cameraRoll - cameraRollO) * a, 0, 0, 1);
+    RenderManager.MatrixRotate(
+        (float)(cameraRollO + (cameraRoll - cameraRollO) * a) *
+            (3.14159265358979f / 180.f),
+        0, 0, 1);
 
     if (player->isSleeping()) {
         heightOffset += 1.0;
-        glTranslatef(0.0f, 0.3f, 0);
+        RenderManager.MatrixTranslate(0.0f, 0.3f, 0);
         if (!mc->options->fixedCamera) {
             int t =
                 mc->level->getTile(Mth::floor(player->x), Mth::floor(player->y),
@@ -485,12 +500,19 @@ void GameRenderer::moveCameraToPlayer(float a) {
                                               Mth::floor(player->z));
 
                 int direction = data & 3;
-                glRotatef((float)direction * 90, 0.0f, 1.0f, 0.0f);
+                RenderManager.MatrixRotate((float)((float)direction * 90) *
+                                               (3.14159265358979f / 180.f),
+                                           0.0f, 1.0f, 0.0f);
             }
-            glRotatef(player->yRotO + (player->yRot - player->yRotO) * a + 180,
-                      0, -1, 0);
-            glRotatef(player->xRotO + (player->xRot - player->xRotO) * a, -1, 0,
-                      0);
+            RenderManager.MatrixRotate(
+                (float)(player->yRotO + (player->yRot - player->yRotO) * a +
+                        180) *
+                    (3.14159265358979f / 180.f),
+                0, -1, 0);
+            RenderManager.MatrixRotate(
+                (float)(player->xRotO + (player->xRot - player->xRotO) * a) *
+                    (3.14159265358979f / 180.f),
+                -1, 0, 0);
         }
     }
     // 4J-PB - changing this to be per player
@@ -504,9 +526,11 @@ void GameRenderer::moveCameraToPlayer(float a) {
                 thirdRotationO + (thirdRotation - thirdRotationO) * a;
             float xRot = thirdTiltO + (thirdTilt - thirdTiltO) * a;
 
-            glTranslatef(0, 0, (float)-cameraDist);
-            glRotatef(xRot, 1, 0, 0);
-            glRotatef(rotationY, 0, 1, 0);
+            RenderManager.MatrixTranslate(0, 0, (float)-cameraDist);
+            RenderManager.MatrixRotate(
+                (float)(xRot) * (3.14159265358979f / 180.f), 1, 0, 0);
+            RenderManager.MatrixRotate(
+                (float)(rotationY) * (3.14159265358979f / 180.f), 0, 1, 0);
         } else {
             // 4J - corrected bug where this used to just take player->xRot &
             // yRot directly and so wasn't taking into account interpolation,
@@ -552,30 +576,42 @@ void GameRenderer::moveCameraToPlayer(float a) {
 
             // 4J - removed extra rotations here that aren't needed because our
             // xRot/yRot don't ever deviate from the player's view direction
-            //			glRotatef(player->xRot - xRot, 1, 0, 0);
-            //			glRotatef(player->yRot - yRot, 0, 1, 0);
-            glTranslatef(0, 0, (float)-cameraDist);
-            //			glRotatef(yRot - player->yRot, 0, 1, 0);
-            //			glRotatef(xRot - player->xRot, 1, 0, 0);
+            //			RenderManager.MatrixRotate((float)(player->xRot
+            //- xRot) * (3.14159265358979f / 180.f), 1, 0, 0);
+            //			RenderManager.MatrixRotate((float)(player->yRot
+            //- yRot) * (3.14159265358979f / 180.f), 0, 1, 0);
+            RenderManager.MatrixTranslate(0, 0, (float)-cameraDist);
+            //			RenderManager.MatrixRotate((float)(yRot -
+            // player->yRot) * (3.14159265358979f / 180.f), 0, 1, 0);
+            //			RenderManager.MatrixRotate((float)(xRot -
+            // player->xRot) * (3.14159265358979f / 180.f), 1, 0, 0);
         }
     } else {
-        glTranslatef(0, 0, -0.1f);
+        RenderManager.MatrixTranslate(0, 0, -0.1f);
     }
 
     if (!mc->options->fixedCamera) {
-        glRotatef(player->xRotO + (player->xRot - player->xRotO) * a, 1, 0, 0);
+        RenderManager.MatrixRotate(
+            (float)(player->xRotO + (player->xRot - player->xRotO) * a) *
+                (3.14159265358979f / 180.f),
+            1, 0, 0);
         if (localplayer->ThirdPersonView() == 2) {
             // Third person view is now 0 for disabled, 1 for original, 2 for
             // flipped
-            glRotatef(player->yRotO + (player->yRot - player->yRotO) * a, 0, 1,
-                      0);
+            RenderManager.MatrixRotate(
+                (float)(player->yRotO + (player->yRot - player->yRotO) * a) *
+                    (3.14159265358979f / 180.f),
+                0, 1, 0);
         } else {
-            glRotatef(player->yRotO + (player->yRot - player->yRotO) * a + 180,
-                      0, 1, 0);
+            RenderManager.MatrixRotate(
+                (float)(player->yRotO + (player->yRot - player->yRotO) * a +
+                        180) *
+                    (3.14159265358979f / 180.f),
+                0, 1, 0);
         }
     }
 
-    glTranslatef(0, heightOffset, 0);
+    RenderManager.MatrixTranslate(0, heightOffset, 0);
 
     x = player->xo + (player->x - player->xo) * a;
     y = player->yo + (player->y - player->yo) * a - heightOffset;
@@ -624,12 +660,12 @@ void GameRenderer::getFovAndAspect(float& fov, float& aspect, float a,
 
 void GameRenderer::setupCamera(float a, int eye) {
     renderDistance = (float)(16 * 16 >> (mc->options->viewDistance));
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    RenderManager.MatrixMode(GL_PROJECTION);
+    RenderManager.MatrixSetIdentity();
 
     float stereoScale = 0.07f;
     if (mc->options->anaglyph3d)
-        glTranslatef(-(eye * 2 - 1) * stereoScale, 0, 0);
+        RenderManager.MatrixTranslate(-(eye * 2 - 1) * stereoScale, 0, 0);
 
     // 4J - have split out fov & aspect calculation so we can take into account
     // viewports
@@ -637,19 +673,20 @@ void GameRenderer::setupCamera(float a, int eye) {
     getFovAndAspect(fov, aspect, a, true);
 
     if (zoom != 1) {
-        glTranslatef((float)zoom_x, (float)-zoom_y, 0);
-        glScaled(zoom, zoom, 1);
+        RenderManager.MatrixTranslate((float)zoom_x, (float)-zoom_y, 0);
+        RenderManager.MatrixScale((float)zoom, (float)zoom, 1.0f);
     }
-    gluPerspective(fov, aspect, 0.05f, renderDistance * 2);
+    RenderManager.MatrixPerspective(fov, aspect, 0.05f, renderDistance * 2);
 
     if (mc->gameMode->isCutScene()) {
         float s = 1 / 1.5f;
-        glScalef(1, s, 1);
+        RenderManager.MatrixScale(1, s, 1);
     }
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    if (mc->options->anaglyph3d) glTranslatef((eye * 2 - 1) * 0.10f, 0, 0);
+    RenderManager.MatrixMode(GL_MODELVIEW);
+    RenderManager.MatrixSetIdentity();
+    if (mc->options->anaglyph3d)
+        RenderManager.MatrixTranslate((eye * 2 - 1) * 0.10f, 0, 0);
 
     bobHurt(a);
 
@@ -675,20 +712,34 @@ void GameRenderer::setupCamera(float a, int eye) {
 
         float skew = 5 / (pt * pt + 5) - pt * 0.04f;
         skew *= skew;
-        glRotatef((_tick + a) * multiplier, 0, 1, 1);
-        glScalef(1 / skew, 1, 1);
-        glRotatef(-(_tick + a) * multiplier, 0, 1, 1);
+        RenderManager.MatrixRotate(
+            (float)((_tick + a) * multiplier) * (3.14159265358979f / 180.f), 0,
+            1, 1);
+        RenderManager.MatrixScale(1 / skew, 1, 1);
+        RenderManager.MatrixRotate(
+            (float)(-(_tick + a) * multiplier) * (3.14159265358979f / 180.f), 0,
+            1, 1);
     }
 
     moveCameraToPlayer(a);
 
     if (cameraFlip > 0) {
         int i = cameraFlip - 1;
-        if (i == 1) glRotatef(90, 0, 1, 0);
-        if (i == 2) glRotatef(180, 0, 1, 0);
-        if (i == 3) glRotatef(-90, 0, 1, 0);
-        if (i == 4) glRotatef(90, 1, 0, 0);
-        if (i == 5) glRotatef(-90, 1, 0, 0);
+        if (i == 1)
+            RenderManager.MatrixRotate(
+                (float)(90) * (3.14159265358979f / 180.f), 0, 1, 0);
+        if (i == 2)
+            RenderManager.MatrixRotate(
+                (float)(180) * (3.14159265358979f / 180.f), 0, 1, 0);
+        if (i == 3)
+            RenderManager.MatrixRotate(
+                (float)(-90) * (3.14159265358979f / 180.f), 0, 1, 0);
+        if (i == 4)
+            RenderManager.MatrixRotate(
+                (float)(90) * (3.14159265358979f / 180.f), 1, 0, 0);
+        if (i == 5)
+            RenderManager.MatrixRotate(
+                (float)(-90) * (3.14159265358979f / 180.f), 1, 0, 0);
     }
 }
 
@@ -709,12 +760,12 @@ void GameRenderer::renderItemInHand(float a, int eye) {
             return;
     }
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    RenderManager.MatrixMode(GL_PROJECTION);
+    RenderManager.MatrixSetIdentity();
 
     float stereoScale = 0.07f;
     if (mc->options->anaglyph3d)
-        glTranslatef(-(eye * 2 - 1) * stereoScale, 0, 0);
+        RenderManager.MatrixTranslate(-(eye * 2 - 1) * stereoScale, 0, 0);
 
     // 4J - have split out fov & aspect calculation so we can take into account
     // viewports
@@ -722,22 +773,23 @@ void GameRenderer::renderItemInHand(float a, int eye) {
     getFovAndAspect(fov, aspect, a, false);
 
     if (zoom != 1) {
-        glTranslatef((float)zoom_x, (float)-zoom_y, 0);
-        glScaled(zoom, zoom, 1);
+        RenderManager.MatrixTranslate((float)zoom_x, (float)-zoom_y, 0);
+        RenderManager.MatrixScale((float)zoom, (float)zoom, 1.0f);
     }
-    gluPerspective(fov, aspect, 0.05f, renderDistance * 2);
+    RenderManager.MatrixPerspective(fov, aspect, 0.05f, renderDistance * 2);
 
     if (mc->gameMode->isCutScene()) {
         float s = 1 / 1.5f;
-        glScalef(1, s, 1);
+        RenderManager.MatrixScale(1, s, 1);
     }
 
-    glMatrixMode(GL_MODELVIEW);
+    RenderManager.MatrixMode(GL_MODELVIEW);
 
-    glLoadIdentity();
-    if (mc->options->anaglyph3d) glTranslatef((eye * 2 - 1) * 0.10f, 0, 0);
+    RenderManager.MatrixSetIdentity();
+    if (mc->options->anaglyph3d)
+        RenderManager.MatrixTranslate((eye * 2 - 1) * 0.10f, 0, 0);
 
-    glPushMatrix();
+    RenderManager.MatrixPush();
     bobHurt(a);
 
     // 4J-PB - changing this to be per player
@@ -766,7 +818,7 @@ void GameRenderer::renderItemInHand(float a, int eye) {
             turnOffLightLayer(a);
         }
     }
-    glPopMatrix();
+    RenderManager.MatrixPop();
     // 4J-PB - changing this to be per player
     // if (!mc->options->thirdPersonView &&
     // !mc->cameraTargetPlayer->isSleeping())
@@ -787,24 +839,21 @@ void GameRenderer::renderItemInHand(float a, int eye) {
 }
 
 // 4J - change brought forward from 1.8.2
-void GameRenderer::turnOffLightLayer(
-    double alpha) {  // 4J - TODO
-                     // 4jcraft: manually handle this in order to ensure that
-                     // the light layer is turned off correctly
+void GameRenderer::turnOffLightLayer(double alpha) {
 #if 1
     if (SharedConstants::TEXTURE_LIGHTING) {
         glClientActiveTexture(GL_TEXTURE1);
         glActiveTexture(GL_TEXTURE1);
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
+        RenderManager.MatrixMode(GL_TEXTURE);
+        RenderManager.MatrixSetIdentity();
+        RenderManager.MatrixMode(GL_MODELVIEW);
         glDisable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, 0);
         glClientActiveTexture(GL_TEXTURE0);
         glActiveTexture(GL_TEXTURE0);
     }
 #endif
-    // RenderManager.TextureBindVertex(-1);
+    RenderManager.TextureBindVertex(-1);
 }
 
 // 4J - change brought forward from 1.8.2
@@ -815,13 +864,13 @@ void GameRenderer::turnOnLightLayer(double alpha,
 	{
         glClientActiveTexture(GL_TEXTURE1);
         glActiveTexture(GL_TEXTURE1);
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
+        RenderManager.MatrixMode(GL_TEXTURE);
+        RenderManager.MatrixSetIdentity();
 // float s = 1 / 16f / 15.0f*16/14.0f;
         float s = 1 / 16.0f / 15.0f * 15 / 16;
-        glScalef(s, s, s);
-        glTranslatef(8f, 8f, 8f);
-        glMatrixMode(GL_MODELVIEW);
+        RenderManager.MatrixScale(s, s, s);
+        RenderManager.MatrixTranslate(8f, 8f, 8f);
+        RenderManager.MatrixMode(GL_MODELVIEW);
 
         mc->textures->bind(lightTexture);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -1083,10 +1132,10 @@ void GameRenderer::render(float a, bool bFirst) {
                 glViewport(0, 0, fbw, fbh);
             }
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glMatrixMode(GL_MODELVIEW);
-            glLoadIdentity();
+            RenderManager.MatrixMode(GL_PROJECTION);
+            RenderManager.MatrixSetIdentity();
+            RenderManager.MatrixMode(GL_MODELVIEW);
+            RenderManager.MatrixSetIdentity();
             setupGuiScreen();
 
             lastNsTime = System::nanoTime();
@@ -1505,7 +1554,7 @@ void GameRenderer::renderLevel(float a, __int64 until) {
         glDisable(GL_BLEND);
 
         if (mc->options->isCloudsOn()) {
-            glPushMatrix();
+            RenderManager.MatrixPush();
             setupFog(0, a);
             glEnable(GL_FOG);
             PIXBeginNamedEvent(0, "Rendering clouds");
@@ -1513,7 +1562,7 @@ void GameRenderer::renderLevel(float a, __int64 until) {
             PIXEndNamedEvent();
             glDisable(GL_FOG);
             setupFog(1, a);
-            glPopMatrix();
+            RenderManager.MatrixPop();
         }
 
         // 4J - rain rendering moved here so that it renders after clouds & can
@@ -1844,12 +1893,13 @@ void GameRenderer::setupGuiScreen(int forceScale /*=-1*/) {
 #endif
 
     glClear(GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, (float)ssc.rawWidth, (float)ssc.rawHeight, 0, 1000, 3000);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glTranslatef(0, 0, -2000);
+    RenderManager.MatrixMode(GL_PROJECTION);
+    RenderManager.MatrixSetIdentity();
+    RenderManager.MatrixOrthogonal(0, (float)ssc.rawWidth, (float)ssc.rawHeight,
+                                   0, 1000, 3000);
+    RenderManager.MatrixMode(GL_MODELVIEW);
+    RenderManager.MatrixSetIdentity();
+    RenderManager.MatrixTranslate(0, 0, -2000);
 }
 
 void GameRenderer::setupClearColor(float a) {

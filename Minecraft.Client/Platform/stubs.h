@@ -26,7 +26,6 @@ void glTexCoordPointer(int, int, FloatBuffer *);
 void glNormalPointer(int, ByteBuffer *);
 void glColorPointer(int, bool, int, ByteBuffer *);
 void glVertexPointer(int, int, FloatBuffer *);
-void glEndList(int);
 void glTexImage2D(int, int, int, int, int, int, int, int, ByteBuffer *);
 void glCallLists(IntBuffer *);
 void glGenQueriesARB(IntBuffer *);

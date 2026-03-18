@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+#include <string>
+#include <iostream>
+#include <cstring>
 #include "Tag.h"
 
 template <class T>
@@ -9,22 +13,24 @@ private:
     uint8_t type;
 
 public:
-    ListTag() : Tag(L"") {}
-    ListTag(const std::wstring& name) : Tag(name) {}
+    ListTag() : Tag(L""), type(1) {}
+    ListTag(const std::wstring& name) : Tag(name), type(1) {}
 
-    void write(DataOutput* dos) {
-        if (list.size() > 0)
-            type = (list[0])->getId();
+    void write(DataOutput* dos) override {
+        if (!list.empty())
+            type = list[0]->getId();
         else
             type = static_cast<uint8_t>(1);
 
         dos->writeByte(type);
-        dos->writeInt((int)list.size());
+        dos->writeInt(static_cast<int>(list.size()));
 
-        AUTO_VAR(itEnd, list.end());
-        for (AUTO_VAR(it, list.begin()); it != itEnd; it++) (*it)->write(dos);
+        for (auto it = list.begin(); it != list.end(); ++it) {
+            (*it)->write(dos);
+        }
     }
-    void load(DataInput* dis) {
+
+    void load(DataInput* dis) override {
         type = dis->readByte();
         int size = dis->readInt();
 
@@ -36,25 +42,32 @@ public:
         }
     }
 
-    uint8_t getId() { return TAG_List; }
+    uint8_t getId() override { return TAG_List; }
 
-    std::wstring toString() {
-        static wchar_t buf[64];
-        swprintf(buf, 64, L"%d entries of type %ls", list.size(),
+    std::wstring toString() override {
+        static wchar_t buf[128];
+        // Using %zu for size_t consistency on 64-bit. <- we'll prob need to
+        // change this for other platforms
+        swprintf(buf, 128, L"%zu entries of type %ls", list.size(),
                  Tag::getTagName(type));
         return std::wstring(buf);
     }
 
-    void print(char* prefix, std::ostream out) {
-        printf(prefix);
-
+    void print(const char* prefix, std::ostream& out) {
+        out << prefix << Tag::getTagName(getId()) << "(\"" << getName()
+            << "\"): " << list.size() << " entries of type "
+            << Tag::getTagName(type) << std::endl;
         out << prefix << "{" << std::endl;
 
-        char* newPrefix = new char[strlen(prefix) + 4];
+        size_t prefixLen = strlen(prefix);
+        char* newPrefix = new char[prefixLen + 4];
         strcpy(newPrefix, prefix);
         strcat(newPrefix, "   ");
-        AUTO_VAR(itEnd, list.end());
-        for (AUTO_VAR(it, list.begin()); it != itEnd; it++) printf(newPrefix);
+
+        for (auto it = list.begin(); it != list.end(); ++it) {
+            // (*it)->print(newPrefix, out);
+        }
+
         delete[] newPrefix;
         out << prefix << "}" << std::endl;
     }
@@ -64,66 +77,40 @@ public:
         list.push_back(tag);
     }
 
-    T* get(int index) { return (T*)list[index]; }
+    T* get(int index) { return static_cast<T*>(list[index]); }
 
-    int size() { return (int)list.size(); }
+    int size() const { return static_cast<int>(list.size()); }
 
     virtual ~ListTag() {
-        AUTO_VAR(itEnd, list.end());
-        for (AUTO_VAR(it, list.begin()); it != itEnd; it++) {
+        for (auto it = list.begin(); it != list.end(); ++it) {
             delete *it;
         }
+        list.clear();
     }
 
-    Tag* copy() {
+    Tag* copy() override {
         ListTag<T>* res = new ListTag<T>(getName());
         res->type = type;
-        AUTO_VAR(itEnd, list.end());
-        for (AUTO_VAR(it, list.begin()); it != itEnd; it++) {
-            T* copy = (T*)(*it)->copy();
-            res->list.push_back(copy);
+        for (auto it = list.begin(); it != list.end(); ++it) {
+            res->list.push_back((*it)->copy());
         }
         return res;
     }
 
-#if 0
-	bool equals(Object obj)
-	{
-		if (Tag::equals(obj))
-		{
-			ListTag *o = (ListTag *) obj;
-			if (type == o->type)
-			{
-				bool equal = false;
-				if(list.size() == o->list.size())
-				{
-					equal = true;
-					AUTO_VAR(itEnd, list.end());
-					// 4J Stu - Pretty inefficient method, but I think we can live with it give how often it will happen, and the small sizes of the data sets
-					for (AUTO_VAR(it, list.begin()); it != itEnd; it++)
-					{
-						bool thisMatches = false;
-						for(AUTO_VAR(it2, o->list.begin()); it != o->list.end(); ++it2)
-						{
-							if((*it)->equals(*it2))
-							{
-								thisMatches = true;
-								break;
-							}
-						}
-						if(!thisMatches)
-						{
-							equal = false;
-							break;
-						}
-					}
-				}
+    bool equals(Tag* obj) override {
+        if (Tag::equals(obj)) {
+            ListTag<T>* o = dynamic_cast<ListTag<T>*>(obj);
+            if (o && type == o->type) {
+                if (list.size() != o->list.size()) return false;
 
-				//return list->equals(o->list);
-				return equal;
-			}
-		}
-		return false;
-	}
-#endif
+                for (size_t i = 0; i < list.size(); ++i) {
+                    if (!list[i]->equals(o->list[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 };

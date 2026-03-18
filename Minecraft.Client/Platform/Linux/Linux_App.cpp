@@ -10,12 +10,24 @@
 #include "../../../Minecraft.World/WorldGen/Biomes/BiomeSource.h"
 #include "../../../Minecraft.World/Level/Storage/LevelType.h"
 #include "Linux_App.h"
+#include <unistd.h>
+#include <limits.h>
+#include <libgen.h>
 
 CConsoleMinecraftApp app;
 
 #define CONTEXT_GAME_STATE 0
 
-CConsoleMinecraftApp::CConsoleMinecraftApp() : CMinecraftApp() {}
+CConsoleMinecraftApp::CConsoleMinecraftApp() : CMinecraftApp() {
+    // no cwd !!!
+    char exePath[PATH_MAX];
+    ssize_t len = readlink("/proc/self/exe", exePath, sizeof(exePath) - 1);
+    if (len != -1) {
+        exePath[len] = '\0';
+        char* dir = dirname(exePath);
+        chdir(dir);
+    }
+}
 
 void CConsoleMinecraftApp::SetRichPresenceContext(int iPad, int contextId) {
     ProfileManager.SetRichPresenceContextValue(iPad, CONTEXT_GAME_STATE,
@@ -41,7 +53,7 @@ void CConsoleMinecraftApp::GetScreenshot(int iPad,
 
 void CConsoleMinecraftApp::TemporaryCreateGameStart() {
     //////////////////////////////////////////////////////////////////////////////////////////////
-    ///From CScene_Main::OnInit
+    /// From CScene_Main::OnInit
 
     app.setLevelGenerationOptions(NULL);
 
@@ -53,7 +65,7 @@ void CConsoleMinecraftApp::TemporaryCreateGameStart() {
     app.ApplyGameSettingsChanged(0);
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    ///From CScene_MultiGameJoinLoad::OnInit
+    /// From CScene_MultiGameJoinLoad::OnInit
     MinecraftServer::resetFlags();
 
     // From CScene_MultiGameJoinLoad::OnNotifyPressEx
@@ -61,7 +73,7 @@ void CConsoleMinecraftApp::TemporaryCreateGameStart() {
     app.SetCorruptSaveDeleted(false);
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    ///From CScene_MultiGameCreate::CreateGame
+    /// From CScene_MultiGameCreate::CreateGame
 
     app.ClearTerrainFeaturePosition();
     std::wstring wWorldName = L"TestWorld";

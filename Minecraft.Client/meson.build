@@ -54,6 +54,7 @@ client_dependencies = [
     world_dep,
     gl_dep,
     glu_dep,
+    glm_dep,
     thread_dep,
     thread_dep,
     dependency('zlib'),

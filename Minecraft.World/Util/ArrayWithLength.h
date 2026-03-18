@@ -1,5 +1,5 @@
 #pragma once
-
+#include <memory>
 #include <assert.h>
 
 // Note - this is meant to be a really simple wrapper round a pointer just to be

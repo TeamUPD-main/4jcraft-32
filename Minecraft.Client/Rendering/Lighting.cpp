@@ -5,37 +5,38 @@
 
 FloatBuffer* Lighting::lb = new FloatBuffer(16);
 
-void Lighting::turnOff() {
-    glDisable(GL_LIGHTING);
-    glDisable(GL_LIGHT0);
-    glDisable(GL_LIGHT1);
-    glDisable(GL_COLOR_MATERIAL);
-}
+static const float DIFFUSE = 0.6f;
+static const float AMBIENT = 0.4f;
+
+// light 0 : Vec3(0.2, 1.0, -0.7).normalize()
+static const float L0X = 0.173913f, L0Y = 0.869565f, L0Z = -0.608696f;
+// light 1 : Vec3(-0.2, 1.0,  0.7).normalize()
+static const float L1X = -0.173913f, L1Y = 0.869565f, L1Z = 0.608696f;
+// its ugly
+
+void Lighting::turnOff() { RenderManager.StateSetLightingEnable(false); }
 
 void Lighting::turnOn() {
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
-    glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    float a = 0.4f;
-    float d = 0.6f;
-    float s = 0.0f;
+    RenderManager.StateSetLightDirection(0, L0X, L0Y, L0Z);
+    RenderManager.StateSetLightDirection(1, L1X, L1Y, L1Z);
+    RenderManager.StateSetLightColour(0, DIFFUSE, DIFFUSE, DIFFUSE);
+    RenderManager.StateSetLightAmbientColour(AMBIENT, AMBIENT, AMBIENT);
+    RenderManager.StateSetLightingEnable(true);
 
-    Vec3* l = Vec3::newTemp(0.2f, 1.0f, -0.7f)->normalize();
-    glLight(GL_LIGHT0, GL_POSITION, getBuffer(l->x, l->y, l->z, 0));
-    glLight(GL_LIGHT0, GL_DIFFUSE, getBuffer(d, d, d, 1));
-    glLight(GL_LIGHT0, GL_AMBIENT, getBuffer(0.0f, 0.0f, 0.0f, 1.0f));
-    glLight(GL_LIGHT0, GL_SPECULAR, getBuffer(s, s, s, 1.0f));
+    // flat shading existed but now its def soooooooooooooooo
+}
 
-    l = Vec3::newTemp(-0.2f, 1.0f, 0.7f)->normalize();
-    glLight(GL_LIGHT1, GL_POSITION, getBuffer(l->x, l->y, l->z, 0));
-    glLight(GL_LIGHT1, GL_DIFFUSE, getBuffer(d, d, d, 1));
-    glLight(GL_LIGHT1, GL_AMBIENT, getBuffer(0.0f, 0.0f, 0.0f, 1.0f));
-    glLight(GL_LIGHT1, GL_SPECULAR, getBuffer(s, s, s, 1.0f));
+void Lighting::turnOnGui() {
+    RenderManager.MatrixPush();
 
-    glShadeModel(GL_FLAT);
-    glLightModel(GL_LIGHT_MODEL_AMBIENT, getBuffer(a, a, a, 1));
+    // glRotatef(-30, 0, 1, 0)
+    RenderManager.MatrixRotate(-30.f * (3.14159265f / 180.f), 0.f, 1.f, 0.f);
+    // glRotatef(165, 1, 0, 0)
+    RenderManager.MatrixRotate(165.f * (3.14159265f / 180.f), 1.f, 0.f, 0.f);
+
+    turnOn();
+
+    RenderManager.MatrixPop();
 }
 
 FloatBuffer* Lighting::getBuffer(double a, double b, double c, double d) {
@@ -47,12 +48,4 @@ FloatBuffer* Lighting::getBuffer(float a, float b, float c, float d) {
     lb->put(a)->put(b)->put(c)->put(d);
     lb->flip();
     return lb;
-}
-
-void Lighting::turnOnGui() {
-    glPushMatrix();
-    glRotatef(-30, 0, 1, 0);
-    glRotatef(165, 1, 0, 0);
-    turnOn();
-    glPopMatrix();
 }

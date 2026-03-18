@@ -383,9 +383,9 @@ void Minecraft::init() {
     glAlphaFunc(GL_GREATER, 0.1f);
     glCullFace(GL_BACK);
 
-    glMatrixMode(GL_PROJECTION);
+    RenderManager.MatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
+    RenderManager.MatrixMode(GL_MODELVIEW);
     MemSect(31);
     checkGlError(L"Startup");
     MemSect(0);
@@ -2231,11 +2231,11 @@ void Minecraft::renderFpsMeter(__int64 tickTime) {
     lastTimer = now;
 
     glClear(GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
+    RenderManager.MatrixMode(GL_PROJECTION);
     glEnable(GL_COLOR_MATERIAL);
     glLoadIdentity();
     glOrtho(0, (float)width, (float)height, 0, 1000, 3000);
-    glMatrixMode(GL_MODELVIEW);
+    RenderManager.MatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glTranslatef(0, 0, -2000);
 

@@ -1,4 +1,6 @@
+#define GL_MATRIX_COMPAT
 #include "../Platform/stdafx.h"
+#include <cstring>
 #include "LevelRenderer.h"
 #include "../Textures/Textures.h"
 #include "Tesselator.h"
@@ -147,7 +149,7 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
         emptyChunks = 0;
     for (int i = 0; i < 4; i++) {
         //		sortedChunks[i] = NULL;	// 4J - removed - not sorting
-        //our chunks anymore
+        // our chunks anymore
         chunks[i] = ClipChunkArray();
         lastPlayerCount[i] = 0;
     }
@@ -173,7 +175,7 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
 
     starList = MemoryTracker::genLists(4);
 
-    glPushMatrix();
+    RenderManager.MatrixPush();
     glNewList(starList, GL_COMPILE);
     renderStars();
     glEndList();
@@ -181,7 +183,7 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
     // 4J added - create geometry for rendering clouds
     createCloudMesh();
 
-    glPopMatrix();
+    RenderManager.MatrixPop();
 
     Tesselator* t = Tesselator::getInstance();
     skyList = starList + 1;
@@ -366,7 +368,7 @@ void LevelRenderer::setLevel(int playerIndex, MultiPlayerLevel* level) {
         allChanged(playerIndex);
     } else {
         //		printf("NULLing player %d, chunks @
-        //0x%x\n",playerIndex,chunks[playerIndex]);
+        // 0x%x\n",playerIndex,chunks[playerIndex]);
         if (chunks[playerIndex].data != NULL) {
             for (unsigned int i = 0; i < chunks[playerIndex].length; i++) {
                 chunks[playerIndex][i].chunk->_delete();
@@ -376,8 +378,9 @@ void LevelRenderer::setLevel(int playerIndex, MultiPlayerLevel* level) {
             chunks[playerIndex].data = NULL;
             chunks[playerIndex].length = 0;
             //			delete sortedChunks[playerIndex];	// 4J -
-            //removed - not sorting our chunks anymore 			sortedChunks[playerIndex]
-            //= NULL;	// 4J - removed - not sorting our chunks anymore
+            // removed - not sorting our chunks anymore
+            // sortedChunks[playerIndex] = NULL;	// 4J - removed - not
+            // sorting our chunks anymore
         }
 
         // 4J Stu - If we do this for splitscreen players leaving, then all the
@@ -451,7 +454,7 @@ void LevelRenderer::allChanged(int playerIndex) {
 
     chunks[playerIndex] = ClipChunkArray(xChunks * yChunks * zChunks);
     //	sortedChunks[playerIndex] = new std::vector<Chunk *>(xChunks * yChunks *
-    //zChunks);		// 4J - removed - not sorting our chunks anymore
+    // zChunks);		// 4J - removed - not sorting our chunks anymore
     int id = 0;
     int count = 0;
 
@@ -482,8 +485,8 @@ void LevelRenderer::allChanged(int playerIndex) {
                     count++;
                 //				sortedChunks[playerIndex]->at((z
                 //* yChunks + y) * xChunks + x) = chunks[playerIndex]->at((z *
-                //yChunks + y) * xChunks + x);	// 4J - removed - not sorting
-                //our chunks anymore
+                // yChunks + y) * xChunks + x);	// 4J - removed - not sorting
+                // our chunks anymore
 
                 id += 3;
             }
@@ -497,8 +500,8 @@ void LevelRenderer::allChanged(int playerIndex) {
             this->resortChunks(Mth::floor(player->x), Mth::floor(player->y),
                                Mth::floor(player->z));
             //			sort(sortedChunks[playerIndex]->begin(),sortedChunks[playerIndex]->end(),
-            //DistanceChunkSorter(player));	// 4J - removed - not sorting
-            //our chunks anymore
+            // DistanceChunkSorter(player));	// 4J - removed - not sorting
+            // our chunks anymore
         }
     }
 
@@ -737,8 +740,8 @@ int LevelRenderer::render(std::shared_ptr<Mob> player, int layer, double alpha,
         resortChunks(Mth::floor(player->x), Mth::floor(player->y),
                      Mth::floor(player->z));
         //		sort(sortedChunks[playerIndex]->begin(),sortedChunks[playerIndex]->end(),
-        //DistanceChunkSorter(player));	// 4J - removed - not sorting our chunks
-        //anymore
+        // DistanceChunkSorter(player));	// 4J - removed - not sorting
+        // our chunks anymore
     }
     Lighting::turnOff();
     glColor4f(1, 1, 1, 1);
@@ -777,8 +780,8 @@ int LevelRenderer::renderChunks(int from, int to, int layer, double alpha) {
     double yOff = player->yOld + (player->y - player->yOld) * alpha;
     double zOff = player->zOld + (player->z - player->zOld) * alpha;
 
-    glPushMatrix();
-    glTranslatef((float)-xOff, (float)-yOff, (float)-zOff);
+    RenderManager.MatrixPush();
+    RenderManager.MatrixTranslate((float)-xOff, (float)-yOff, (float)-zOff);
 
 #ifdef __PSVITA__
     // AP - also set the camera position so we can work out if a chunk is fogged
@@ -887,7 +890,7 @@ int LevelRenderer::renderChunks(int from, int to, int layer, double alpha) {
 
 #endif  // __PS3__
 
-    glPopMatrix();
+    RenderManager.MatrixPop();
     mc->gameRenderer->turnOffLightLayer(
         alpha);  // 4J - brought forward from 1.8.2
 
@@ -997,12 +1000,24 @@ void LevelRenderer::renderSky(float alpha) {
         Tesselator* t = Tesselator::getInstance();
         t->setMipmapEnable(false);
         for (int i = 0; i < 6; i++) {
-            glPushMatrix();
-            if (i == 1) glRotatef(90, 1, 0, 0);
-            if (i == 2) glRotatef(-90, 1, 0, 0);
-            if (i == 3) glRotatef(180, 1, 0, 0);
-            if (i == 4) glRotatef(90, 0, 0, 1);
-            if (i == 5) glRotatef(-90, 0, 0, 1);
+            RenderManager.MatrixPush();
+            // still saying that copy pasting pi like that makes my head spin
+            // fuck maths
+            if (i == 1)
+                RenderManager.MatrixRotate(
+                    (float)(90) * (3.14159265358979f / 180.f), 1, 0, 0);
+            if (i == 2)
+                RenderManager.MatrixRotate(
+                    (float)(-90) * (3.14159265358979f / 180.f), 1, 0, 0);
+            if (i == 3)
+                RenderManager.MatrixRotate(
+                    (float)(180) * (3.14159265358979f / 180.f), 1, 0, 0);
+            if (i == 4)
+                RenderManager.MatrixRotate(
+                    (float)(90) * (3.14159265358979f / 180.f), 0, 0, 1);
+            if (i == 5)
+                RenderManager.MatrixRotate(
+                    (float)(-90) * (3.14159265358979f / 180.f), 0, 0, 1);
             t->begin();
             t->color(0x282828);
             t->vertexUV(-100, -100, -100, 0, 0);
@@ -1010,7 +1025,7 @@ void LevelRenderer::renderSky(float alpha) {
             t->vertexUV(+100, -100, +100, 16, 16);
             t->vertexUV(+100, -100, -100, 16, 0);
             t->end();
-            glPopMatrix();
+            RenderManager.MatrixPop();
         }
         t->setMipmapEnable(true);
         glDepthMask(true);
@@ -1068,13 +1083,18 @@ void LevelRenderer::renderSky(float alpha) {
         glDisable(GL_TEXTURE_2D);
         glShadeModel(GL_SMOOTH);
 
-        glPushMatrix();
+        RenderManager.MatrixPush();
         {
-            glRotatef(90, 1, 0, 0);
-            glRotatef(
-                Mth::sin(level[playerIndex]->getSunAngle(alpha)) < 0 ? 180 : 0,
+            RenderManager.MatrixRotate(
+                (float)(90) * (3.14159265358979f / 180.f), 1, 0, 0);
+            RenderManager.MatrixRotate(
+                (float)(Mth::sin(level[playerIndex]->getSunAngle(alpha)) < 0
+                            ? 180
+                            : 0) *
+                    (3.14159265358979f / 180.f),
                 0, 0, 1);
-            glRotatef(90, 0, 0, 1);
+            RenderManager.MatrixRotate(
+                (float)(90) * (3.14159265358979f / 180.f), 0, 0, 1);
 
             float r = c[0];
             float g = c[1];
@@ -1104,22 +1124,26 @@ void LevelRenderer::renderSky(float alpha) {
             }
             t->end();
         }
-        glPopMatrix();
+        RenderManager.MatrixPop();
         glShadeModel(GL_FLAT);
     }
 
     glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    glPushMatrix();
+    RenderManager.MatrixPush();
     {
         float rainBrightness = 1 - level[playerIndex]->getRainLevel(alpha);
         float xp = 0;
         float yp = 0;
         float zp = 0;
         glColor4f(1, 1, 1, rainBrightness);
-        glTranslatef(xp, yp, zp);
-        glRotatef(-90, 0, 1, 0);
-        glRotatef(level[playerIndex]->getTimeOfDay(alpha) * 360, 1, 0, 0);
+        RenderManager.MatrixTranslate(xp, yp, zp);
+        RenderManager.MatrixRotate((float)(-90) * (3.14159265358979f / 180.f),
+                                   0, 1, 0);
+        RenderManager.MatrixRotate(
+            (float)(level[playerIndex]->getTimeOfDay(alpha) * 360) *
+                (3.14159265358979f / 180.f),
+            1, 0, 0);
         float ss = 30;
 
         MemSect(31);
@@ -1172,7 +1196,7 @@ void LevelRenderer::renderSky(float alpha) {
     glDisable(GL_ALPHA_TEST);
 #endif
 
-    glPopMatrix();
+    RenderManager.MatrixPop();
     glDisable(GL_TEXTURE_2D);
     glColor3f(0, 0, 0);
 
@@ -1181,10 +1205,10 @@ void LevelRenderer::renderSky(float alpha) {
         level[playerIndex]->getHorizonHeight();  // 4J - getHorizonHeight moved
                                                  // forward from 1.2.3
     if (yy < 0) {
-        glPushMatrix();
-        glTranslatef(0, -(float)(-12), 0);
+        RenderManager.MatrixPush();
+        RenderManager.MatrixTranslate(0, -(float)(-12), 0);
         glCallList(darkList);
-        glPopMatrix();
+        RenderManager.MatrixPop();
 
         // 4J - can't work out what this big black box is for. Taking it out
         // until someone misses it... it causes a big black box to visible
@@ -1231,10 +1255,10 @@ void LevelRenderer::renderSky(float alpha) {
     } else {
         glColor3f(sr, sg, sb);
     }
-    glPushMatrix();
-    glTranslatef(0, -(float)(yy - 16), 0);
+    RenderManager.MatrixPush();
+    RenderManager.MatrixTranslate(0, -(float)(yy - 16), 0);
     glCallList(darkList);
-    glPopMatrix();
+    RenderManager.MatrixPop();
     glEnable(GL_TEXTURE_2D);
 
     glDepthMask(true);
@@ -1275,11 +1299,13 @@ void LevelRenderer::renderHaloRing(float alpha) {
     Tesselator* t = Tesselator::getInstance();
     bool prev = t->setMipmapEnable(true);
 
-    glPushMatrix();
-    glRotatef(-90, 1, 0, 0);
-    glRotatef(90, 0, 1, 0);
+    RenderManager.MatrixPush();
+    RenderManager.MatrixRotate((float)(-90) * (3.14159265358979f / 180.f), 1, 0,
+                               0);
+    RenderManager.MatrixRotate((float)(90) * (3.14159265358979f / 180.f), 0, 1,
+                               0);
     glCallList(haloRingList);
-    glPopMatrix();
+    RenderManager.MatrixPop();
     t->setMipmapEnable(prev);
 
     glDepthMask(true);
@@ -1667,7 +1693,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
         radius = 2;  // 4J - reduce the cloud render distance a bit for 3 & 4
                      // player split screen
     float e = 1 / 1024.0f;
-    glScalef(ss, 1, ss);
+    RenderManager.MatrixScale(ss, 1, ss);
     FrustumData* pFrustumData = Frustum::getFrustum();
     for (int pass = 0; pass < 2; pass++) {
         if (pass == 0) {
@@ -1701,12 +1727,12 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
 
 
 
-				glMatrixMode(GL_TEXTURE);
-				glLoadIdentity();
-				glTranslatef(xx / 256.0f + uo, zz / 256.0f + vo, 0);
-				glMatrixMode(GL_MODELVIEW);
-				glPushMatrix();
-				glTranslatef(xp,yy,zp);
+				RenderManager.MatrixMode(GL_TEXTURE);
+				RenderManager.MatrixSetIdentity();
+				RenderManager.MatrixTranslate(xx / 256.0f + uo, zz / 256.0f + vo, 0);
+				RenderManager.MatrixMode(GL_MODELVIEW);
+				RenderManager.MatrixPush();
+				RenderManager.MatrixTranslate(xp,yy,zp);
 
 				glColor4f(cr, cg, cb, 1.0f );
 				if( noBFCMode )
@@ -1730,9 +1756,9 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
 					// do a little offsetting here to avoid z fighting
 					if( draw[0] && draw[1] && draw[2] && draw[3] )
 					{
-						glTranslatef(e, 0.0f, 0.0f );
+						RenderManager.MatrixTranslate(e, 0.0f, 0.0f );
 						glCallList(cloudList + 2);
-						glTranslatef(-e, 0.0f, 0.0f );
+						RenderManager.MatrixTranslate(-e, 0.0f, 0.0f );
 						glCallList(cloudList + 3);
 					}
 					else
@@ -1744,9 +1770,9 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
 					// do a little offsetting here to avoid z fighting
 					if( draw[0] && draw[1] && draw[4] && draw[5] )
 					{
-						glTranslatef(0.0f, 0.0f, e );
+						RenderManager.MatrixTranslate(0.0f, 0.0f, e );
 						glCallList(cloudList + 4);
-						glTranslatef(0.0f, 0.0f, -e );
+						RenderManager.MatrixTranslate(0.0f, 0.0f, -e );
 						glCallList(cloudList + 5);
 					}
 					else
@@ -1760,10 +1786,10 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
 					// Simpler form of rendering that we can do most of the time, when we aren't potentially inside a cloud
 					glCallList(cloudList + 6);
 				}
-				glPopMatrix();
-				glMatrixMode(GL_TEXTURE);
-				glLoadIdentity();
-				glMatrixMode(GL_MODELVIEW);
+				RenderManager.MatrixPop();
+				RenderManager.MatrixMode(GL_TEXTURE);
+				RenderManager.MatrixSetIdentity();
+				RenderManager.MatrixMode(GL_MODELVIEW);
 #else
                 glDisable(GL_CULL_FACE);
                 t->begin();
@@ -2061,7 +2087,7 @@ bool LevelRenderer::updateDirtyChunks() {
 
             //			app.DebugPrintf("!! %d %d %d, %d %d %d {%d,%d}
             //",px,py,pz,stackChunkDirty,nonStackChunkDirty,onlyRebuild,
-            //xChunks, zChunks);
+            // xChunks, zChunks);
 
             int considered = 0;
             int wouldBeNearButEmpty = 0;
@@ -2242,8 +2268,9 @@ bool LevelRenderer::updateDirtyChunks() {
 
             if (bAtomic || (index == 0)) {
                 // PIXBeginNamedEvent(0,"Rebuilding near chunk %d %d
-                // %d",chunk->x, chunk->y, chunk->z); 		static __int64 totalTime =
-                //0; 		static __int64 countTime = 0;
+                // %d",chunk->x, chunk->y, chunk->z); 		static __int64
+                // totalTime =
+                // 0; 		static __int64 countTime = 0;
                 //		__int64 startTime = System::currentTimeMillis();
 
                 // app.DebugPrintf("Rebuilding permaChunk %d\n", index);
@@ -2395,7 +2422,7 @@ void LevelRenderer::renderDestroyAnimation(Tesselator* t,
 
         textures->bindTexture(TN_TERRAIN);  // 4J was L"/terrain.png"
         glColor4f(1, 1, 1, 0.5f);
-        glPushMatrix();
+        RenderManager.MatrixPush();
 
         glDisable(GL_ALPHA_TEST);
 
@@ -2452,7 +2479,7 @@ void LevelRenderer::renderDestroyAnimation(Tesselator* t,
         glEnable(GL_ALPHA_TEST);
 
         glDepthMask(true);
-        glPopMatrix();
+        RenderManager.MatrixPop();
     }
 }
 
@@ -2540,7 +2567,7 @@ void LevelRenderer::setDirty(int x0, int y0, int z0, int x1, int y1, int z1,
         for (int y = _y0; y <= _y1; y++) {
             for (int z = _z0; z <= _z1; z++) {
                 //				printf("Setting %d %d %d
-                //dirty\n",x,y,z);
+                // dirty\n",x,y,z);
                 int index =
                     getGlobalIndexForChunk(x * 16, y * 16, z * 16, level);
                 // Rather than setting the flags directly, add any dirty chunks
@@ -2619,7 +2646,7 @@ void LevelRenderer::setDirty(int x0, int y0, int z0, int x1, int y1, int z1,
 #endif
                 }
                 //				setGlobalChunkFlag(x * 16, y *
-                //16, z * 16, level, CHUNK_FLAG_DIRTY);
+                // 16, z * 16, level, CHUNK_FLAG_DIRTY);
             }
         }
     }

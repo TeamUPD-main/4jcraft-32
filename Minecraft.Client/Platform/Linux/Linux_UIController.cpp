@@ -9,31 +9,39 @@
 #include "Iggy/gdraw/gdraw_sdl.h"
 
 ConsoleUIController ui;
-
 static void restoreFixedFunctionStateAfterIggy() {
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    glEnable(GL_ALPHA_TEST);
-    glAlphaFunc(GL_GREATER, 0.1f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    // Restore base draw colour
+    RenderManager.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
 
-    glClientActiveTexture(GL_TEXTURE1);
-    glActiveTexture(GL_TEXTURE1);
-    glDisable(GL_TEXTURE_2D);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glMatrixMode(GL_TEXTURE);
-    glLoadIdentity();
+    // Alpha testing
+    RenderManager.StateSetAlphaTestEnable(true);
+    RenderManager.StateSetAlphaFunc(GL_GREATER, 0.1f);
 
-    glClientActiveTexture(GL_TEXTURE0);
-    glActiveTexture(GL_TEXTURE0);
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glMatrixMode(GL_TEXTURE);
-    glLoadIdentity();
+    // Depth
+    RenderManager.StateSetDepthTestEnable(true);
+    RenderManager.StateSetDepthFunc(GL_LEQUAL);
+    RenderManager.StateSetDepthMask(true);
 
-    glMatrixMode(GL_MODELVIEW);
+    // Face culling
+    RenderManager.StateSetFaceCull(true);
+
+    // unit 1
+    RenderManager.StateSetActiveTexture(GL_TEXTURE1);
+    RenderManager.StateSetTextureEnable(false);
+    RenderManager.MatrixMode(GL_TEXTURE);
+    RenderManager.MatrixSetIdentity();
+
+    // unit 0
+    RenderManager.StateSetActiveTexture(GL_TEXTURE0);
+    RenderManager.StateSetTextureEnable(true);
+    RenderManager.MatrixMode(GL_TEXTURE);
+    RenderManager.MatrixSetIdentity();
+
+    // Leave matrix mode as MODELVIEW ready for the game renderer
+    RenderManager.MatrixMode(GL_MODELVIEW);
+
+    // Flush the restored state into the shader uniforms
+    RenderManager.Set_matrixDirty();
 }
 
 void ConsoleUIController::init(S32 w, S32 h) {

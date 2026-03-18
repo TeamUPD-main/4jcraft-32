@@ -1,25 +1,36 @@
-#pragma once
+#ifndef _4J_RENDER_H_
+#define _4J_RENDER_H_
+
+// Include Linux GL headers FIRST so macros don't break them!
+#ifdef __linux__
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
+
+#include "gl3_loader.h"
 
 #ifdef __linux__
 #include "../Minecraft.Client/Platform/Linux/Stubs/LinuxStubs.h"
 #endif
 
 #include <cstdint>
+#include <cstdlib>
 
 class ImageFileBuffer {
 public:
     enum EImageType { e_typePNG, e_typeJPG };
-
     EImageType m_type;
     void* m_pBuffer;
     int m_bufferSize;
 
-    int GetType() { return m_type; }
+    int GetType() { return (int)m_type; }
     void* GetBufferPointer() { return m_pBuffer; }
     int GetBufferSize() { return m_bufferSize; }
     void Release() {
-        free(m_pBuffer);
-        m_pBuffer = NULL;
+        if (m_pBuffer) {
+            free(m_pBuffer);
+            m_pBuffer = NULL;
+        }
     }
     bool Allocated() { return m_pBuffer != NULL; }
 };
@@ -34,7 +45,6 @@ typedef struct _XSOCIAL_PREVIEWIMAGE {
     std::uint32_t Pitch;
     std::uint32_t Width;
     std::uint32_t Height;
-    //    D3DFORMAT Format;
 } XSOCIAL_PREVIEWIMAGE, *PXSOCIAL_PREVIEWIMAGE;
 
 class C4JRender {
@@ -42,7 +52,6 @@ public:
     void Tick();
     void UpdateGamma(unsigned short usGamma);
 
-    // Matrix stack
     void MatrixMode(int type);
     void MatrixSetIdentity();
     void MatrixTranslate(float x, float y, float z);
@@ -57,11 +66,8 @@ public:
     const float* MatrixGet(int type);
     void Set_matrixDirty();
 
-    // Core
     void Initialise();
     void InitialiseContext();
-    // Call before Initialise() to override window size and/or fullscreen mode.
-    // If not called, the primary monitor's native resolution is used.
     void SetWindowSize(int w, int h);
     void SetFullscreen(bool fs);
     void StartFrame();
@@ -80,24 +86,14 @@ public:
     void BeginConditionalRendering(int identifier);
     void EndConditionalRendering();
 
-    // Vertex data handling
     typedef enum {
-        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1,  // Position 3 x float, texture 2 x
-                                          // float, colour 4 x byte, normal 4 x
-                                          // byte, padding 1 DWORD
-        VERTEX_TYPE_COMPRESSED,  // Compressed format - see comment at top of
-                                 // VS_PS3_TS2_CS1.hlsl for description of
-                                 // layout
-        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_LIT,  // as
-                                              // VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1
-                                              // with lighting applied,
-        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_TEXGEN,  // as
-                                                 // VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1
-                                                 // with tex gen
+        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1,
+        VERTEX_TYPE_COMPRESSED,
+        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_LIT,
+        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_TEXGEN,
         VERTEX_TYPE_COUNT
     } eVertexType;
 
-    // Pixel shader
     typedef enum {
         PIXEL_SHADER_TYPE_STANDARD,
         PIXEL_SHADER_TYPE_PROJECTION,
@@ -130,7 +126,6 @@ public:
     void DrawVertices(ePrimitiveType PrimitiveType, int count, void* dataIn,
                       eVertexType vType, C4JRender::ePixelShaderType psType);
 
-    // Command buffers
     void CBuffLockStaticCreations();
     int CBuffCreate(int count);
     void CBuffDelete(int first, int count);
@@ -144,18 +139,10 @@ public:
     void CBuffDeferredModeEnd();
 
     typedef enum {
-        TEXTURE_FORMAT_RxGyBzAw,  // Normal 32-bit RGBA texture, 8 bits per
-                                  // component
-        /* Don't think these are all directly available on D3D 11 - leaving for
-        now TEXTURE_FORMAT_R0G0B0Ax,		// One 8-bit component mapped to
-        alpha channel, R=G=B=0 TEXTURE_FORMAT_R1G1B1Ax,		// One 8-bit
-        component mapped to alpha channel, R=G=B=1 TEXTURE_FORMAT_RxGxBxAx,
-        // One 8-bit component mapped to all channels
-        */
+        TEXTURE_FORMAT_RxGyBzAw,
         MAX_TEXTURE_FORMATS
     } eTextureFormat;
 
-    // Textures
     int TextureCreate();
     void TextureFree(int idx);
     void TextureBind(int idx);
@@ -181,7 +168,6 @@ public:
     void TextureGetStats();
     void* TextureGetTexture(int idx);
 
-    // State control
     void StateSetColour(float r, float g, float b, float a);
     void StateSetDepthMask(bool enable);
     void StateSetBlendEnable(bool enable);
@@ -215,112 +201,478 @@ public:
     void StateSetStencil(int Function, uint8_t stencil_ref,
                          uint8_t stencil_func_mask, uint8_t stencil_write_mask);
     void StateSetForceLOD(int LOD);
+    void StateSetTextureEnable(bool enable);
+    void StateSetActiveTexture(int tex);
 
-    // Event tracking
     void BeginEvent(LPCWSTR eventName);
     void EndEvent();
-
-    // PLM event handling
     void Suspend();
     bool Suspended();
     void Resume();
-
-    // Linux window management
     bool ShouldClose();
     void Shutdown();
 };
 
-const int GL_MODELVIEW_MATRIX = 0x0BA6;
-const int GL_PROJECTION_MATRIX = 0x0BA7;
-const int GL_MODELVIEW = 0x1700;
-const int GL_PROJECTION = 0x1701;
-const int GL_TEXTURE = 0x1702;
+#ifndef GL_MODELVIEW_MATRIX
+#define GL_MODELVIEW_MATRIX 0x0BA6
+#endif
+#ifndef GL_PROJECTION_MATRIX
+#define GL_PROJECTION_MATRIX 0x0BA7
+#endif
+#ifndef GL_MODELVIEW
+#define GL_MODELVIEW 0x1700
+#endif
+#ifndef GL_PROJECTION
+#define GL_PROJECTION 0x1701
+#endif
+#ifndef GL_TEXTURE
+#define GL_TEXTURE 0x1702
+#endif
 
-// These things required for tex gen
+#ifndef GL_S
+#define GL_S 0x2000
+#endif
+#ifndef GL_T
+#define GL_T 0x2001
+#endif
+#ifndef GL_R
+#define GL_R 0x2002
+#endif
+#ifndef GL_Q
+#define GL_Q 0x2003
+#endif
 
-const int GL_S = 0x2000;
-const int GL_T = 0x2001;
-const int GL_R = 0x2002;
-const int GL_Q = 0x2003;
+#ifndef GL_TEXTURE_GEN_S
+#define GL_TEXTURE_GEN_S 0x0C60
+#endif
+#ifndef GL_TEXTURE_GEN_T
+#define GL_TEXTURE_GEN_T 0x0C61
+#endif
+#ifndef GL_TEXTURE_GEN_Q
+#define GL_TEXTURE_GEN_Q 0x0C63
+#endif
+#ifndef GL_TEXTURE_GEN_R
+#define GL_TEXTURE_GEN_R 0x0C62
+#endif
 
-const int GL_TEXTURE_GEN_S = 0x0C60;
-const int GL_TEXTURE_GEN_T = 0x0C61;
-const int GL_TEXTURE_GEN_Q = 0x0C63;
-const int GL_TEXTURE_GEN_R = 0x0C62;
+#ifndef GL_TEXTURE_GEN_MODE
+#define GL_TEXTURE_GEN_MODE 0x2500
+#endif
+#ifndef GL_OBJECT_LINEAR
+#define GL_OBJECT_LINEAR 0x2401
+#endif
+#ifndef GL_EYE_LINEAR
+#define GL_EYE_LINEAR 0x2400
+#endif
+#ifndef GL_OBJECT_PLANE
+#define GL_OBJECT_PLANE 0x2501
+#endif
+#ifndef GL_EYE_PLANE
+#define GL_EYE_PLANE 0x2502
+#endif
 
-const int GL_TEXTURE_GEN_MODE = 0x2500;
-const int GL_OBJECT_LINEAR = 0x2401;
-const int GL_EYE_LINEAR = 0x2400;
-const int GL_OBJECT_PLANE = 0x2501;
-const int GL_EYE_PLANE = 0x2502;
+#ifndef GL_TEXTURE_2D
+#define GL_TEXTURE_2D 0x0DE1
+#endif
+#ifndef GL_BLEND
+#define GL_BLEND 0x0BE2
+#endif
+#ifndef GL_CULL_FACE
+#define GL_CULL_FACE 0x0B44
+#endif
+#ifndef GL_ALPHA_TEST
+#define GL_ALPHA_TEST 0x0BC0
+#endif
+#ifndef GL_DEPTH_TEST
+#define GL_DEPTH_TEST 0x0B71
+#endif
+#ifndef GL_FOG
+#define GL_FOG 0x0B60
+#endif
+#ifndef GL_LIGHTING
+#define GL_LIGHTING 0x0B50
+#endif
+#ifndef GL_LIGHT0
+#define GL_LIGHT0 0x4000
+#endif
+#ifndef GL_LIGHT1
+#define GL_LIGHT1 0x4001
+#endif
 
-// These things are used by glEnable/glDisable so must be different and non-zero
-// (zero is used by things we haven't assigned yet)
-const int GL_TEXTURE_2D = 0x0DE1;
-const int GL_BLEND = 0x0BE2;
-const int GL_CULL_FACE = 0x0B44;
-const int GL_ALPHA_TEST = 0x0BC0;
-const int GL_DEPTH_TEST = 0x0B71;
-const int GL_FOG = 0x0B60;
-const int GL_LIGHTING = 0x0B50;
-const int GL_LIGHT0 = 0x4000;
-const int GL_LIGHT1 = 0x4001;
+#ifndef CLEAR_DEPTH_FLAG
+#define CLEAR_DEPTH_FLAG 0x00000100
+#endif
+#ifndef CLEAR_COLOUR_FLAG
+#define CLEAR_COLOUR_FLAG 0x00004000
+#endif
 
-const int CLEAR_DEPTH_FLAG = 0x00000100;
-const int CLEAR_COLOUR_FLAG = 0x00004000;
+#ifndef GL_DEPTH_BUFFER_BIT
+#define GL_DEPTH_BUFFER_BIT 0x00000100
+#endif
+#ifndef GL_COLOR_BUFFER_BIT
+#define GL_COLOR_BUFFER_BIT 0x00004000
+#endif
 
-const int GL_DEPTH_BUFFER_BIT = CLEAR_DEPTH_FLAG;
-const int GL_COLOR_BUFFER_BIT = CLEAR_COLOUR_FLAG;
+#ifndef GL_SRC_ALPHA
+#define GL_SRC_ALPHA 0x0302
+#endif
+#ifndef GL_ONE_MINUS_SRC_ALPHA
+#define GL_ONE_MINUS_SRC_ALPHA 0x0303
+#endif
+#ifndef GL_ONE
+#define GL_ONE 1
+#endif
+#ifndef GL_ZERO
+#define GL_ZERO 0
+#endif
+#ifndef GL_DST_ALPHA
+#define GL_DST_ALPHA 0x0304
+#endif
+#ifndef GL_SRC_COLOR
+#define GL_SRC_COLOR 0x0300
+#endif
+#ifndef GL_DST_COLOR
+#define GL_DST_COLOR 0x0306
+#endif
+#ifndef GL_ONE_MINUS_DST_COLOR
+#define GL_ONE_MINUS_DST_COLOR 0x0307
+#endif
+#ifndef GL_ONE_MINUS_SRC_COLOR
+#define GL_ONE_MINUS_SRC_COLOR 0x0301
+#endif
+#ifndef GL_CONSTANT_ALPHA
+#define GL_CONSTANT_ALPHA 0x8003
+#endif
+#ifndef GL_ONE_MINUS_CONSTANT_ALPHA
+#define GL_ONE_MINUS_CONSTANT_ALPHA 0x8004
+#endif
 
-const int GL_SRC_ALPHA = 0x0302;
-const int GL_ONE_MINUS_SRC_ALPHA = 0x0303;
-const int GL_ONE = 1;
-const int GL_ZERO = 0;
-const int GL_DST_ALPHA = 0x0304;
-const int GL_SRC_COLOR = 0x0300;
-const int GL_DST_COLOR = 0x0306;
-const int GL_ONE_MINUS_DST_COLOR = 0x0307;
-const int GL_ONE_MINUS_SRC_COLOR = 0x0301;
-const int GL_CONSTANT_ALPHA = 0x8003;
-const int GL_ONE_MINUS_CONSTANT_ALPHA = 0x8004;
+#ifndef GL_GREATER
+#define GL_GREATER 0x0204
+#endif
+#ifndef GL_EQUAL
+#define GL_EQUAL 0x0202
+#endif
+#ifndef GL_LEQUAL
+#define GL_LEQUAL 0x0203
+#endif
+#ifndef GL_GEQUAL
+#define GL_GEQUAL 0x0206
+#endif
+#ifndef GL_ALWAYS
+#define GL_ALWAYS 0x0207
+#endif
 
-const int GL_GREATER = 0x0204;
-const int GL_EQUAL = 0x0202;
-const int GL_LEQUAL = 0x0203;
-const int GL_GEQUAL = 0x0206;
-const int GL_ALWAYS = 0x0207;
+#ifndef GL_TEXTURE_MIN_FILTER
+#define GL_TEXTURE_MIN_FILTER 0x2801
+#endif
+#ifndef GL_TEXTURE_MAG_FILTER
+#define GL_TEXTURE_MAG_FILTER 0x2800
+#endif
+#ifndef GL_TEXTURE_WRAP_S
+#define GL_TEXTURE_WRAP_S 0x2802
+#endif
+#ifndef GL_TEXTURE_WRAP_T
+#define GL_TEXTURE_WRAP_T 0x2803
+#endif
 
-const int GL_TEXTURE_MIN_FILTER = 0x2801;
-const int GL_TEXTURE_MAG_FILTER = 0x2800;
-const int GL_TEXTURE_WRAP_S = 0x2802;
-const int GL_TEXTURE_WRAP_T = 0x2803;
+#ifndef GL_NEAREST
+#define GL_NEAREST 0x2600
+#endif
+#ifndef GL_LINEAR
+#define GL_LINEAR 0x2601
+#endif
+#ifndef GL_EXP
+#define GL_EXP 0x0800
+#endif
+#ifndef GL_NEAREST_MIPMAP_LINEAR
+#define GL_NEAREST_MIPMAP_LINEAR 0x2702
+#endif
 
-const int GL_NEAREST = 0x2600;
-const int GL_LINEAR = 0x2601;
-const int GL_EXP = 0x0800;
-const int GL_NEAREST_MIPMAP_LINEAR = 0x2702;  // TODO - mipmapping bit of this
+#ifndef GL_CLAMP
+#define GL_CLAMP 0x2900
+#endif
+#ifndef GL_REPEAT
+#define GL_REPEAT 0x2901
+#endif
 
-const int GL_CLAMP = 0x2900;
-const int GL_REPEAT = 0x2901;
+#ifndef GL_FOG_START
+#define GL_FOG_START 0x0B63
+#endif
+#ifndef GL_FOG_END
+#define GL_FOG_END 0x0B64
+#endif
+#ifndef GL_FOG_MODE
+#define GL_FOG_MODE 0x0B65
+#endif
+#ifndef GL_FOG_DENSITY
+#define GL_FOG_DENSITY 0x0B62
+#endif
+#ifndef GL_FOG_COLOR
+#define GL_FOG_COLOR 0x0B66
+#endif
 
-const int GL_FOG_START = 0x0B63;
-const int GL_FOG_END = 0x0B64;
-const int GL_FOG_MODE = 0x0B65;
-const int GL_FOG_DENSITY = 0x0B62;
-const int GL_FOG_COLOR = 0x0B66;
+#ifndef GL_POSITION
+#define GL_POSITION 0x1203
+#endif
+#ifndef GL_AMBIENT
+#define GL_AMBIENT 0x1200
+#endif
+#ifndef GL_DIFFUSE
+#define GL_DIFFUSE 0x1201
+#endif
+#ifndef GL_SPECULAR
+#define GL_SPECULAR 0x1202
+#endif
 
-const int GL_POSITION = 0x1203;
-const int GL_AMBIENT = 0x1200;
-const int GL_DIFFUSE = 0x1201;
-const int GL_SPECULAR = 0x1202;
+#ifndef GL_LIGHT_MODEL_AMBIENT
+#define GL_LIGHT_MODEL_AMBIENT 0x0B53
+#endif
 
-const int GL_LIGHT_MODEL_AMBIENT = 0x0B53;
-
-const int GL_LINES = 0x0001;
-const int GL_LINE_STRIP = 0x0003;
-const int GL_QUADS = 0x0007;
-const int GL_TRIANGLE_FAN = 0x0006;
-const int GL_TRIANGLE_STRIP = 0x0005;
+#ifndef GL_LINES
+#define GL_LINES 0x0001
+#endif
+#ifndef GL_LINE_STRIP
+#define GL_LINE_STRIP 0x0003
+#endif
+#ifndef GL_QUADS
+#define GL_QUADS 0x0007
+#endif
+#ifndef GL_TRIANGLE_FAN
+#define GL_TRIANGLE_FAN 0x0006
+#endif
+#ifndef GL_TRIANGLE_STRIP
+#define GL_TRIANGLE_STRIP 0x0005
+#endif
 
 // Singleton
 extern C4JRender RenderManager;
+
+#undef glNewList
+#define glNewList(_list, _mode) RenderManager.CBuffStart(_list)
+#undef glEndList
+#define glEndList() RenderManager.CBuffEnd()
+#undef glCallList
+#define glCallList(_list) RenderManager.CBuffCall(_list)
+
+
+#undef glTranslatef
+#define glTranslatef(x, y, z)                   \
+    do {                                        \
+        RenderManager.MatrixTranslate(x, y, z); \
+        ::glTranslatef(x, y, z);                \
+    } while (0)
+
+#undef glRotatef
+#define glRotatef(a, x, y, z)                                               \
+    do {                                                                    \
+        RenderManager.MatrixRotate((a) * (3.14159265358979f / 180.f), x, y, \
+                                   z);                                      \
+        ::glRotatef(a, x, y, z);                                            \
+    } while (0)
+
+#undef glScalef
+#define glScalef(x, y, z)                   \
+    do {                                    \
+        RenderManager.MatrixScale(x, y, z); \
+        ::glScalef(x, y, z);                \
+    } while (0)
+
+#undef glScaled
+#define glScaled(x, y, z)                                              \
+    do {                                                               \
+        RenderManager.MatrixScale((float)(x), (float)(y), (float)(z)); \
+        ::glScaled(x, y, z);                                           \
+    } while (0)
+
+#undef glPushMatrix
+#define glPushMatrix()              \
+    do {                            \
+        RenderManager.MatrixPush(); \
+        ::glPushMatrix();           \
+    } while (0)
+
+#undef glPopMatrix
+#define glPopMatrix()              \
+    do {                           \
+        RenderManager.MatrixPop(); \
+        ::glPopMatrix();           \
+    } while (0)
+
+#undef glLoadIdentity
+#define glLoadIdentity()                   \
+    do {                                   \
+        RenderManager.MatrixSetIdentity(); \
+        ::glLoadIdentity();                \
+    } while (0)
+
+#undef glMatrixMode
+#define glMatrixMode(mode)              \
+    do {                                \
+        RenderManager.MatrixMode(mode); \
+        ::glMatrixMode(mode);           \
+    } while (0)
+
+#undef glMultMatrixf
+#define glMultMatrixf(m)             \
+    do {                             \
+        RenderManager.MatrixMult(m); \
+        ::glMultMatrixf(m);          \
+    } while (0)
+
+#undef glColor4f
+#define glColor4f(r, g, b, a)                     \
+    do {                                          \
+        RenderManager.StateSetColour(r, g, b, a); \
+        ::glColor4f(r, g, b, a);                  \
+    } while (0)
+
+#undef glColor3f
+#define glColor3f(r, g, b)                           \
+    do {                                             \
+        RenderManager.StateSetColour(r, g, b, 1.0f); \
+        ::glColor3f(r, g, b);                        \
+    } while (0)
+
+#undef glAlphaFunc
+#define glAlphaFunc(func, ref)                      \
+    do {                                            \
+        RenderManager.StateSetAlphaFunc(func, ref); \
+        ::glAlphaFunc(func, ref);                   \
+    } while (0)
+
+#undef glEnable
+#define glEnable(cap)                                    \
+    do {                                                 \
+        if ((cap) == 0x0B60 /*GL_FOG*/)                  \
+            RenderManager.StateSetFogEnable(true);       \
+        else if ((cap) == 0x0B50 /*GL_LIGHTING*/)        \
+            RenderManager.StateSetLightingEnable(true);  \
+        else if ((cap) == 0x0BC0 /*GL_ALPHA_TEST*/)      \
+            RenderManager.StateSetAlphaTestEnable(true); \
+        else if ((cap) == 0x0DE1 /*GL_TEXTURE_2D*/)      \
+            RenderManager.StateSetTextureEnable(true);   \
+        ::glEnable(cap);                                 \
+    } while (0)
+
+#undef glDisable
+#define glDisable(cap)                                    \
+    do {                                                  \
+        if ((cap) == 0x0B60 /*GL_FOG*/)                   \
+            RenderManager.StateSetFogEnable(false);       \
+        else if ((cap) == 0x0B50 /*GL_LIGHTING*/)         \
+            RenderManager.StateSetLightingEnable(false);  \
+        else if ((cap) == 0x0BC0 /*GL_ALPHA_TEST*/)       \
+            RenderManager.StateSetAlphaTestEnable(false); \
+        else if ((cap) == 0x0DE1 /*GL_TEXTURE_2D*/)       \
+            RenderManager.StateSetTextureEnable(false);   \
+        ::glDisable(cap);                                 \
+    } while (0)
+
+#undef glFogi
+#define glFogi(pname, param)                      \
+    do {                                          \
+        if ((pname) == 0x0B65 /*GL_FOG_MODE*/)    \
+            RenderManager.StateSetFogMode(param); \
+        ::glFogi(pname, param);                   \
+    } while (0)
+
+#undef glFogf
+#define glFogf(pname, param)                              \
+    do {                                                  \
+        if ((pname) == 0x0B63 /*GL_FOG_START*/)           \
+            RenderManager.StateSetFogNearDistance(param); \
+        else if ((pname) == 0x0B64 /*GL_FOG_END*/)        \
+            RenderManager.StateSetFogFarDistance(param);  \
+        else if ((pname) == 0x0B62 /*GL_FOG_DENSITY*/)    \
+            RenderManager.StateSetFogDensity(param);      \
+        ::glFogf(pname, param);                           \
+    } while (0)
+
+#undef glOrtho
+#define glOrtho(left, right, bottom, top, zNear, zFar)                         \
+    do {                                                                       \
+        RenderManager.MatrixOrthogonal(left, right, bottom, top, zNear, zFar); \
+        ::glOrtho(left, right, bottom, top, zNear, zFar);                      \
+    } while (0)
+
+#undef gluPerspective
+#define gluPerspective(fovy, aspect, zNear, zFar)                   \
+    do {                                                            \
+        RenderManager.MatrixPerspective(fovy, aspect, zNear, zFar); \
+        ::gluPerspective(fovy, aspect, zNear, zFar);                \
+    } while (0)
+
+#undef glMultiTexCoord2f
+#define glMultiTexCoord2f(tex, u, v)                     \
+    do {                                                 \
+        if ((tex) == 0x84C1 /*GL_TEXTURE1*/)             \
+            RenderManager.StateSetVertexTextureUV(u, v); \
+        ::glMultiTexCoord2f(tex, u, v);                  \
+    } while (0)
+
+#undef glActiveTexture
+#define glActiveTexture(tex)                      \
+    do {                                          \
+        RenderManager.StateSetActiveTexture(tex); \
+        ::glActiveTexture(tex);                   \
+    } while (0)
+
+#undef glClientActiveTexture
+#define glClientActiveTexture(tex)                \
+    do {                                          \
+        RenderManager.StateSetActiveTexture(tex); \
+        ::glClientActiveTexture(tex);             \
+    } while (0)
+
+// the declarations of love and pain
+int glGenTextures_4J();
+void glGenTextures_4J(int n, unsigned int* textures);
+void glGenTextures_4J(class IntBuffer* buf);
+
+void glDeleteTextures_4J(int id);
+void glDeleteTextures_4J(int n, const unsigned int* textures);
+void glDeleteTextures_4J(class IntBuffer* buf);
+
+void glTexCoordPointer_4J(int size, int type, class FloatBuffer* pointer);
+void glNormalPointer_4J(int type, class ByteBuffer* pointer);
+void glColorPointer_4J(int size, bool normalized, int stride,
+                       class ByteBuffer* pointer);
+void glVertexPointer_4J(int size, int type, class FloatBuffer* pointer);
+
+void glTexImage2D_4J(int target, int level, int internalformat, int width,
+                     int height, int border, int format, int type,
+                     void* pixels);
+void glTexImage2D_4J(int target, int level, int internalformat, int width,
+                     int height, int border, int format, int type,
+                     class ByteBuffer* pixels);
+
+void glCallLists_4J(class IntBuffer* lists);
+void glGenQueries_4J(class IntBuffer* buf);
+void glGetQueryObjectu_4J(int id, int pname, class IntBuffer* params);
+void glReadPixels_4J(int x, int y, int width, int height, int format, int type,
+                     class ByteBuffer* pixels);
+void glFog_4J(int pname, class FloatBuffer* params);
+void glLight_4J(int light, int pname, class FloatBuffer* params);
+void glLightModel_4J(int pname, class FloatBuffer* params);
+void glTexGen_4J(int coord, int pname, class FloatBuffer* params);
+
+// Redirect the functions to my own implementation, no more 2.1 funcs
+#define glGenTextures(...) glGenTextures_4J(__VA_ARGS__)
+#define glDeleteTextures(...) glDeleteTextures_4J(__VA_ARGS__)
+#define glTexCoordPointer(a, b, c) glTexCoordPointer_4J(a, b, c)
+#define glNormalPointer(a, b) glNormalPointer_4J(a, b)
+#define glColorPointer(a, b, c, d) glColorPointer_4J(a, b, c, d)
+#define glVertexPointer(a, b, c) glVertexPointer_4J(a, b, c)
+#define glTexImage2D(a, b, c, d, e, f, g, h, i) \
+    glTexImage2D_4J(a, b, c, d, e, f, g, h, i)
+#define glCallLists(x) glCallLists_4J(x)
+#define glGenQueriesARB(x) glGenQueries_4J(x)
+#define glGetQueryObjectuARB(a, b, c) glGetQueryObjectu_4J(a, b, c)
+#define glReadPixels(a, b, c, d, e, f, g) glReadPixels_4J(a, b, c, d, e, f, g)
+#define glFog(a, b) glFog_4J(a, b)
+#define glLight(a, b, c) glLight_4J(a, b, c)
+#define glLightModel(a, b) glLightModel_4J(a, b)
+#define glTexGen(a, b, c) glTexGen_4J(a, b, c)
+
+#endif  // _4J_RENDER_H_

@@ -38,19 +38,20 @@ Please note that these percentages are **estimates** and do not necessarily refl
 Install the following packages before building (Debian/Ubuntu names shown):
 
 ```bash
-sudo apt-get install -y build-essential libsdl2-dev libgl-dev libglu1-mesa-dev libpthread-stubs0-dev
+sudo apt-get install -y build-essential libsdl2-dev libglm-dev libgl-dev libglu1-mesa-dev libpthread-stubs0-dev
 ```
 
 #### Arch/Manjaro
 
 ```bash
-sudo pacman -S base-devel gcc pkgconf cmake sdl2-compat mesa glu
+sudo pacman -S base-devel gcc pkgconf cmake sdl2-compat mesa glm glu
 ```
 
 #### Fedora/Red Hat/Nobara
 
+-- TODO: GET libglm-dev IN FEDORA SYNTAX!!
 ```bash
-sudo dnf in gcc gcc-c++ make cmake SDL2-devel mesa-libGL-devel mesa-libGLU-devel openssl-devel
+sudo dnf in gcc gcc-c++ make cmake SDL2-devel mesa-libGL-devel mesa-libGLU-devel openssl-devel 
 ```
 
 #### Docker
