@@ -743,7 +743,7 @@ void Tesselator::vertex(float x, float y, float z) {
 
     // Signal to pixel shader whether to use mipmapping or not, by putting u
     // into > 1 range if it is to be disabled
-    float uu = mipmapEnable ? u : (u + 1.0f);
+    float uu = u;
 
     // 4J - this format added for 360 to keep memory size of tesselated tiles
     // down - see comments in packCompactQuad() for exact format

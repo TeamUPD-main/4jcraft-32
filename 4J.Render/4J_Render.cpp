@@ -45,38 +45,50 @@
 //       ++++++****##################################################*****++++++++=++=+
 //       ***#*#############################################################*****=++++++
 //   ###########################################################################**#++++
-//#####################################################################################
-//#####################################################################################
-//#########################%%%%%%%%%%%%%%%%%%%%%%%%%%%%################################
-//#############%%%%%%%%%%%%###**#####################%%%%%%%%%%%%%%%%%%%%%%%###########
+// #####################################################################################
+// #####################################################################################
+// #########################%%%%%%%%%%%%%%%%%%%%%%%%%%%%################################
+// #############%%%%%%%%%%%%###**#####################%%%%%%%%%%%%%%%%%%%%%%%###########
 //       %%%%################*#*##############****##################%%%%%%%%%%%%%%%####
-//       %%%%%#############**#*#############****##***####################%%%%%%%%%%%%% 
-//       %%%%%#############%%%#*############**#***#**#***##################%%%%%%%%%%% 
-//       %%%%%###########%#:-%%%############*******#%%###%%%%###############%%%%%%%%%% 
-//       %%%%%##########%.....=%############**#**#%+:+%##:::=%##**##########%%%%%%%%   
-//       %%%%%#########%%.....=%############*###%*.....##:::::#%%###########%%%%%%%%   
-//       %%%%   ######%:::::-%#%**##%#######=:-.%#.....*#:::::::%###########%%%%%%%%   
-//%@%@%@%%%%%   ######%::::::%#%::%#.+%#####=:*%:::::+%##:::::::%%#########%%%%%%%%%   
-//%@%%@%%@@@@@%   ####%::::::%#%::::=-:#####=:#%:::::=%##:::::::::%########%%%%%%%%%%%%
-// @%@%@%%%%%%@@% %%##%::::::%#%::::-------%=-:::::::=%##:::::::::%########%%%%%%%%%%%%
+//       %%%%%#############**#*#############****##***####################%%%%%%%%%%%%%
+//       %%%%%#############%%%#*############**#***#**#***##################%%%%%%%%%%%
+//       %%%%%###########%#:-%%%############*******#%%###%%%%###############%%%%%%%%%%
+//       %%%%%##########%.....=%############**#**#%+:+%##:::=%##**##########%%%%%%%%
+//       %%%%%#########%%.....=%############*###%*.....##:::::#%%###########%%%%%%%%
+//       %%%%
+//       ######%:::::-%#%**##%#######=:-.%#.....*#:::::::%###########%%%%%%%%
+//%@%@%@%%%%%
+//######%::::::%#%::%#.+%#####=:*%:::::+%##:::::::%%#########%%%%%%%%%
+//%@%%@%%@@@@@%
+//####%::::::%#%::::=-:#####=:#%:::::=%##:::::::::%########%%%%%%%%%%%%
+// @%@%@%%%%%%@@%
+// %%##%::::::%#%::::-------%=-:::::::=%##:::::::::%########%%%%%%%%%%%%
 //     %@@@%@%%@@@%%%#%::::::%#%::::=--------=:::::::=%##:::::::::%######%%%%%%%%%%%%%%
 //          %@@%@%%%%%%=-::::%*#::::-=+---------:::::=%##:::::::::%######%%%%%%%%%%%%%%
 //            %%%%%%%%%=--::::::::--------------:::::-#*+:::::::--%######%%%%%%%#%%%%%#
 //       %%%%@%@%@@%%%%=---------------------------::::::::::::---#####%%%%%%%%%%%%%%%%
-//   %@%%@%@%%@%@% %%%%+=--------------==------------------------=%#####%%%%%#%%%%%%%%%
-//   %@%@%@%@@@%% %%%%%%%++----------==++==----------------------=###%%%%@%%%%%#####%%%
-//   %%@%%@%%   %@%%%%%%%%#.---------=+--+=---------------------++##%@@@@@@%%%%%%%#### 
-//            %@%@%@#%%%%%% =-++++------------------------=+*##*%%#%@@@%%%%%%#%%%%%%%% 
-//          %@%@%@%@ %%%%%% ######++++*--------------=++***#%@@@##@%%%%#######%%%%%%%%%
-//          %@%@%@%@ %%%% #############%%%%%%%%%##***######@@@@@################%%%%%%%
-//          %@%%@%     %%##########%@@@@@@@@@@@@@@#######@@@%#####################%%%%%
-//           @%@       %%#########@@@@@@@@@@@@@@@@@@@@@############################%%%%
-//                     ##################@@@@@@@@@@%################################## 
-//                   ################################################################# 
-//                        ##########################################################   
-//                            @@##################################################     
-//                            %%################################################%%%%   
-//                          %%################################################%%%%%%%% 
+//   %@%%@%@%%@%@%
+//   %%%%+=--------------==------------------------=%#####%%%%%#%%%%%%%%%
+//   %@%@%@%@@@%%
+//   %%%%%%%++----------==++==----------------------=###%%%%@%%%%%#####%%%
+//   %%@%%@%%
+//   %@%%%%%%%%#.---------=+--+=---------------------++##%@@@@@@%%%%%%%####
+//            %@%@%@#%%%%%%
+//            =-++++------------------------=+*##*%%#%@@@%%%%%%#%%%%%%%%
+//          %@%@%@%@ %%%%%%
+//          ######++++*--------------=++***#%@@@##@%%%%#######%%%%%%%%%
+//          %@%@%@%@ %%%%
+//          #############%%%%%%%%%##***######@@@@@################%%%%%%%
+//          %@%%@%
+//          %%##########%@@@@@@@@@@@@@@#######@@@%#####################%%%%%
+//           @%@
+//           %%#########@@@@@@@@@@@@@@@@@@@@@############################%%%%
+//                     ##################@@@@@@@@@@%##################################
+//                   #################################################################
+//                        ##########################################################
+//                            @@##################################################
+//                            %%################################################%%%%
+//                          %%################################################%%%%%%%%
 // okay now goodbye
 
 #include <cstring>
@@ -437,7 +449,7 @@ static void initStreamingVAOs() {
     glBindBuffer(GL_ARRAY_BUFFER, s_sVBO_cmp);
     bindCmpAttribs();
     glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 //  chunk buffer pool (shared, protected by s_glCallMtx)
@@ -532,7 +544,10 @@ void C4JRender::Initialise() {
     // Well i changed my mind, i DID rewrite the whole renderer.
     // atleast part of it.
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); // I am sorry for everything that i shall do in the next commits.
+    SDL_GL_SetAttribute(
+        SDL_GL_CONTEXT_PROFILE_MASK,
+        SDL_GL_CONTEXT_PROFILE_CORE);  // I am sorry for everything that i shall
+                                       // do in the next commits.
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -689,14 +704,54 @@ void C4JRender::Shutdown() {
     SDL_Quit();
 }
 
-void C4JRender::DrawVertices(ePrimitiveType ptype, int count, void* dataIn,
-                             eVertexType vType, ePixelShaderType) {
+void C4JRender::DrawVertices(ePrimitiveType ptype, int count, void* dataIn, eVertexType vType, ePixelShaderType) {
     if (count <= 0 || !dataIn) return;
-    const bool compact = (vType == VERTEX_TYPE_COMPRESSED);
+    bool compact = (vType == VERTEX_TYPE_COMPRESSED);
     const bool wasQuad = isQuadPrim((int)ptype);
     GLenum glMode = mapPrim((int)ptype);
-    size_t stride = compact ? 16 : 32;
+
+    std::vector<uint8_t> convertedData;
+    if (compact){
+        convertedData.resize(count * 32);
+        int16_t* src = (int16_t*)dataIn;
+        uint8_t* dst = convertedData.data();
+        for (int i = 0; i < count; i++) {
+            float* dstF = (float*)dst;
+            dstF[0] = src[0] / 1024.0f; // x
+            dstF[1] = src[1] / 1024.0f; // y
+            dstF[2] = src[2] / 1024.0f; // z
+            dstF[3] = src[4] / 8192.0f; // u
+            dstF[4] = src[5] / 8192.0f; // v
+            
+            // Decode RGB565 color
+            uint16_t packed = (uint16_t)(src[3] + 32768);
+            uint8_t r = ((packed >> 11) & 0x1F) * 255 / 31;
+            uint8_t g = ((packed >> 5) & 0x3F) * 255 / 63;
+            uint8_t b = (packed & 0x1F) * 255 / 31;
+            dst[20] = 255; // A
+            dst[21] = b;   // B
+            dst[22] = g;   // G
+            dst[23] = r;   // R
+            
+            // Normal (compact format lacks normals, use default UP)
+            dst[24] = 0;
+            dst[25] = 127;
+            dst[26] = 0;
+            
+            // Tex2 (Lightmap)
+            int16_t* dstS = (int16_t*)(dst + 28);
+            dstS[0] = src[6];
+            dstS[1] = src[7];
+            
+            src += 8;
+            dst += 32;
+        }
+        dataIn = convertedData.data();
+        compact = false;
+    }
+    size_t stride = 32; // Always 32 now
     size_t bytes = (size_t)count * stride;
+    
     if (s_recListId >= 0) {
         int first = (int)(s_recVerts.size() / stride);
         s_recVerts.insert(s_recVerts.end(), (uint8_t*)dataIn,
@@ -706,15 +761,12 @@ void C4JRender::DrawVertices(ePrimitiveType ptype, int count, void* dataIn,
     }
     pthread_mutex_lock(&s_glCallMtx);
     pushRenderState();
-    GLuint vao = compact ? s_sVAO_cmp : s_sVAO_std;
-    GLuint vbo = compact ? s_sVBO_cmp : s_sVBO_std;
+    GLuint vao = s_sVAO_std;
+    GLuint vbo = s_sVBO_std;
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)bytes, dataIn, GL_STREAM_DRAW);
-    if (compact)
-        bindCmpAttribs();
-    else
-        bindStdAttribs();
+    bindStdAttribs();
     drawPrim(glMode, wasQuad, 0, (GLsizei)count);
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
@@ -793,17 +845,16 @@ bool C4JRender::CBuffCall(int index, bool) {
         cb.vboReady = true;
     }
     pushRenderState();
-    GLuint vao = cb.compact ? s_sVAO_cmp : s_sVAO_std;
+        GLuint vao = s_sVAO_std; 
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, cb.vbo);
-    if (cb.compact)
-        bindCmpAttribs();
-    else
-        bindStdAttribs();
+    bindStdAttribs(); 
+    
     for (const auto& dc : cb.draws)
         drawPrim(dc.prim, dc.wasQuad, dc.first, dc.count);
+        
     glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
+    glBindBuffer(GL_ARRAY_BUFFER, 0); // Keep the Iggy fix!
     pthread_mutex_unlock(&s_glCallMtx);
     return true;
 }
@@ -1000,8 +1051,9 @@ void C4JRender::TextureSetTextureLevels(int l) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, l > 0 ? l - 1 : 0);
 
     if (l > 1) {
-        // Listen i tried ansio but it looked worse cuz there was this HORRIBLE black line artifact on mip levels,
-        // so here we are with this weird combo of filters that seems to work ok
+        // Listen i tried ansio but it looked worse cuz there was this HORRIBLE
+        // black line artifact on mip levels, so here we are with this weird
+        // combo of filters that seems to work ok
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                         GL_NEAREST_MIPMAP_LINEAR);
     } else {
