@@ -214,6 +214,8 @@ public:
     void Shutdown();
 };
 
+extern C4JRender RenderManager;
+
 #ifndef GL_MODELVIEW_MATRIX
 #define GL_MODELVIEW_MATRIX 0x0BA6
 #endif
@@ -446,9 +448,7 @@ public:
 #define GL_TRIANGLE_STRIP 0x0005
 #endif
 
-// Singleton
-extern C4JRender RenderManager;
-
+// glCallList / display list macros
 #undef glNewList
 #define glNewList(_list, _mode) RenderManager.CBuffStart(_list)
 #undef glEndList
@@ -456,12 +456,22 @@ extern C4JRender RenderManager;
 #undef glCallList
 #define glCallList(_list) RenderManager.CBuffCall(_list)
 
+// glGenLists / glDeleteLists, lists not supported in core!!!!!
+#undef glGenLists
+#define glGenLists(range) (0)
+#undef glDeleteLists
+#define glDeleteLists(list, range) do { } while(0)
+
+#ifndef GL_SHADEMODEL_IS_FUNCTION
+#undef glShadeModel
+#define glShadeModel(mode) do { } while(0)
+#endif
+
 
 #undef glTranslatef
 #define glTranslatef(x, y, z)                   \
     do {                                        \
         RenderManager.MatrixTranslate(x, y, z); \
-        ::glTranslatef(x, y, z);                \
     } while (0)
 
 #undef glRotatef
@@ -469,105 +479,120 @@ extern C4JRender RenderManager;
     do {                                                                    \
         RenderManager.MatrixRotate((a) * (3.14159265358979f / 180.f), x, y, \
                                    z);                                      \
-        ::glRotatef(a, x, y, z);                                            \
     } while (0)
 
 #undef glScalef
 #define glScalef(x, y, z)                   \
     do {                                    \
         RenderManager.MatrixScale(x, y, z); \
-        ::glScalef(x, y, z);                \
     } while (0)
 
 #undef glScaled
 #define glScaled(x, y, z)                                              \
     do {                                                               \
         RenderManager.MatrixScale((float)(x), (float)(y), (float)(z)); \
-        ::glScaled(x, y, z);                                           \
     } while (0)
 
 #undef glPushMatrix
 #define glPushMatrix()              \
     do {                            \
         RenderManager.MatrixPush(); \
-        ::glPushMatrix();           \
     } while (0)
 
 #undef glPopMatrix
 #define glPopMatrix()              \
     do {                           \
         RenderManager.MatrixPop(); \
-        ::glPopMatrix();           \
     } while (0)
 
 #undef glLoadIdentity
 #define glLoadIdentity()                   \
     do {                                   \
         RenderManager.MatrixSetIdentity(); \
-        ::glLoadIdentity();                \
     } while (0)
 
 #undef glMatrixMode
 #define glMatrixMode(mode)              \
     do {                                \
         RenderManager.MatrixMode(mode); \
-        ::glMatrixMode(mode);           \
     } while (0)
 
 #undef glMultMatrixf
 #define glMultMatrixf(m)             \
     do {                             \
         RenderManager.MatrixMult(m); \
-        ::glMultMatrixf(m);          \
     } while (0)
 
 #undef glColor4f
 #define glColor4f(r, g, b, a)                     \
     do {                                          \
         RenderManager.StateSetColour(r, g, b, a); \
-        ::glColor4f(r, g, b, a);                  \
     } while (0)
 
 #undef glColor3f
 #define glColor3f(r, g, b)                           \
     do {                                             \
         RenderManager.StateSetColour(r, g, b, 1.0f); \
-        ::glColor3f(r, g, b);                        \
     } while (0)
 
 #undef glAlphaFunc
 #define glAlphaFunc(func, ref)                      \
     do {                                            \
         RenderManager.StateSetAlphaFunc(func, ref); \
-        ::glAlphaFunc(func, ref);                   \
     } while (0)
 
 #undef glEnable
-#define glEnable(cap)                                    \
-    do {                                                 \
-        if ((cap) == 0x0B60 /*GL_FOG*/)                  \
-            RenderManager.StateSetFogEnable(true);       \
-        else if ((cap) == 0x0B50 /*GL_LIGHTING*/)        \
-            RenderManager.StateSetLightingEnable(true);  \
-        else if ((cap) == 0x0BC0 /*GL_ALPHA_TEST*/)      \
-            RenderManager.StateSetAlphaTestEnable(true); \
-        else if ((cap) == 0x0DE1 /*GL_TEXTURE_2D*/)      \
-            RenderManager.StateSetTextureEnable(true);   \
-        ::glEnable(cap);                                 \
+#define glEnable(cap)                                                            \
+    do {                                                                         \
+        if ((cap) == 0x0B60 /*GL_FOG*/)                                          \
+            RenderManager.StateSetFogEnable(true);                               \
+        else if ((cap) == 0x0B50 /*GL_LIGHTING*/)                                \
+            RenderManager.StateSetLightingEnable(true);                          \
+        else if ((cap) == 0x0BC0 /*GL_ALPHA_TEST*/)                              \
+            RenderManager.StateSetAlphaTestEnable(true);                         \
+        else if ((cap) == 0x0DE1 /*GL_TEXTURE_2D*/)                              \
+            RenderManager.StateSetTextureEnable(true);                           \
+        else if ((cap) == 0x4000 /*GL_LIGHT0*/)                                  \
+            RenderManager.StateSetLightEnable(0, true);                          \
+        else if ((cap) == 0x4001 /*GL_LIGHT1*/)                                  \
+            RenderManager.StateSetLightEnable(1, true);                          \
+        else if ((cap) == 0x0B57 /*GL_COLOR_MATERIAL*/                           \
+              || (cap) == 0x0BA1 /*GL_NORMALIZE*/                                \
+              || (cap) == 0x803A /*GL_RESCALE_NORMAL*/                           \
+              || (cap) == 0x0C60 /*GL_TEXTURE_GEN_S*/                            \
+              || (cap) == 0x0C61 /*GL_TEXTURE_GEN_T*/                            \
+              || (cap) == 0x0C62 /*GL_TEXTURE_GEN_R*/                            \
+              || (cap) == 0x0C63 /*GL_TEXTURE_GEN_Q*/)                           \
+            { /* empty */ }                                                      \
+        else                                                                     \
+            ::glEnable(cap);                                                     \
     } while (0)
 
 #undef glDisable
-#define glDisable(cap)                                    \
-    do {                                                  \
-        if ((cap) == 0x0B60 /*GL_FOG*/)                   \
-            RenderManager.StateSetFogEnable(false);       \
-        else if ((cap) == 0x0B50 /*GL_LIGHTING*/)         \
-            RenderManager.StateSetLightingEnable(false);  \
-        else if ((cap) == 0x0BC0 /*GL_ALPHA_TEST*/)       \
-            RenderManager.StateSetAlphaTestEnable(false); \
-        else if ((cap) == 0x0DE1 /*GL_TEXTURE_2D*/)       \
-            RenderManager.StateSetTextureEnable(false);   \
-        ::glDisable(cap);                                 \
+#define glDisable(cap)                                                           \
+    do {                                                                         \
+        if ((cap) == 0x0B60 /*GL_FOG*/)                                          \
+            RenderManager.StateSetFogEnable(false);                              \
+        else if ((cap) == 0x0B50 /*GL_LIGHTING*/)                                \
+            RenderManager.StateSetLightingEnable(false);                         \
+        else if ((cap) == 0x0BC0 /*GL_ALPHA_TEST*/)                              \
+            RenderManager.StateSetAlphaTestEnable(false);                        \
+        else if ((cap) == 0x0DE1 /*GL_TEXTURE_2D*/)                              \
+            RenderManager.StateSetTextureEnable(false);                          \
+        else if ((cap) == 0x4000 /*GL_LIGHT0*/)                                  \
+            RenderManager.StateSetLightEnable(0, false);                         \
+        else if ((cap) == 0x4001 /*GL_LIGHT1*/)                                  \
+            RenderManager.StateSetLightEnable(1, false);                         \
+        else if ((cap) == 0x0B57 /*GL_COLOR_MATERIAL*/                           \
+              || (cap) == 0x0BA1 /*GL_NORMALIZE*/                                \
+              || (cap) == 0x803A /*GL_RESCALE_NORMAL*/                           \
+              || (cap) == 0x0C60 /*GL_TEXTURE_GEN_S*/                            \
+              || (cap) == 0x0C61 /*GL_TEXTURE_GEN_T*/                            \
+              || (cap) == 0x0C62 /*GL_TEXTURE_GEN_R*/                            \
+              || (cap) == 0x0C63 /*GL_TEXTURE_GEN_Q*/)                           \
+            { /* empty */ }                                                      \
+        else                                                                     \
+            ::glDisable(cap);                                                    \
     } while (0)
 
 #undef glFogi
@@ -575,7 +600,6 @@ extern C4JRender RenderManager;
     do {                                          \
         if ((pname) == 0x0B65 /*GL_FOG_MODE*/)    \
             RenderManager.StateSetFogMode(param); \
-        ::glFogi(pname, param);                   \
     } while (0)
 
 #undef glFogf
@@ -587,21 +611,18 @@ extern C4JRender RenderManager;
             RenderManager.StateSetFogFarDistance(param);  \
         else if ((pname) == 0x0B62 /*GL_FOG_DENSITY*/)    \
             RenderManager.StateSetFogDensity(param);      \
-        ::glFogf(pname, param);                           \
     } while (0)
 
 #undef glOrtho
 #define glOrtho(left, right, bottom, top, zNear, zFar)                         \
     do {                                                                       \
         RenderManager.MatrixOrthogonal(left, right, bottom, top, zNear, zFar); \
-        ::glOrtho(left, right, bottom, top, zNear, zFar);                      \
     } while (0)
 
 #undef gluPerspective
 #define gluPerspective(fovy, aspect, zNear, zFar)                   \
     do {                                                            \
         RenderManager.MatrixPerspective(fovy, aspect, zNear, zFar); \
-        ::gluPerspective(fovy, aspect, zNear, zFar);                \
     } while (0)
 
 #undef glMultiTexCoord2f
@@ -609,7 +630,6 @@ extern C4JRender RenderManager;
     do {                                                 \
         if ((tex) == 0x84C1 /*GL_TEXTURE1*/)             \
             RenderManager.StateSetVertexTextureUV(u, v); \
-        ::glMultiTexCoord2f(tex, u, v);                  \
     } while (0)
 
 #undef glActiveTexture
@@ -623,10 +643,8 @@ extern C4JRender RenderManager;
 #define glClientActiveTexture(tex)                \
     do {                                          \
         RenderManager.StateSetActiveTexture(tex); \
-        ::glClientActiveTexture(tex);             \
     } while (0)
 
-// the declarations of love and pain
 int glGenTextures_4J();
 void glGenTextures_4J(int n, unsigned int* textures);
 void glGenTextures_4J(class IntBuffer* buf);

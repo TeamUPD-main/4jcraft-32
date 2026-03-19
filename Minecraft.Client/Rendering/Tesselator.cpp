@@ -219,10 +219,6 @@ void Tesselator::end() {
             }
 #endif
         }
-        glDisableClientState(GL_VERTEX_ARRAY);
-        if (hasTexture) glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        if (hasColor) glDisableClientState(GL_COLOR_ARRAY);
-        if (hasNormal) glDisableClientState(GL_NORMAL_ARRAY);
     }
 
     clear();

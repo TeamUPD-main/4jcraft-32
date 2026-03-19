@@ -5,6 +5,7 @@
 #include "../Lighting.h"
 #include "EnderDragonRenderer.h"
 
+
 std::shared_ptr<EnderDragon> EnderDragonRenderer::bossInstance;
 int EnderDragonRenderer::currentModel;
 

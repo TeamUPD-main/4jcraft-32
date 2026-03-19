@@ -1,5 +1,8 @@
 #pragma once
 
+
+#undef glShadeModel
+
 #ifdef __linux__
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -160,7 +163,7 @@ class GL11
 public:
 	static const int GL_SMOOTH = 0x1D01;
 	static const int GL_FLAT = 0x1D00;
-	static void glShadeModel(int mode) { ::glShadeModel(mode); }
+	static void glShadeModel(int mode) {}
 };
 
 #undef GL_ARRAY_BUFFER_ARB

@@ -10,6 +10,7 @@
 #include "../../Minecraft.World/Util/ArrayWithLength.h"
 #include "../../4J.Render/4J_Render.h"
 
+
 // Undefine macros from header to avoid argument mismatch during implementation
 #undef glGenTextures
 #undef glDeleteTextures
@@ -64,22 +65,15 @@ void glDeleteTextures_4J(IntBuffer* buf) {
     }
 }
 
-void glTexCoordPointer_4J(int size, int type, FloatBuffer* pointer) {
-    ::glTexCoordPointer(size, (GLenum)type, 0, pointer->_getDataPointer());
-}
+// Destroy!
+void glTexCoordPointer_4J(int size, int type, FloatBuffer* pointer) {}
 
-void glNormalPointer_4J(int type, ByteBuffer* pointer) {
-    ::glNormalPointer((GLenum)type, 0, pointer->getBuffer());
-}
+void glNormalPointer_4J(int type, ByteBuffer* pointer) {}
 
 void glColorPointer_4J(int size, bool normalized, int stride,
-                       ByteBuffer* pointer) {
-    ::glColorPointer(size, GL_UNSIGNED_BYTE, stride, pointer->getBuffer());
-}
+                       ByteBuffer* pointer) {}
 
-void glVertexPointer_4J(int size, int type, FloatBuffer* pointer) {
-    ::glVertexPointer(size, (GLenum)type, 0, pointer->_getDataPointer());
-}
+void glVertexPointer_4J(int size, int type, FloatBuffer* pointer) {}
 
 void glTexImage2D_4J(int target, int level, int internalformat, int width,
                      int height, int border, int format, int type,
@@ -96,29 +90,33 @@ void glTexImage2D_4J(int target, int level, int internalformat, int width,
                    (GLenum)format, (GLenum)type, data);
 }
 
+// forward each list id to CBuffCall
 void glCallLists_4J(IntBuffer* lists) {
-    int count = lists->limit() - lists->position();
-    ::glCallLists(count, GL_INT, lists->getBuffer());
+    int base = lists->position();
+    int count = lists->limit() - base;
+    for (int i = 0; i < count; i++) {
+        RenderManager.CBuffCall(lists->get(base + i));
+    }
 }
 
+// GL 1.5 promotion
 void glGenQueries_4J(IntBuffer* buf) {
-    static PFNGLGENQUERIESARBPROC real =
-        (PFNGLGENQUERIESARBPROC)dlsym(RTLD_DEFAULT, "glGenQueriesARB");
-    if (real) {
+    static PFNGLGENQUERIESPROC fn =
+        (PFNGLGENQUERIESPROC)dlsym(RTLD_DEFAULT, "glGenQueries");
+    if (fn) {
         GLuint id = 0;
-        real(1, &id);
+        fn(1, &id);
         buf->put((int)id);
         buf->flip();
     }
 }
 
 void glGetQueryObjectu_4J(int id, int pname, IntBuffer* params) {
-    static PFNGLGETQUERYOBJECTUIVARBPROC real =
-        (PFNGLGETQUERYOBJECTUIVARBPROC)dlsym(RTLD_DEFAULT,
-                                             "glGetQueryObjectuivARB");
-    if (real) {
+    static PFNGLGETQUERYOBJECTUIVPROC fn =
+        (PFNGLGETQUERYOBJECTUIVPROC)dlsym(RTLD_DEFAULT, "glGetQueryObjectuiv");
+    if (fn) {
         GLuint val = 0;
-        real((GLuint)id, (GLenum)pname, &val);
+        fn((GLuint)id, (GLenum)pname, &val);
         params->put((int)val);
         params->flip();
     }
@@ -130,12 +128,13 @@ void glReadPixels_4J(int x, int y, int width, int height, int format, int type,
                    pixels->getBuffer());
 }
 
+// fog lights model?
+// now into rendermanager!
 void glFog_4J(int pname, FloatBuffer* params) {
     float* p = params->_getDataPointer();
     if (pname == 0x0B66 /* GL_FOG_COLOR */) {
         RenderManager.StateSetFogColour(p[0], p[1], p[2]);
     }
-    ::glFogfv((GLenum)pname, p);
 }
 
 void glLight_4J(int light, int pname, FloatBuffer* params) {
@@ -149,7 +148,6 @@ void glLight_4J(int light, int pname, FloatBuffer* params) {
         RenderManager.StateSetLightColour(light == 0x4000 ? 0 : 1, p[0], p[1],
                                           p[2]);
     }
-    ::glLightfv((GLenum)light, (GLenum)pname, p);
 }
 
 void glLightModel_4J(int pname, FloatBuffer* params) {
@@ -157,12 +155,10 @@ void glLightModel_4J(int pname, FloatBuffer* params) {
     if (pname == 0x0B53 /* GL_LIGHT_MODEL_AMBIENT */) {
         RenderManager.StateSetLightAmbientColour(p[0], p[1], p[2]);
     }
-    ::glLightModelfv((GLenum)pname, p);
 }
 
-void glTexGen_4J(int coord, int pname, FloatBuffer* params) {
-    ::glTexGenfv((GLenum)coord, (GLenum)pname, params->_getDataPointer());
-}
+// TexGen is removed in core profile
+void glTexGen_4J(int coord, int pname, FloatBuffer* params) {}
 
 // fallbacks
 int glGenTextures() { return glGenTextures_4J(); }
@@ -213,34 +209,37 @@ void glTexGen(int coord, int pname, FloatBuffer* params) {
 }
 
 // c hooks, disgust.
+// These intercept any code that bypasses the macro system and calls the
+// fixed-function GL functions directly. All roads goes to RenderManager;
 extern "C" {
-void glFogfv(GLenum pname, const GLfloat* params) {
-    static void (*real)(GLenum, const GLfloat*) =
-        (void (*)(GLenum, const GLfloat*))dlsym(RTLD_NEXT, "glFogfv");
-    if (pname == 0x0B66)
-        RenderManager.StateSetFogColour(params[0], params[1], params[2]);
-    if (real) real(pname, params);
-}
-void glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
-    static void (*real)(GLenum, GLenum, const GLfloat*) =
-        (void (*)(GLenum, GLenum, const GLfloat*))dlsym(RTLD_NEXT, "glLightfv");
-    if (pname == 0x1203)
-        RenderManager.StateSetLightDirection(light == 0x4000 ? 0 : 1, params[0],
-                                             params[1], params[2]);
-    else if (pname == 0x1200)
-        RenderManager.StateSetLightAmbientColour(params[0], params[1],
-                                                 params[2]);
-    else if (pname == 0x1201)
-        RenderManager.StateSetLightColour(light == 0x4000 ? 0 : 1, params[0],
-                                          params[1], params[2]);
-    if (real) real(light, pname, params);
-}
-void glLightModelfv(GLenum pname, const GLfloat* params) {
-    static void (*real)(GLenum, const GLfloat*) =
-        (void (*)(GLenum, const GLfloat*))dlsym(RTLD_NEXT, "glLightModelfv");
-    if (pname == 0x0B53)
-        RenderManager.StateSetLightAmbientColour(params[0], params[1],
-                                                 params[2]);
-    if (real) real(pname, params);
-}
+    void glFogfv(GLenum pname, const GLfloat* params) {
+        if (pname == 0x0B66)
+            RenderManager.StateSetFogColour(params[0], params[1], params[2]);
+    }
+    void glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
+        if (pname == 0x1203)
+            RenderManager.StateSetLightDirection(light == 0x4000 ? 0 : 1, params[0],
+                                                 params[1], params[2]);
+        else if (pname == 0x1200)
+            RenderManager.StateSetLightAmbientColour(params[0], params[1],
+                                                     params[2]);
+        else if (pname == 0x1201)
+            RenderManager.StateSetLightColour(light == 0x4000 ? 0 : 1, params[0],
+                                              params[1], params[2]);
+    }
+    void glLightModelfv(GLenum pname, const GLfloat* params) {
+        if (pname == 0x0B53)
+            RenderManager.StateSetLightAmbientColour(params[0], params[1],
+                                                     params[2]);
+    }
+    
+    void glShadeModel(GLenum) {}
+    
+    void glColorMaterial(GLenum face, GLenum mode) {
+        // shader handles that
+    }
+
+    void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
+        // shader handles that
+    }
 }

@@ -5,6 +5,23 @@
 #include "gl3_loader.h"
 #include "4J_Render.h"
 
+// undefine macros from header to avoid argument mismatch
+#undef glGenTextures
+#undef glDeleteTextures
+#undef glTexImage2D
+#undef glReadPixels
+#undef glCallLists
+#undef glFog
+#undef glLight
+#undef glLightModel
+#undef glTexGen
+#undef glTexCoordPointer
+#undef glNormalPointer
+#undef glColorPointer
+#undef glVertexPointer
+#undef glGenQueriesARB
+#undef glGetQueryObjectuARB
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
@@ -929,6 +946,7 @@ void C4JRender::StateSetLightDirection(int light, float x, float y, float z) {
     else
         s_rs.l1 = d;
 }
+void C4JRender::StateSetLightEnable(int light, bool enable) {}
 void C4JRender::StateSetViewport(eViewportType) {
     glViewport(0, 0, s_windowWidth, s_windowHeight);
 }
