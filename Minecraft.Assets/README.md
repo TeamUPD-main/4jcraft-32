@@ -1,3 +1,4 @@
+# WE NEED A FULL REWRITE OF THAT BTW
 # Minecraft.Client Asset Structure
 This is the minimum asset structure needed for the game to function.
 ```

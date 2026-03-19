@@ -437,6 +437,7 @@ static void initStreamingVAOs() {
     glBindBuffer(GL_ARRAY_BUFFER, s_sVBO_cmp);
     bindCmpAttribs();
     glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0); 
 }
 
 //  chunk buffer pool (shared, protected by s_glCallMtx)
@@ -716,6 +717,7 @@ void C4JRender::DrawVertices(ePrimitiveType ptype, int count, void* dataIn,
         bindStdAttribs();
     drawPrim(glMode, wasQuad, 0, (GLsizei)count);
     glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0); 
     pthread_mutex_unlock(&s_glCallMtx);
 }
 
@@ -801,6 +803,7 @@ bool C4JRender::CBuffCall(int index, bool) {
     for (const auto& dc : cb.draws)
         drawPrim(dc.prim, dc.wasQuad, dc.first, dc.count);
     glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0); 
     pthread_mutex_unlock(&s_glCallMtx);
     return true;
 }

@@ -27,11 +27,9 @@
 #undef glTexGen
 #undef glGenQueriesARB
 #undef glGetQueryObjectuARB
-
-// ---------------------------------------------------------
-// 1. The "_4J" versions (Used by files that include 4J_Render.h)
-// ---------------------------------------------------------
-
+// -/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+// The "_4J" versions (Used by files that include 4J_Render.h)
+// /-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 int glGenTextures_4J() {
     GLuint id = 0;
     ::glGenTextures(1, &id);
