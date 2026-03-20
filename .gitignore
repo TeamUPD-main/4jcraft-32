@@ -7,9 +7,11 @@
 !/.github-assets/
 !/4J.Input/
 !/4J.Common/
+!/4J.Common/
 !/4J.Profile/
 !/4J.Render/
 !/4J.Storage/
+!/4jlibs/
 !/4jlibs/
 !/docs/
 !/Minecraft.Assets/
@@ -18,7 +20,11 @@
 !/scripts/
 !/subprojects/
 /subprojects/*
+!/subprojects/
+/subprojects/*
 !/subprojects/*.wrap
+!/subprojects/4jlibs/
+!/subprojects/4jlibs/**
 /scripts/__pycache__/
 !/.clang-format
 !/.git-blame-ignore-revs
