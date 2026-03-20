@@ -1,30 +1,33 @@
-# ----- Build output directories -----
-build/
-builddir/
-.cache/
-.idea/
-build_meson/
+# Exclude everything by default
+/*
 
-# meson subprojects (git clone'd on build)
+# Except for tracked top-level project directories
+!/.devcontainer/
+!/.github/
+!/.github-assets/
+!/4J.Input/
+!/4J.Common/
+!/4J.Profile/
+!/4J.Render/
+!/4J.Storage/
+!/4jlibs/
+!/docs/
+!/Minecraft.Assets/
+!/Minecraft.Client/
+!/Minecraft.World/
+!/scripts/
+!/subprojects/
 /subprojects/*
 !/subprojects/*.wrap
-
-# Nix flake output
-result
-
-# Meson generated artifacts (inside source tree, e.g. per-subdir)
-meson-private/
-meson-info/
-meson-logs/
-
-# ----- IDE / editor -----
-.cache/
-.idea/
-.vscode/
-*.code-workspace
-*.swp
-*.swo
-*~
-
-# ----- Documentation -----
-docs/
+/scripts/__pycache__/
+!/.clang-format
+!/.git-blame-ignore-revs
+!/.gitattributes
+!/.gitignore
+!/.gitmodules
+!/CONTRIBUTING.md
+!/flake.lock
+!/flake.nix
+!/meson.build
+!/meson.options
+!/README.md

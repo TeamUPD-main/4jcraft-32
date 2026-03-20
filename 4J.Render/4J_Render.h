@@ -9,10 +9,6 @@
 
 #include "gl3_loader.h"
 
-#ifdef __linux__
-#include "../Minecraft.Client/Platform/Linux/Stubs/LinuxStubs.h"
-#endif
-
 #include <cstdint>
 #include <cstdlib>
 
@@ -27,12 +23,10 @@ public:
     void* GetBufferPointer() { return m_pBuffer; }
     int GetBufferSize() { return m_bufferSize; }
     void Release() {
-        if (m_pBuffer) {
-            free(m_pBuffer);
-            m_pBuffer = NULL;
-        }
+        std::free(m_pBuffer);
+        m_pBuffer = nullptr;
     }
-    bool Allocated() { return m_pBuffer != NULL; }
+    bool Allocated() { return m_pBuffer != nullptr; }
 };
 
 typedef struct {
@@ -156,15 +150,15 @@ public:
     void TextureSetParam(int param, int value);
     void TextureDynamicUpdateStart();
     void TextureDynamicUpdateEnd();
-    HRESULT LoadTextureData(const char* szFilename, D3DXIMAGE_INFO* pSrcInfo,
-                            int** ppDataOut);
-    HRESULT LoadTextureData(std::uint8_t* pbData, std::uint32_t byteCount,
-                            D3DXIMAGE_INFO* pSrcInfo, int** ppDataOut);
-    HRESULT SaveTextureData(const char* szFilename, D3DXIMAGE_INFO* pSrcInfo,
-                            int* ppDataOut);
-    HRESULT SaveTextureDataToMemory(void* pOutput, int outputCapacity,
-                                    int* outputLength, int width, int height,
-                                    int* ppDataIn);
+    int LoadTextureData(const char* szFilename, D3DXIMAGE_INFO* pSrcInfo,
+                        int** ppDataOut);
+    int LoadTextureData(std::uint8_t* pbData, std::uint32_t byteCount,
+                        D3DXIMAGE_INFO* pSrcInfo, int** ppDataOut);
+    int SaveTextureData(const char* szFilename, D3DXIMAGE_INFO* pSrcInfo,
+                        int* ppDataOut);
+    int SaveTextureDataToMemory(void* pOutput, int outputCapacity,
+                                int* outputLength, int width, int height,
+                                int* ppDataIn);
     void TextureGetStats();
     void* TextureGetTexture(int idx);
 
@@ -198,8 +192,9 @@ public:
     void StateSetEnableViewportClipPlanes(bool enable);
     void StateSetTexGenCol(int col, float x, float y, float z, float w,
                            bool eyeSpace);
-    void StateSetStencil(int Function, uint8_t stencil_ref,
-                         uint8_t stencil_func_mask, uint8_t stencil_write_mask);
+    void StateSetStencil(int Function, std::uint8_t stencil_ref,
+                         std::uint8_t stencil_func_mask,
+                         std::uint8_t stencil_write_mask);
     void StateSetForceLOD(int LOD);
     void StateSetTextureEnable(bool enable);
     void StateSetActiveTexture(int tex);

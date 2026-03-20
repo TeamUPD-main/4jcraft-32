@@ -1132,16 +1132,9 @@ HRESULT C4JRender::SaveTextureDataToMemory(void*, int, int*, int, int, int*) {
     return S_OK;
 }
 
-void C4JRender::DoScreenGrabOnNextPresent() {}
-void C4JRender::CaptureThumbnail(ImageFileBuffer*) {}
-void C4JRender::CaptureScreen(ImageFileBuffer*, XSOCIAL_PREVIEWIMAGE*) {}
-void C4JRender::BeginConditionalSurvey(int) {}
-void C4JRender::EndConditionalSurvey() {}
-void C4JRender::BeginConditionalRendering(int) {}
-void C4JRender::EndConditionalRendering() {}
-void C4JRender::Tick() {}
-void C4JRender::UpdateGamma(unsigned short) {}
-void C4JRender::BeginEvent(LPCWSTR) {}
+void C4JRender::StateSetForceLOD(int LOD) {}  // No LOD bias in legacy GL path
+
+void C4JRender::BeginEvent(const wchar_t* eventName) {}
 void C4JRender::EndEvent() {}
 void C4JRender::Suspend() {}
 bool C4JRender::Suspended() { return false; }
