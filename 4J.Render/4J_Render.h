@@ -451,11 +451,11 @@ extern C4JRender RenderManager;
 #undef glCallList
 #define glCallList(_list) RenderManager.CBuffCall(_list)
 
-// glGenLists / glDeleteLists, lists not supported in core!!!!!
+// glGenLists / glDeleteLists, lists are not supported in core!!!!!
 #undef glGenLists
-#define glGenLists(range) (0)
+#define glGenLists(range) RenderManager.CBuffCreate(range)
 #undef glDeleteLists
-#define glDeleteLists(list, range) do { } while(0)
+#define glDeleteLists(list, range) RenderManager.CBuffDelete(list, range)
 
 #ifndef GL_SHADEMODEL_IS_FUNCTION
 #undef glShadeModel

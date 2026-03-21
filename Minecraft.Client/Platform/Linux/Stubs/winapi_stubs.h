@@ -3,9 +3,32 @@
 
 #pragma once
 
-#include <cassert>
-#include <cstdarg>
-#include <sys/mman.h>
+
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
+#include <pthread.h>  
+#include <sched.h>  
+#include <time.h>  
+#include <errno.h>
+#include <unistd.h>
+#include <sys/mman.h> 
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <fnmatch.h>
+#include <cstdio> 
+#include <cstdlib>    
+#include <cstring>  
+#include <cwchar>     
+#include <cstdint>   
+#include <cstdarg>    
+#include <cstddef>    
+
+#define __cdecl
+#define _vsnprintf_s vsnprintf
 
 #define TRUE true
 #define FALSE false
@@ -13,8 +36,6 @@
 #define ZeroMemory RtlZeroMemory
 #define WINAPI
 
-#define __cdecl
-#define _vsnprintf_s vsnprintf;
 
 #define S_OK 0
 typedef unsigned int DWORD;

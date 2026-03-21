@@ -134,6 +134,12 @@ typedef void (APIENTRYP gdraw_vtxattrib_fn)(GLuint, GLint, GLenum, GLboolean, GL
 static gdraw_vtxattrib_fn gdraw_real_vtxattrib = NULL;
 static GLuint             gdraw_screenvbo      = 0;
 static const void        *gdraw_screenvbo_base = NULL;
+static size_t             gdraw_expected_vbo_size = 0;
+
+// IBO Tracking
+typedef void (APIENTRYP gdraw_drawelements_fn)(GLenum mode, GLsizei count, GLenum type, const void *indices);
+static gdraw_drawelements_fn gdraw_real_drawelements = NULL;
+static GLuint gdraw_screenibo = 0;
 
 // GLSL upgrader
 typedef GLuint (APIENTRYP gdraw_createshader_fn)(GLenum);
@@ -228,15 +234,12 @@ static void load_extensions(void)
     gdraw_real_texsubimage2d = (gdraw_texsubimage2d_fn)(void*)glTexSubImage2D;
     gdraw_real_useprogram    = (gdraw_useprogram_fn)(void*)glUseProgram;
 
+    gdraw_real_drawelements  = (gdraw_drawelements_fn)SDL_GL_GetProcAddress("glDrawElements");
+
     gdraw_glGetStringi = (PFNGLGETSTRINGIPROC_) SDL_GL_GetProcAddress("glGetStringi");
-    
     gdraw_glGenVertexArrays = (PFNGLGENVERTEXARRAYSPROC_) SDL_GL_GetProcAddress("glGenVertexArrays");
     gdraw_glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC_) SDL_GL_GetProcAddress("glBindVertexArray");
 
-    // bind a vao to every iggy calls
-    // i could have done a better way but im pretty sure someone is gonna
-    // push a fat load of changes and break all my code
-    // thats why i'd like to NOT modify iggy that much
     if (gdraw_glGenVertexArrays && gdraw_glBindVertexArray && gdraw_vao == 0) {
         gdraw_glGenVertexArrays(1, &gdraw_vao);
         gdraw_glBindVertexArray(gdraw_vao);
@@ -267,8 +270,8 @@ static void error_msg_platform_specific(const char *msg)
 #define RR_BREAK() \
     do { fprintf(stderr, "[GDraw] GL error at %s:%d\n", __FILE__, __LINE__); } while(0)
 
-// Track shader type by handle so glShaderSource knows vertex vs fragment
-#define GDRAW_MAX_SHADERS 64 // IS THAT A SUPER MARIO 64 REFERENCE?
+    // Track shader type by handle so glShaderSource knows vertex vs fragment
+#define GDRAW_MAX_SHADERS 64
 static struct { GLuint handle; GLenum type; } gdraw_shader_types[GDRAW_MAX_SHADERS];
 static int gdraw_shader_type_count = 0;
 
@@ -278,7 +281,7 @@ static GLenum gdraw_get_shader_type(GLuint shader)
     for (i = 0; i < gdraw_shader_type_count; i++)
         if (gdraw_shader_types[i].handle == shader)
             return gdraw_shader_types[i].type;
-    return GL_FRAGMENT_SHADER; // safe default
+    return GL_FRAGMENT_SHADER;
 }
 
 static GLuint gdraw_CreateShaderTracked(GLenum type)
@@ -309,7 +312,6 @@ static void gdraw_CompileShaderAndLog(GLuint shader)
 
 typedef void (APIENTRYP gdraw_linkprogram_fn)(GLuint);
 
-
 static void gdraw_LinkProgramAndLog(GLuint program)
 {
     GLint status = 0;
@@ -328,12 +330,11 @@ static void gdraw_LinkProgramAndLog(GLuint program)
 #undef  glCreateShader
 #define glCreateShader gdraw_CreateShaderTracked
 
-// String helpers for the patcher
 static char *gdraw_strreplace(char *src, const char *find, const char *rep)
 {
     char *result;
     char *pos;
-    char *base = src;  // save original base for free()
+    char *base = src;
     size_t find_len = strlen(find);
     size_t rep_len  = strlen(rep);
     size_t count    = 0;
@@ -353,7 +354,7 @@ static char *gdraw_strreplace(char *src, const char *find, const char *rep)
         src = pos + find_len;  
     }
     strcpy(tmp, src);
-    free(base);  // free the original allocation
+    free(base);
     return result;
 }
 
@@ -383,7 +384,6 @@ static void gdraw_ShaderSourceUpgraded(GLuint shader, GLsizei count,
 
     is_vert = (gdraw_get_shader_type(shader) == GL_VERTEX_SHADER);
 
-    // Remove any existing #version line, ugly but gets the job done
     {
         char *vp = strstr(src, "#version");
         if (vp) {
@@ -393,10 +393,8 @@ static void gdraw_ShaderSourceUpgraded(GLuint shader, GLsizei count,
         }
     }
 
-    // old keywords to new keywords
     src = gdraw_strreplace(src, "texture2DRect", "texture");
     src = gdraw_strreplace(src, "texture2D",     "texture");
-    // attribute and varying: handle space, tab, newline after the keyword
     src = gdraw_strreplace(src, "attribute ",  "in ");
     src = gdraw_strreplace(src, "attribute\t", "in\t");
     src = gdraw_strreplace(src, "attribute\n", "in\n");
@@ -415,7 +413,6 @@ static void gdraw_ShaderSourceUpgraded(GLuint shader, GLsizei count,
         src = gdraw_strreplace(src, "gl_FragColor",   "_gdraw_frag_out");
     }
 
-    // noow final source and we'll add my lil sauce on it (330 core header)
     {
         const char *vert_header = "#version 330 core\n";
         const char *frag_header = "#version 330 core\nout vec4 _gdraw_frag_out;\n";
@@ -435,7 +432,6 @@ static void gdraw_ShaderSourceUpgraded(GLuint shader, GLsizei count,
 #undef  glShaderSource
 #define glShaderSource gdraw_ShaderSourceUpgraded
 
-// textures
 static void gdraw_apply_swizzle(GLenum internal_fmt)
 {
     if (internal_fmt == 0x1906 /* GL_ALPHA */ || internal_fmt == GL_RED) {
@@ -455,14 +451,14 @@ static void gdraw_apply_swizzle(GLenum internal_fmt)
 static GLenum gdraw_remap_fmt(GLenum fmt)
 {
     switch (fmt) {
-        case 0x1906: /* GL_ALPHA */           return GL_RED;
-        case 0x1909: /* GL_LUMINANCE */       return GL_RED;
-        case 0x190A: /* GL_LUMINANCE_ALPHA */ return GL_RG;
-        case 0x8033: /* GL_LUMINANCE4_ALPHA4 */ return GL_RG;
-        case 0x8045: /* GL_LUMINANCE8 */      return GL_R8;
-        case 0x8048: /* GL_LUMINANCE8_ALPHA8*/return GL_RG8;
-        case 0x804F: /* GL_INTENSITY4 */      return GL_R8;
-        case 0x8050: /* GL_INTENSITY8 */      return GL_R8;
+        case 0x1906: return GL_RED;
+        case 0x1909: return GL_RED;
+        case 0x190A: return GL_RG;
+        case 0x8033: return GL_RG;
+        case 0x8045: return GL_R8;
+        case 0x8048: return GL_RG8;
+        case 0x804F: return GL_R8;
+        case 0x8050: return GL_R8;
         default: return fmt;
     }
 }
@@ -495,8 +491,6 @@ static void gdraw_ClientVertexAttribPointer(GLuint index, GLint size, GLenum typ
                                              GLboolean normalized, GLsizei stride,
                                              const void *pointer)
 {
-    GLint current_vbo = 0;
-
     if (gdraw_glBindVertexArray && gdraw_vao) {
         GLint current_vao = 0;
         glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &current_vao);
@@ -504,36 +498,62 @@ static void gdraw_ClientVertexAttribPointer(GLuint index, GLint size, GLenum typ
             gdraw_glBindVertexArray(gdraw_vao);
     }
 
+    GLint current_vbo = 0;
     glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &current_vbo);
 
-    if (pointer != NULL && current_vbo == 0) {
-        // upload to streaming VBO
-        if (!gdraw_screenvbo)
-            glGenBuffers(1, &gdraw_screenvbo);
+    // If Iggy is using its own VBO (not ours and not 0), pass it through
+    if (current_vbo != 0 && current_vbo != gdraw_screenvbo) {
+        gdraw_real_vtxattrib(index, size, type, normalized, stride, pointer);
+        return;
+    }
+
+    if (pointer == NULL) {
+        gdraw_real_vtxattrib(index, size, type, normalized, stride, pointer);
+        return;
+    }
+
+    // If base is NULL, this is the first attribute of a new draw call. Upload the VBO.
+    if (gdraw_screenvbo_base == NULL) {
+        if (!gdraw_screenvbo) glGenBuffers(1, &gdraw_screenvbo);
         glBindBuffer(GL_ARRAY_BUFFER, gdraw_screenvbo);
-        glBufferData(GL_ARRAY_BUFFER, 256, pointer, GL_STREAM_DRAW);
+
+        size_t upload_size = gdraw_expected_vbo_size > 0 ? gdraw_expected_vbo_size : 256;
+        glBufferData(GL_ARRAY_BUFFER, upload_size, pointer, GL_STREAM_DRAW);
+
         gdraw_screenvbo_base = pointer;
         gdraw_real_vtxattrib(index, size, type, normalized, stride, (const void*)0);
-    } else if (pointer != NULL && gdraw_screenvbo_base != NULL &&
-               (const char*)pointer >= (const char*)gdraw_screenvbo_base &&
-               (const char*)pointer <  (const char*)gdraw_screenvbo_base + 256) {
-        // pass as byte offset
+    } else {
+        // Subsequent attribute. Calculate offset.
+        glBindBuffer(GL_ARRAY_BUFFER, gdraw_screenvbo);
         ptrdiff_t offset = (const char*)pointer - (const char*)gdraw_screenvbo_base;
         gdraw_real_vtxattrib(index, size, type, normalized, stride, (const void*)offset);
-    } else {
-        // pass through unchanged
-        gdraw_screenvbo_base = NULL;
-        gdraw_real_vtxattrib(index, size, type, normalized, stride, pointer);
     }
 }
 
 #undef  glVertexAttribPointer
 #define glVertexAttribPointer gdraw_ClientVertexAttribPointer
 
+static void hooked_glDrawElements(GLenum mode, GLsizei count, GLenum type, const void *indices) {
+    GLint current_ibo = 0;
+    glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &current_ibo);
+    
+    if (current_ibo == 0 && indices != NULL) {
+        if (!gdraw_screenibo) glGenBuffers(1, &gdraw_screenibo);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gdraw_screenibo);
+        
+        size_t index_size = (type == GL_UNSIGNED_SHORT) ? 2 : (type == GL_UNSIGNED_BYTE ? 1 : 4);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * index_size, indices, GL_STREAM_DRAW);
+        
+        gdraw_real_drawelements(mode, count, type, (const void*)0);
+    } else {
+        gdraw_real_drawelements(mode, count, type, indices);
+    }
+}
+#define glDrawElements hooked_glDrawElements
+
 static void gdraw_UseProgramSafe(GLuint program)
 {
     if (!program) {
-        // dummy shader program incase everything goes kaboom
         if (!gdraw_null_program && gdraw_real_useprogram) {
             const char *vs = "#version 330 core\nvoid main(){gl_Position=vec4(0);}";
             const char *fs = "#version 330 core\nout vec4 c;\nvoid main(){c=vec4(0);}";
@@ -550,7 +570,6 @@ static void gdraw_UseProgramSafe(GLuint program)
             glDeleteShader(v);
             glDeleteShader(f);
         }
-        // real.
         gdraw_real_useprogram(0);
         return;
     }
@@ -566,7 +585,6 @@ static void gdraw_UseProgramSafe(GLuint program)
 #define glLinkProgram gdraw_LinkProgramAndLog
 
 #include "../../../Windows64/Iggy/gdraw/gdraw_gl_shared.inl"
-// ^ ohio disgust
 #undef  glVertexAttribPointer
 #define glVertexAttribPointer gdraw_real_vtxattrib
 
@@ -584,7 +602,41 @@ static int hasext_core(const char *name)
     return 0;
 }
 
-// Context creation and management
+static gdraw_draw_indexed_triangles* real_DrawIndexedTriangles = NULL;
+
+static void RADLINK hooked_DrawIndexedTriangles(GDrawRenderState *r, GDrawPrimitive *prim, GDrawVertexBuffer *buf, GDrawStats *stats) {
+    if (buf == NULL && prim != NULL && prim->vertices != NULL) {
+        size_t stride = 8;
+        if (prim->vertex_format == GDRAW_vformat_v2aa) stride = 16;
+        else if (prim->vertex_format == GDRAW_vformat_v2tc2) stride = 16;
+        else if (prim->vertex_format == GDRAW_vformat_ihud1) stride = 20;
+        
+        gdraw_expected_vbo_size = prim->num_vertices * stride;
+    } else {
+        gdraw_expected_vbo_size = 0;
+    }
+    
+    // Force gdraw_screenvbo_base to NULL to ensure the next glVertexAttribPointer uploads the new data
+    gdraw_screenvbo_base = NULL;
+    
+    real_DrawIndexedTriangles(r, prim, buf, stats);
+}
+
+static gdraw_filter_quad* real_FilterQuad = NULL;
+
+static void RADLINK hooked_FilterQuad(GDrawRenderState *r, S32 x0, S32 y0, S32 x1, S32 y1, GDrawStats *stats) {
+    gdraw_expected_vbo_size = 4 * 20; // 4 vertices, max stride
+    gdraw_screenvbo_base = NULL; // Force upload
+    real_FilterQuad(r, x0, y0, x1, y1, stats);
+}
+
+static gdraw_rendering_begin* real_RenderingBegin = NULL;
+
+static void RADLINK hooked_RenderingBegin(void) {
+    if (real_RenderingBegin) real_RenderingBegin();
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+}
 
 GDrawFunctions *gdraw_GL_CreateContext(S32 w, S32 h, S32 msaa_samples)
 {
@@ -608,7 +660,6 @@ GDrawFunctions *gdraw_GL_CreateContext(S32 w, S32 h, S32 msaa_samples)
     GLint n;
     GLint major = 0, minor = 0;
 
-    // A current SDL2 GL context must be active before calling this.
     glGetIntegerv(GL_MAJOR_VERSION, &major);
     glGetIntegerv(GL_MINOR_VERSION, &minor);
     if (major < 3 || (major == 3 && minor < 3)) {
@@ -618,7 +669,6 @@ GDrawFunctions *gdraw_GL_CreateContext(S32 w, S32 h, S32 msaa_samples)
     }
 
     if (!hasext_core("GL_EXT_framebuffer_object")) {
-        // GL 3.0+ guarantees framebuffer objects, so only warn.
         fprintf(stderr, "[GDraw SDL] GL_EXT_framebuffer_object not listed, "
                         "continuing anyway (core 3.0+ guarantees FBOs)\n");
     }
@@ -635,11 +685,21 @@ GDrawFunctions *gdraw_GL_CreateContext(S32 w, S32 h, S32 msaa_samples)
     if (!funcs)
         return NULL;
 
+    // Apply our hooks
+    real_DrawIndexedTriangles = funcs->DrawIndexedTriangles;
+    funcs->DrawIndexedTriangles = hooked_DrawIndexedTriangles;
+
+    real_FilterQuad = funcs->FilterQuad;
+    funcs->FilterQuad = hooked_FilterQuad;
+
+    real_RenderingBegin = funcs->RenderingBegin;
+    funcs->RenderingBegin = hooked_RenderingBegin;
+
     gdraw->tex_formats = tex_formats;
 
-    gdraw->has_mapbuffer              = true; // core in ARB_vertex_buffer_object
+    gdraw->has_mapbuffer              = true; 
     gdraw->has_depth24                = true;
-    gdraw->has_texture_max_level      = true; // core GL
+    gdraw->has_texture_max_level      = true; 
 
     if (hasext_core("GL_EXT_packed_depth_stencil"))
         gdraw->has_packed_depth_stencil = true;
@@ -661,7 +721,6 @@ GDrawFunctions *gdraw_GL_CreateContext(S32 w, S32 h, S32 msaa_samples)
 
 void gdraw_GL_BeginCustomDraw_4J(IggyCustomDrawCallbackRegion *region, F32 *matrix)
 {
-    // Restore Iggy's VAO
     if (gdraw_glBindVertexArray && gdraw_vao)
         gdraw_glBindVertexArray(gdraw_vao);
     clear_renderstate();

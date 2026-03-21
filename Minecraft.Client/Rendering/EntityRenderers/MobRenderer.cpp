@@ -110,13 +110,11 @@ void MobRenderer::render(std::shared_ptr<Entity> _mob, double x, double y,
             // but we definitely don't want to be turning blending off during
             // the gui render.
             if (!entityRenderDispatcher->isGuiRender) {
-                if ((armorType & 0xf) ==
-                    0xf)  // MGH - fix for missing enchantment glow
+                if ((armorType & 0xf) == 0xf)   // MGH - fix for missing enchantment glow
                 {
                     float time = mob->tickCount + a;
-                    bindTexture(
-                        TN__BLUR__MISC_GLINT);  // 4J was
-                                                // "%blur%/misc/glint.png"
+                    bindTexture(TN__BLUR__MISC_GLINT); 
+                    // 4J was "%blur%/misc/glint.png"
                     glEnable(GL_BLEND);
                     float br = 0.5f;
                     glColor4f(br, br, br, 1);
@@ -209,6 +207,9 @@ void MobRenderer::render(std::shared_ptr<Entity> _mob, double x, double y,
         glDisable(GL_BLEND);
         glEnable(GL_ALPHA_TEST);
         glEnable(GL_TEXTURE_2D);
+        
+        // no entity tint please.
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glDisable(GL_RESCALE_NORMAL);
     //    }
@@ -254,7 +255,7 @@ void MobRenderer::renderModel(std::shared_ptr<Entity> mob, float wp, float ws,
         glDepthMask(true);
     } else {
         model->setupAnim(wp, ws, bob, headRotMinusBodyRot, headRotx,
-                         scale);  //, mob);
+                         scale); //, mob);
     }
 }
 
@@ -317,12 +318,12 @@ void MobRenderer::renderNameTag(std::shared_ptr<Mob> mob,
                                 double y, double z, int maxDist,
                                 int color /*= 0xffffffff*/) {
     if (app.GetGameSettings(eGameSetting_DisplayHUD) == 0) {
-        // 4J-PB - turn off gamertag render
+                // 4J-PB - turn off gamertag render
         return;
     }
 
     if (app.GetGameHostOption(eGameHostOption_Gamertags) == 0) {
-        // turn off gamertags if the host has set them off
+                // turn off gamertags if the host has set them off
         return;
     }
 

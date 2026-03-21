@@ -24,7 +24,7 @@ if host_machine.system() == 'linux'
     '-D__linux__',
   ]
 endif
-
+stubs_inc = include_directories('../../Minecraft.Client/Platform/Linux/Stubs')
 render_inc = include_directories('../../4J.Render', '../../4J.Common')
 render_sources = files('../../4J.Render/4J_Render.cpp', '../../4J.Render/stdafx.cpp')
 lib_render = static_library(
@@ -34,6 +34,7 @@ lib_render = static_library(
   dependencies: [sdl2_dep, gl_dep, thread_dep],
   cpp_args: fourj_cpp_args + fourj_cpp_defs + [
     '-include', meson.current_source_dir() / '../../4J.Render/stdafx.h',
+    '-I' + meson.current_source_dir() / '../../Minecraft.Client/Platform/Linux/Stubs' 
   ],
 )
 render_dep = declare_dependency(

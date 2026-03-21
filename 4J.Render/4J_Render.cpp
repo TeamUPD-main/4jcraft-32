@@ -29,67 +29,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-// This code is chaotic and horrible, so here's niko from oneshot for good luck:
-//                +++++++++%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%=++++++
-//              =++=+=+=+=+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#=====++=+=+=
-//              ++++++++=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##==+++++=++++++
-//            +=+=+=+=++=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%+==++++=+=+++=++=+
-//            ++++++++++=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#=+++=+=+++++=++++++
-//          =++=++=++=++=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#=+++=+++++=+=+++=+=+=
-//          =++++++=++++=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#=+++++=+=+++++=++++++
-//         =+++=+=+++=++=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%++++=+=+++++=+=+++=++=+
-//        =+=++++++=++++=%%%%###%#%####%#++++++++++#%########%++++++++++=+=+++++=++++++
-//        =+++=++=+++=+++##%#++++++++++++###########++++++++++++++=+++=+++++=+=+++=+=+=
-//       +=+=++++++++*+****#####################################+*+*++++++=+++++=++++++
-//       ++++++****##################################################*****++++++++=++=+
-//       ***#*#############################################################*****=++++++
-//   ###########################################################################**#++++
-// #####################################################################################
-// #####################################################################################
-// #########################%%%%%%%%%%%%%%%%%%%%%%%%%%%%################################
-// #############%%%%%%%%%%%%###**#####################%%%%%%%%%%%%%%%%%%%%%%%###########
-//       %%%%################*#*##############****##################%%%%%%%%%%%%%%%####
-//       %%%%%#############**#*#############****##***####################%%%%%%%%%%%%%
-//       %%%%%#############%%%#*############**#***#**#***##################%%%%%%%%%%%
-//       %%%%%###########%#:-%%%############*******#%%###%%%%###############%%%%%%%%%%
-//       %%%%%##########%.....=%############**#**#%+:+%##:::=%##**##########%%%%%%%%
-//       %%%%%#########%%.....=%############*###%*.....##:::::#%%###########%%%%%%%%
-//       %%%%
-//       ######%:::::-%#%**##%#######=:-.%#.....*#:::::::%###########%%%%%%%%
-//%@%@%@%%%%%
-//######%::::::%#%::%#.+%#####=:*%:::::+%##:::::::%%#########%%%%%%%%%
-//%@%%@%%@@@@@%
-//####%::::::%#%::::=-:#####=:#%:::::=%##:::::::::%########%%%%%%%%%%%%
-// @%@%@%%%%%%@@%
-// %%##%::::::%#%::::-------%=-:::::::=%##:::::::::%########%%%%%%%%%%%%
-//     %@@@%@%%@@@%%%#%::::::%#%::::=--------=:::::::=%##:::::::::%######%%%%%%%%%%%%%%
-//          %@@%@%%%%%%=-::::%*#::::-=+---------:::::=%##:::::::::%######%%%%%%%%%%%%%%
-//            %%%%%%%%%=--::::::::--------------:::::-#*+:::::::--%######%%%%%%%#%%%%%#
-//       %%%%@%@%@@%%%%=---------------------------::::::::::::---#####%%%%%%%%%%%%%%%%
-//   %@%%@%@%%@%@%
-//   %%%%+=--------------==------------------------=%#####%%%%%#%%%%%%%%%
-//   %@%@%@%@@@%%
-//   %%%%%%%++----------==++==----------------------=###%%%%@%%%%%#####%%%
-//   %%@%%@%%
-//   %@%%%%%%%%#.---------=+--+=---------------------++##%@@@@@@%%%%%%%####
-//            %@%@%@#%%%%%%
-//            =-++++------------------------=+*##*%%#%@@@%%%%%%#%%%%%%%%
-//          %@%@%@%@ %%%%%%
-//          ######++++*--------------=++***#%@@@##@%%%%#######%%%%%%%%%
-//          %@%@%@%@ %%%%
-//          #############%%%%%%%%%##***######@@@@@################%%%%%%%
-//          %@%%@%
-//          %%##########%@@@@@@@@@@@@@@#######@@@%#####################%%%%%
-//           @%@
-//           %%#########@@@@@@@@@@@@@@@@@@@@@############################%%%%
-//                     ##################@@@@@@@@@@%##################################
-//                   #################################################################
-//                        ##########################################################
-//                            @@##################################################
-//                            %%################################################%%%%
-//                          %%################################################%%%%%%%%
-// okay now goodbye
+// removed niko cuz it made the formatter mad ):
 
 #include <cstring>
 #include <cstdlib>
@@ -128,7 +68,6 @@ static pthread_mutex_t s_glCallMtx = PTHREAD_MUTEX_INITIALIZER;
 static pthread_t s_mainThread;
 static bool s_mainThreadSet = false;
 
-// Forward declarations
 static void onFramebufferResize(int w, int h) {
     if (w < 1) w = 1;
     if (h < 1) h = 1;
@@ -170,7 +109,7 @@ void main() {
     vec4 eyePos  = uMV  * vec4(aPos, 1.0);
     gl_Position  = uMVP * vec4(aPos, 1.0);
     vUV0 = aUV0;
-    
+
     vec2 lm = (aLMraw.x <= -500) ? uGlobalLM : vec2(aLMraw);
     vUV1 = (lm / 256.0) * uLMTransform.xy + uLMTransform.zw;
 
@@ -303,7 +242,7 @@ struct ShaderUniforms {
     }
 } s_shader;
 
-// Matrix Stacks.
+// Matrix stacks
 static const int STACK_DEPTH = 64;
 struct MatrixStack {
     glm::mat4 stack[STACK_DEPTH];
@@ -342,7 +281,7 @@ static void flushMatrices() {
     glUniformMatrix4fv(s_shader.uMV, 1, GL_FALSE, glm::value_ptr(s_mv.cur()));
 }
 
-//  render state
+// Render state
 struct RS {
     glm::vec4 baseColor = {1, 1, 1, 1};
     glm::vec4 fogColor = {0, 0, 0, 1};
@@ -353,9 +292,10 @@ struct RS {
     bool useTexture = true, useLightmap = false, lighting = false;
     glm::vec3 l0 = {0.173913f, 0.869565f, -0.608696f};
     glm::vec3 l1 = {-0.173913f, 0.869565f, 0.608696f};
-    glm::vec3 ldiff = {0.6f, 0.6f, 0.6f}, lamb = {0.4f, 0.4f, 0.4f};
+    glm::vec3 ldiff = {0.6f, 0.6f, 0.6f};
+    glm::vec3 lamb = {0.4f, 0.4f, 0.4f};
     glm::vec4 lmt = {1, 1, 0, 0};
-    glm::vec2 globalLM = {240.f, 240.f};  // fullbright for
+    glm::vec2 globalLM = {240.f, 240.f};  // fullbright default
     int activeTexture = 0;
 };
 static thread_local RS s_rs;
@@ -383,33 +323,7 @@ static void pushRenderState() {
     flushMatrices();
 }
 
-//  quad IBO
-static const int MAX_QUADS = 16384;
-static GLuint s_quadIBO = 0;
-
-static void buildQuadIBO() {
-    std::vector<GLushort> idx;
-    idx.reserve(MAX_QUADS * 6);
-    for (int q = 0; q < MAX_QUADS; q++) {
-        GLushort b = (GLushort)(q * 4);
-        idx.push_back(b);
-        idx.push_back(b + 1);
-        idx.push_back(b + 2);
-        idx.push_back(b);
-        idx.push_back(b + 2);
-        idx.push_back(b + 3);
-    }
-    glGenBuffers(1, &s_quadIBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, s_quadIBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 (GLsizeiptr)(idx.size() * sizeof(GLushort)), idx.data(),
-                 GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-//  streaming VAOs
 static GLuint s_sVAO_std = 0, s_sVBO_std = 0;
-static GLuint s_sVAO_cmp = 0, s_sVBO_cmp = 0;
 
 static void bindStdAttribs() {
     glEnableVertexAttribArray(0);
@@ -423,18 +337,6 @@ static void bindStdAttribs() {
     glVertexAttribPointer(3, 3, GL_BYTE, GL_TRUE, 32, (void*)24);
     glVertexAttribIPointer(4, 2, GL_SHORT, 32, (void*)28);
 }
-static void bindCmpAttribs() {
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-    glEnableVertexAttribArray(3);
-    glEnableVertexAttribArray(4);
-    glVertexAttribPointer(0, 3, GL_SHORT, GL_FALSE, 16, (void*)0);
-    glVertexAttribPointer(1, 2, GL_SHORT, GL_FALSE, 16, (void*)8);
-    glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, 16, (void*)6);
-    glVertexAttribPointer(3, 3, GL_BYTE, GL_TRUE, 16, (void*)6);
-    glVertexAttribIPointer(4, 2, GL_SHORT, 16, (void*)12);
-}
 static void initStreamingVAOs() {
     glGenVertexArrays(1, &s_sVAO_std);
     glGenBuffers(1, &s_sVBO_std);
@@ -442,28 +344,19 @@ static void initStreamingVAOs() {
     glBindBuffer(GL_ARRAY_BUFFER, s_sVBO_std);
     bindStdAttribs();
     glBindVertexArray(0);
-
-    glGenVertexArrays(1, &s_sVAO_cmp);
-    glGenBuffers(1, &s_sVBO_cmp);
-    glBindVertexArray(s_sVAO_cmp);
-    glBindBuffer(GL_ARRAY_BUFFER, s_sVBO_cmp);
-    bindCmpAttribs();
-    glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-//  chunk buffer pool (shared, protected by s_glCallMtx)
+// Chunk buffer pool (shared, protected by s_glCallMtx)
 struct ChunkDrawCall {
     GLenum prim;
     GLint first;
     GLsizei count;
-    bool wasQuad;
 };
 struct ChunkBuffer {
     GLuint vbo = 0;
     std::vector<ChunkDrawCall> draws;
     std::vector<uint8_t> rawVerts;
-    bool compact = false;
     bool valid = false;
     bool vboReady = false;
     void destroy() {
@@ -475,30 +368,28 @@ struct ChunkBuffer {
         rawVerts.clear();
         valid = false;
         vboReady = false;
-        compact = false;
     }
 };
 static std::unordered_map<int, ChunkBuffer> s_chunkPool;
 static int s_nextListBase = 1;
 
-//  per-thread recording state
+// Per-thread recording state
 static thread_local int s_recListId = -1;
 static thread_local std::vector<uint8_t> s_recVerts;
 static thread_local std::vector<ChunkDrawCall> s_recDraws;
-static thread_local bool s_recCompact = false;
 
-//  primitive helpers
+// Primitive helpers
 static bool isQuadPrim(int pt) {
-    return (pt == GL_QUADS || pt == (int)C4JRender::PRIMITIVE_TYPE_QUAD_LIST);
+    return (pt == 0x0007 /*GL_QUADS*/ ||
+            pt == (int)C4JRender::PRIMITIVE_TYPE_QUAD_LIST);
 }
 static GLenum mapPrim(int pt) {
     if (isQuadPrim(pt)) return GL_TRIANGLES;
-    if (pt == GL_TRIANGLES) return GL_TRIANGLES;
-    if (pt == GL_LINES) return GL_LINES;
-    if (pt == GL_LINE_STRIP) return GL_LINE_STRIP;
-    if (pt == GL_TRIANGLE_STRIP) return GL_TRIANGLE_STRIP;
-    if (pt == GL_TRIANGLE_FAN) return GL_TRIANGLE_FAN;
     switch (pt) {
+        case 0x0003:
+            return GL_LINE_STRIP;
+        case 0x0006:
+            return GL_TRIANGLE_FAN; 
         case C4JRender::PRIMITIVE_TYPE_TRIANGLE_LIST:
             return GL_TRIANGLES;
         case C4JRender::PRIMITIVE_TYPE_TRIANGLE_STRIP:
@@ -513,19 +404,7 @@ static GLenum mapPrim(int pt) {
             return GL_TRIANGLES;
     }
 }
-static void drawPrim(GLenum glMode, bool wasQuad, GLint first,
-                     GLsizei vertCount) {
-    if (wasQuad) {
-        GLsizei indexCount = (vertCount / 4) * 6;
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, s_quadIBO);
-        glDrawElementsBaseVertex(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT,
-                                 nullptr, first);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    } else {
-        glDrawArrays(glMode, first, vertCount);
-    }
-}
-//  Initialises the renderer
+// Initialises the renderer
 void C4JRender::Initialise() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "[4J_Render] SDL_Init: %s\n", SDL_GetError());
@@ -540,14 +419,12 @@ void C4JRender::Initialise() {
         s_windowHeight = (int)(dm.h * 0.4f);
     }
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-
     // Well i changed my mind, i DID rewrite the whole renderer.
     // atleast part of it.
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(
-        SDL_GL_CONTEXT_PROFILE_MASK,
-        SDL_GL_CONTEXT_PROFILE_CORE);  // I am sorry for everything that i shall
-                                       // do in the next commits.
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+                        SDL_GL_CONTEXT_PROFILE_CORE);
+    // I am sorry for everything that i shall do in the next commits.
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -584,7 +461,6 @@ void C4JRender::Initialise() {
     glClearColor(0, 0, 0, 1);
     glViewport(0, 0, s_windowWidth, s_windowHeight);
     s_shader.build(VERT_SRC, FRAG_SRC);
-    buildQuadIBO();
     initStreamingVAOs();
     pthread_once(&s_glCtxKeyOnce, makeGLCtxKey);
     s_mainThread = pthread_self();
@@ -675,7 +551,6 @@ void C4JRender::GetFramebufferSize(int& w, int& h) {
     w = s_windowWidth;
     h = s_windowHeight;
 }
-
 void C4JRender::Close() { s_window = nullptr; }
 
 void C4JRender::Shutdown() {
@@ -685,9 +560,6 @@ void C4JRender::Shutdown() {
     pthread_mutex_unlock(&s_glCallMtx);
     glDeleteVertexArrays(1, &s_sVAO_std);
     glDeleteBuffers(1, &s_sVBO_std);
-    glDeleteVertexArrays(1, &s_sVAO_cmp);
-    glDeleteBuffers(1, &s_sVBO_cmp);
-    if (s_quadIBO) glDeleteBuffers(1, &s_quadIBO);
     if (s_shader.prog) glDeleteProgram(s_shader.prog);
     if (s_glContext) {
         SDL_GL_DeleteContext(s_glContext);
@@ -704,72 +576,107 @@ void C4JRender::Shutdown() {
     SDL_Quit();
 }
 
-void C4JRender::DrawVertices(ePrimitiveType ptype, int count, void* dataIn, eVertexType vType, ePixelShaderType) {
+// all this time it was passing 16byte and i hated it
+void C4JRender::DrawVertices(ePrimitiveType ptype, int count, void* dataIn,
+                             eVertexType vType, ePixelShaderType) {
     if (count <= 0 || !dataIn) return;
-    bool compact = (vType == VERTEX_TYPE_COMPRESSED);
-    const bool wasQuad = isQuadPrim((int)ptype);
+
+    bool wasQuad = isQuadPrim((int)ptype);
     GLenum glMode = mapPrim((int)ptype);
 
-    std::vector<uint8_t> convertedData;
-    if (compact){
-        convertedData.resize(count * 32);
-        int16_t* src = (int16_t*)dataIn;
-        uint8_t* dst = convertedData.data();
+    std::vector<uint8_t> stdData;
+    if (vType == VERTEX_TYPE_COMPRESSED) {
+        stdData.resize((size_t)count * 32);
+        const int16_t* src = (const int16_t*)dataIn;
+        uint8_t* dst = stdData.data();
         for (int i = 0; i < count; i++) {
             float* dstF = (float*)dst;
-            dstF[0] = src[0] / 1024.0f; // x
-            dstF[1] = src[1] / 1024.0f; // y
-            dstF[2] = src[2] / 1024.0f; // z
-            dstF[3] = src[4] / 8192.0f; // u
-            dstF[4] = src[5] / 8192.0f; // v
-            
-            // Decode RGB565 color
-            uint16_t packed = (uint16_t)(src[3] + 32768);
-            uint8_t r = ((packed >> 11) & 0x1F) * 255 / 31;
-            uint8_t g = ((packed >> 5) & 0x3F) * 255 / 63;
-            uint8_t b = (packed & 0x1F) * 255 / 31;
-            dst[20] = 255; // A
-            dst[21] = b;   // B
-            dst[22] = g;   // G
-            dst[23] = r;   // R
-            
-            // Normal (compact format lacks normals, use default UP)
+
+            // Position: int16 / 1024
+            dstF[0] = src[0] / 1024.0f;
+            dstF[1] = src[1] / 1024.0f;
+            dstF[2] = src[2] / 1024.0f;
+
+            // UV: int16 / 8192
+            dstF[3] = src[4] / 8192.0f;
+            dstF[4] = src[5] / 8192.0f;
+
+            // Colour: RGB565, biased by −32768
+            {
+                uint16_t packed = (uint16_t)((int)src[3] + 32768);
+                dst[20] = 255; 
+                dst[21] = (uint8_t)((packed & 0x1F) * 255 / 31);          // B
+                dst[22] = (uint8_t)(((packed >> 5) & 0x3F) * 255 / 63);   // G
+                dst[23] = (uint8_t)(((packed >> 11) & 0x1F) * 255 / 31);  // R
+            }
             dst[24] = 0;
-            dst[25] = 127;
+            dst[25] = 127;  // +Y (up)
             dst[26] = 0;
-            
-            // Tex2 (Lightmap)
-            int16_t* dstS = (int16_t*)(dst + 28);
-            dstS[0] = src[6];
-            dstS[1] = src[7];
-            
+            dst[27] = 0;
+
+            // Lightmap
+            {
+                int16_t* dstS = (int16_t*)(dst + 28);
+                dstS[0] = src[6];
+                dstS[1] = src[7];
+            }
+
             src += 8;
             dst += 32;
         }
-        dataIn = convertedData.data();
-        compact = false;
+        dataIn = stdData.data();
     }
-    size_t stride = 32; // Always 32 now
+
+    static const size_t stride = 32;
+    std::vector<uint8_t> triData;
+    if (wasQuad) {
+        int numQuads = count / 4;
+        int triVerts = numQuads * 6;
+        triData.resize((size_t)triVerts * stride);
+        const uint8_t* src = (const uint8_t*)dataIn;
+        uint8_t* dst = triData.data();
+        for (int q = 0; q < numQuads; q++) {
+            const uint8_t* v0 = src + (q * 4 + 0) * stride;
+            const uint8_t* v1 = src + (q * 4 + 1) * stride;
+            const uint8_t* v2 = src + (q * 4 + 2) * stride;
+            const uint8_t* v3 = src + (q * 4 + 3) * stride;
+            // Triangle 1: 0,1,2
+            memcpy(dst + 0 * stride, v0, stride);
+            memcpy(dst + 1 * stride, v1, stride);
+            memcpy(dst + 2 * stride, v2, stride);
+            // Triangle 2: 0,2,3
+            memcpy(dst + 3 * stride, v0, stride);
+            memcpy(dst + 4 * stride, v2, stride);
+            memcpy(dst + 5 * stride, v3, stride);
+            dst += 6 * stride;
+        }
+        dataIn = triData.data();
+        count = triVerts;
+        glMode = GL_TRIANGLES;
+    }
+
     size_t bytes = (size_t)count * stride;
-    
+
     if (s_recListId >= 0) {
         int first = (int)(s_recVerts.size() / stride);
-        s_recVerts.insert(s_recVerts.end(), (uint8_t*)dataIn,
-                          (uint8_t*)dataIn + bytes);
-        s_recDraws.push_back({glMode, first, (GLsizei)count, wasQuad});
+        s_recVerts.insert(s_recVerts.end(), (const uint8_t*)dataIn,
+                          (const uint8_t*)dataIn + bytes);
+        s_recDraws.push_back({glMode, first, (GLsizei)count});
         return;
     }
     pthread_mutex_lock(&s_glCallMtx);
     pushRenderState();
-    GLuint vao = s_sVAO_std;
-    GLuint vbo = s_sVBO_std;
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+    glBindVertexArray(s_sVAO_std);
+    glBindBuffer(GL_ARRAY_BUFFER, s_sVBO_std);
     glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)bytes, dataIn, GL_STREAM_DRAW);
     bindStdAttribs();
-    drawPrim(glMode, wasQuad, 0, (GLsizei)count);
+
+    glDrawArrays(glMode, 0, count);
+
     glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
+    glBindBuffer(GL_ARRAY_BUFFER,
+                 0);  // please vbo i need this
     pthread_mutex_unlock(&s_glCallMtx);
 }
 
@@ -796,7 +703,6 @@ void C4JRender::CBuffStart(int index, bool) {
     s_recListId = index;
     s_recVerts.clear();
     s_recDraws.clear();
-    s_recCompact = false;
 }
 void C4JRender::CBuffEnd() {
     if (s_recListId < 0) return;
@@ -811,7 +717,6 @@ void C4JRender::CBuffEnd() {
     }
     cb.rawVerts = std::move(s_recVerts);
     cb.draws = std::move(s_recDraws);
-    cb.compact = s_recCompact;
     cb.valid = true;
     cb.vboReady = false;
     pthread_mutex_unlock(&s_glCallMtx);
@@ -845,19 +750,20 @@ bool C4JRender::CBuffCall(int index, bool) {
         cb.vboReady = true;
     }
     pushRenderState();
-        GLuint vao = s_sVAO_std; 
-    glBindVertexArray(vao);
+
+    glBindVertexArray(s_sVAO_std);
     glBindBuffer(GL_ARRAY_BUFFER, cb.vbo);
-    bindStdAttribs(); 
-    
-    for (const auto& dc : cb.draws)
-        drawPrim(dc.prim, dc.wasQuad, dc.first, dc.count);
-        
+    bindStdAttribs();
+
+    for (const auto& dc : cb.draws) glDrawArrays(dc.prim, dc.first, dc.count);
+
     glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0); // Keep the Iggy fix!
+    glBindBuffer(GL_ARRAY_BUFFER,
+                 0);
     pthread_mutex_unlock(&s_glCallMtx);
     return true;
 }
+
 int C4JRender::CBuffSize(int) { return 0; }
 void C4JRender::CBuffTick() {}
 void C4JRender::CBuffDeferredModeStart() {}
@@ -893,9 +799,9 @@ void C4JRender::MatrixOrthogonal(float l, float r, float b, float t, float zn,
 void C4JRender::MatrixMult(float* m) { activeStack().mul(glm::make_mat4(m)); }
 const float* C4JRender::MatrixGet(int t) {
     static float buf[16];
-    glm::mat4* m = (t == GL_MODELVIEW_MATRIX)
-                       ? &s_mv.cur()
-                       : (t == GL_PROJECTION_MATRIX ? &s_proj.cur() : nullptr);
+    glm::mat4* m = (t == GL_MODELVIEW_MATRIX)    ? &s_mv.cur()
+                   : (t == GL_PROJECTION_MATRIX) ? &s_proj.cur()
+                                                 : nullptr;
     if (m) memcpy(buf, glm::value_ptr(*m), 64);
     return buf;
 }
@@ -912,24 +818,6 @@ void C4JRender::StateSetColour(float r, float g, float b, float a) {
 }
 void C4JRender::StateSetDepthMask(bool e) {
     glDepthMask(e ? GL_TRUE : GL_FALSE);
-}
-void C4JRender::StateSetTextureEnable(bool e) {
-    if (s_rs.activeTexture == 0) {
-        s_rs.useTexture = e;
-        if (s_shader.prog) {
-            glUseProgram(s_shader.prog);
-            glUniform1i(s_shader.uUseTexture, e ? 1 : 0);
-        }
-    } else {
-        s_rs.useLightmap = e;
-        if (s_shader.prog) {
-            glUseProgram(s_shader.prog);
-            glUniform1i(s_shader.uUseLightmap, e ? 1 : 0);
-        }
-    }
-}
-void C4JRender::StateSetActiveTexture(int tex) {
-    s_rs.activeTexture = (tex == 0x84C1 /*GL_TEXTURE1*/) ? 1 : 0;
 }
 void C4JRender::StateSetBlendEnable(bool e) {
     if (e)
@@ -956,6 +844,7 @@ void C4JRender::StateSetDepthTestEnable(bool e) {
     else
         glDisable(GL_DEPTH_TEST);
 }
+
 void C4JRender::StateSetAlphaTestEnable(bool e) {
     s_rs.alphaRef = e ? 0.1f : 0.f;
 }
@@ -968,8 +857,10 @@ void C4JRender::StateSetDepthSlopeAndBias(float s, float b) {
         glDisable(GL_POLYGON_OFFSET_FILL);
 }
 void C4JRender::StateSetBlendFactor(unsigned int col) {
-    float a = ((col >> 24) & 0xFF) / 255.f, r = ((col >> 16) & 0xFF) / 255.f,
-          g = ((col >> 8) & 0xFF) / 255.f, b = (col & 0xFF) / 255.f;
+    float a = ((col >> 24) & 0xFF) / 255.f;
+    float r = ((col >> 16) & 0xFF) / 255.f;
+    float g = ((col >> 8) & 0xFF) / 255.f;
+    float b = (col & 0xFF) / 255.f;
     glBlendColor(r, g, b, a);
 }
 void C4JRender::StateSetFogEnable(bool e) { s_rs.fogEnable = e; }
@@ -1000,11 +891,11 @@ void C4JRender::StateSetLightDirection(int light, float x, float y, float z) {
     else
         s_rs.l1 = d;
 }
-void C4JRender::StateSetLightEnable(int light, bool enable) {}
+void C4JRender::StateSetLightEnable(int, bool) {}
 void C4JRender::StateSetViewport(eViewportType) {
     glViewport(0, 0, s_windowWidth, s_windowHeight);
 }
-void C4JRender::StateSetEnableViewportClipPlanes(bool e) {}
+void C4JRender::StateSetEnableViewportClipPlanes(bool) {}
 void C4JRender::StateSetVertexTextureUV(float u, float v) {
     s_rs.globalLM = {u, v};
 }
@@ -1016,6 +907,26 @@ void C4JRender::StateSetStencil(int fn, uint8_t ref, uint8_t fmask,
     glStencilFunc(fn, ref, fmask);
     glStencilMask(wmask);
 }
+
+void C4JRender::StateSetTextureEnable(bool e) {
+    if (s_rs.activeTexture == 0) {
+        s_rs.useTexture = e;
+        if (s_shader.prog) {
+            glUseProgram(s_shader.prog);
+            glUniform1i(s_shader.uUseTexture, e ? 1 : 0);
+        }
+    } else {
+        s_rs.useLightmap = e;
+        if (s_shader.prog) {
+            glUseProgram(s_shader.prog);
+            glUniform1i(s_shader.uUseLightmap, e ? 1 : 0);
+        }
+    }
+}
+void C4JRender::StateSetActiveTexture(int tex) {
+    s_rs.activeTexture = (tex == 0x84C1 /*GL_TEXTURE1*/) ? 1 : 0;
+}
+
 
 int C4JRender::TextureCreate() {
     GLuint id;
@@ -1049,7 +960,6 @@ void C4JRender::TextureBindVertex(int idx, bool scaleLight) {
 }
 void C4JRender::TextureSetTextureLevels(int l) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, l > 0 ? l - 1 : 0);
-
     if (l > 1) {
         // Listen i tried ansio but it looked worse cuz there was this HORRIBLE
         // black line artifact on mip levels, so here we are with this weird
@@ -1061,23 +971,17 @@ void C4JRender::TextureSetTextureLevels(int l) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     }
 }
-
 int C4JRender::TextureGetTextureLevels() { return 1; }
-
 void C4JRender::TextureData(int w, int h, void* d, int lvl, eTextureFormat) {
     glTexImage2D(GL_TEXTURE_2D, lvl, GL_RGBA, w, h, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, d);
-
     if (lvl == 0) {
         // Same as above
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
         GLint maxLvl = 0;
         glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, &maxLvl);
-
-        if (maxLvl == 0) {
+        if (maxLvl == 0)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        }
     }
 }
 void C4JRender::TextureDataUpdate(int xo, int yo, int w, int h, void* d,
@@ -1093,6 +997,7 @@ void C4JRender::TextureDynamicUpdateEnd() {}
 void C4JRender::TextureGetStats() {}
 void* C4JRender::TextureGetTexture(int) { return nullptr; }
 
+// use stb to load imagez
 static HRESULT stbLoad(unsigned char* data, int w, int h, D3DXIMAGE_INFO* info,
                        int** out) {
     int* px = new int[w * h];
@@ -1132,9 +1037,17 @@ HRESULT C4JRender::SaveTextureDataToMemory(void*, int, int*, int, int, int*) {
     return S_OK;
 }
 
-void C4JRender::StateSetForceLOD(int LOD) {}  // No LOD bias in legacy GL path
-
-void C4JRender::BeginEvent(const wchar_t* eventName) {}
+// future me: move that somewhere else
+void C4JRender::DoScreenGrabOnNextPresent() {}
+void C4JRender::CaptureThumbnail(ImageFileBuffer*) {}
+void C4JRender::CaptureScreen(ImageFileBuffer*, XSOCIAL_PREVIEWIMAGE*) {}
+void C4JRender::BeginConditionalSurvey(int) {}
+void C4JRender::EndConditionalSurvey() {}
+void C4JRender::BeginConditionalRendering(int) {}
+void C4JRender::EndConditionalRendering() {}
+void C4JRender::Tick() {}
+void C4JRender::UpdateGamma(unsigned short) {}
+void C4JRender::BeginEvent(LPCWSTR) {}
 void C4JRender::EndEvent() {}
 void C4JRender::Suspend() {}
 bool C4JRender::Suspended() { return false; }

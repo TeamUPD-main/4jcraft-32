@@ -748,8 +748,11 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                 RenderManager.MatrixTranslate(0, minecraft->player->heightOffset, 0);
                 EntityRenderDispatcher::instance->playerRotY = 180;
                 EntityRenderDispatcher::instance->isGuiRender = true;
+                RenderManager.StateSetFaceCull(false);
                 EntityRenderDispatcher::instance->render(minecraft->player, 0,
                                                          0, 0, 0, 1);
+                                                         
+                RenderManager.StateSetFaceCull(true);
                 EntityRenderDispatcher::instance->isGuiRender = false;
 
                 minecraft->player->yRot = oyr;

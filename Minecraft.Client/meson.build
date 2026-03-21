@@ -1,3 +1,4 @@
+render_dep = dependency('4j-render', fallback: ['4jlibs', 'render_dep'])
 # all sources except ./Platform/*
 client_sources = run_command(
   'sh', '-c',

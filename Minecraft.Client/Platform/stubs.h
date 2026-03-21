@@ -1,6 +1,5 @@
 #pragma once
 
-
 #undef glShadeModel
 
 #ifdef __linux__
@@ -39,48 +38,42 @@ void glReadPixels(int, int, int, int, int, int, ByteBuffer *);
 
 #else
 
-const int GL_BYTE = 0;
-const int GL_FLOAT = 0;
-const int GL_UNSIGNED_BYTE = 0;
+const int GL_BYTE = 0x1400;
+const int GL_UNSIGNED_BYTE = 0x1401;
+const int GL_FLOAT = 0x1406;
 
-const int GL_COLOR_ARRAY = 0;
-const int GL_VERTEX_ARRAY = 0;
-const int GL_NORMAL_ARRAY = 0;
-const int GL_TEXTURE_COORD_ARRAY = 0;
+const int GL_COLOR_ARRAY = 0x8076;
+const int GL_VERTEX_ARRAY = 0x8074;
+const int GL_NORMAL_ARRAY = 0x8075;
+const int GL_TEXTURE_COORD_ARRAY = 0x8078;
 
 const int GL_COMPILE = 0x1300;
 
-const int GL_NORMALIZE = 0;
+const int GL_NORMALIZE = 0x0BA1;
+const int GL_RESCALE_NORMAL = 0x803A;
 
-const int GL_RESCALE_NORMAL = 0;
+const int GL_SMOOTH = 0x1D01;
+const int GL_FLAT = 0x1D00;
 
+const int GL_RGBA = 0x1908;
+const int GL_BGRA = 0x80E1;
+const int GL_BGR = 0x80E0;
 
+const int GL_SAMPLES_PASSED_ARB = 0x8914;
+const int GL_QUERY_RESULT_AVAILABLE_ARB = 0x8867;
+const int GL_QUERY_RESULT_ARB = 0x8866;
 
-const int GL_SMOOTH = 0;
-const int GL_FLAT = 0;
+const int GL_POLYGON_OFFSET_FILL = 0x8037;
 
+const int GL_FRONT = 0x0404;
+const int GL_BACK = 0x0405;
+const int GL_FRONT_AND_BACK = 0x0408;
 
+const int GL_COLOR_MATERIAL = 0x0B57;
+const int GL_AMBIENT_AND_DIFFUSE = 0x1602;
 
-const int GL_RGBA = 0;
-const int GL_BGRA = 1;
-const int GL_BGR = 0;
-
-const int GL_SAMPLES_PASSED_ARB = 0;
-const int GL_QUERY_RESULT_AVAILABLE_ARB = 0;
-const int GL_QUERY_RESULT_ARB = 0;
-
-const int GL_POLYGON_OFFSET_FILL = 0;
-
-const int GL_FRONT = 0;
-const int GL_BACK = 1;
-const int GL_FRONT_AND_BACK = 2;
-
-const int GL_COLOR_MATERIAL = 0;
-
-const int GL_AMBIENT_AND_DIFFUSE = 0;
-
-const int GL_TEXTURE1 = 0;
-const int GL_TEXTURE0 = 1;
+const int GL_TEXTURE0 = 0x84C0;
+const int GL_TEXTURE1 = 0x84C1;
 
 void glFlush();
 void glTexGeni(int,int,int);
@@ -181,8 +174,8 @@ public:
 class GL11
 {
 public:
-	static const int GL_SMOOTH = 0;
-	static const int GL_FLAT = 0;
+	static const int GL_SMOOTH = 0x1D01;
+	static const int GL_FLAT = 0x1D00;
 	static void glShadeModel(int) {};
 };
 
