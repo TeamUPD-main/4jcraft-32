@@ -37,7 +37,6 @@ public:
         m_pBuffer = nullptr;
     }
     bool Allocated() { return m_pBuffer != nullptr; }
-    bool Allocated() { return m_pBuffer != nullptr; }
 };
 
 typedef struct {
@@ -92,10 +91,6 @@ public:
     void EndConditionalRendering();
 
     typedef enum {
-        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1,
-        VERTEX_TYPE_COMPRESSED,
-        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_LIT,
-        VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_TEXGEN,
         VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1,  // Position 3 x float, texture 2 x
                                           // float, colour 4 x byte, normal 4 x
                                           // byte, padding 1 32-bit word
@@ -222,7 +217,6 @@ public:
     void StateSetTextureEnable(bool enable);
     void StateSetActiveTexture(int tex);
 
-    void BeginEvent(LPCWSTR eventName);
     // Event tracking
     void BeginEvent(const wchar_t* eventName);
     void EndEvent();
