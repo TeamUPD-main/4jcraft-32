@@ -1,0 +1,33 @@
+<map id="TileItem" name="TileItem">
+<area shape="rect" id="Node000001" title=" " alt="" coords="304,252,380,277"/>
+<area shape="rect" id="Node000004" href="$classAuxDataTileItem.html" title=" " alt="" coords="460,5,592,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="343,238,350,195,365,142,389,88,406,63,426,41,442,31,459,24,461,28,444,35,430,45,410,66,394,91,370,144,355,196,348,239"/>
+<area shape="rect" id="Node000005" href="$classClothTileItem.html" title=" " alt="" coords="471,55,581,80"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="346,238,356,204,372,164,395,124,426,91,447,78,469,71,471,76,449,83,430,95,400,128,377,167,361,206,352,239"/>
+<area shape="rect" id="Node000006" href="$classColoredTileItem.html" title=" " alt="" coords="463,104,589,129"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="352,238,381,188,401,162,427,140,461,124,464,128,429,144,405,166,385,191,356,241"/>
+<area shape="rect" id="Node000008" href="$classLeafTileItem.html" title=" " alt="" coords="474,153,578,179"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="362,240,391,213,427,189,473,172,475,177,429,194,394,217,366,244"/>
+<area shape="rect" id="Node000009" href="$classMultiTextureTileItem.html" title=" " alt="" coords="447,203,605,228"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="393,248,427,238,475,225,476,231,429,243,394,253"/>
+<area shape="rect" id="Node000011" href="$classPistonTileItem.html" title=" " alt="" coords="468,252,584,277"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="394,262,468,262,468,267,394,267"/>
+<area shape="rect" id="Node000012" href="$classSaplingTileItem.html" title=" " alt="" coords="464,301,588,327"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="394,277,429,287,472,299,471,304,427,293,393,283"/>
+<area shape="rect" id="Node000013" href="$classSmoothStoneBrickTileItem.html" title=" " alt="" coords="428,351,624,376"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="366,286,394,313,429,337,457,348,455,353,427,342,391,317,362,290"/>
+<area shape="rect" id="Node000014" href="$classStoneMonsterTileItem.html" title=" " alt="" coords="443,400,609,425"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="356,289,385,339,405,365,430,386,451,398,448,402,426,391,401,369,380,342,351,291"/>
+<area shape="rect" id="Node000015" href="$classStoneSlabTileItem.html" title=" " alt="" coords="455,449,597,475"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="351,290,361,324,377,363,399,403,430,436,456,450,454,455,426,440,395,406,372,366,356,325,346,292"/>
+<area shape="rect" id="Node000016" href="$classTreeTileItem.html" title=" " alt="" coords="475,499,577,524"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="348,291,355,334,369,387,393,440,410,464,430,485,451,498,475,506,474,511,449,503,426,489,406,468,389,443,364,388,350,335,343,292"/>
+<area shape="rect" id="Node000002" href="$classItem.html" title=" " alt="" coords="204,252,256,277"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,262,304,262,304,267,270,267"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,245,156,285"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,262,203,262,203,267,170,267"/>
+<area shape="rect" id="Node000007" href="$classWaterLilyTileItem.html" title=" " alt="" coords="672,104,809,129"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="603,114,672,114,672,119,603,119"/>
+<area shape="rect" id="Node000010" href="$classAnvilTileItem.html" title=" " alt="" coords="686,203,795,228"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="619,213,685,213,685,218,619,218"/>
+</map>

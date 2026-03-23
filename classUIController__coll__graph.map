@@ -1,0 +1,22 @@
+<map id="UIController" name="UIController">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1091,120,1191,145"/>
+<area shape="rect" id="Node000002" href="$classIUIController.html" title=" " alt="" coords="690,5,794,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="808,15,865,18,931,27,1001,42,1068,66,1104,91,1131,118,1127,122,1101,95,1065,71,1000,47,931,32,864,24,807,20"/>
+<area shape="rect" id="Node000003" href="$classUIComponent__DebugUIConsole.html" title=" " alt="" coords="629,120,855,145"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="869,130,1091,130,1091,135,869,135"/>
+<area shape="rect" id="Node000004" href="$classUIScene.html" title=" " alt="" coords="499,103,573,128"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="587,117,629,120,628,126,587,122"/>
+<area shape="rect" id="Node000008" href="$classUIComponent__DebugUIMarketingGuide.html" title=" " alt="" coords="623,55,861,95"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="586,102,597,99,630,93,631,98,598,105,587,107"/>
+<area shape="rect" id="Node000005" href="$structIggyValuePath.html" title=" " alt="" coords="233,120,348,145"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="362,125,498,115,499,121,362,130"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="265,105,273,97,291,93,306,96,315,102,318,112,313,121,308,119,312,111,311,105,304,101,291,99,275,101,269,109"/>
+<area shape="rect" id="Node000006" href="$classUILayer.html" title=" " alt="" coords="255,32,327,57"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="341,56,499,102,498,107,339,61"/>
+<area shape="rect" id="Node000007" href="$classUIGroup.html" title=" " alt="" coords="5,149,80,175"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="94,166,185,176,289,181,743,181,840,176,936,166,1090,140,1091,146,936,171,840,182,743,186,289,186,184,181,94,172"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="80,141,232,66,257,55,259,60,234,71,82,146"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="875,83,970,94,1067,110,1098,117,1097,123,1066,115,969,100,875,89"/>
+<area shape="rect" id="Node000009" href="$structGDrawFunctions.html" title=" " alt="" coords="678,221,806,247"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="820,243,877,247,940,246,1004,236,1065,214,1087,200,1105,181,1130,144,1135,147,1109,184,1090,204,1068,219,1006,241,940,251,877,253,820,249"/>
+</map>

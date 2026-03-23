@@ -1,0 +1,9 @@
+<map id="CScene_TransferToXboxOne" name="CScene_TransferToXboxOne">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,168,208,193"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="25,80,145,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,118,106,167,101,168,89,119"/>
+<area shape="rect" id="Node000003" href="$classCXuiCtrl4JList.html" title=" " alt="" coords="170,80,281,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,116,124,170,121,166,197,111"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="173,5,277,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="228,45,228,80,223,80,223,45"/>
+</map>

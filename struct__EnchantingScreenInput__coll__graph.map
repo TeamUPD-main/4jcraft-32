@@ -1,0 +1,30 @@
+<map id="_EnchantingScreenInput" name="_EnchantingScreenInput">
+<area shape="rect" id="Node000001" title=" " alt="" coords="703,143,881,169"/>
+<area shape="rect" id="Node000002" href="$classLevel.html" title=" " alt="" coords="395,133,453,158"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="466,146,551,152,702,154,702,160,551,157,466,152"/>
+<area shape="rect" id="Node000005" href="$classDimension.html" title=" " alt="" coords="746,257,838,282"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="467,151,527,167,759,254,757,259,526,172,465,156"/>
+<area shape="rect" id="Node000012" href="$classLevelChunk.html" title=" " alt="" coords="743,53,841,78"/>
+<area shape="poly" id="edge15_Node000012_Node000002" title=" " alt="" coords="466,141,564,131,621,122,678,109,724,93,764,76,767,80,726,98,679,115,622,127,565,136,467,146"/>
+<area shape="rect" id="Node000003" href="$classLevelSource.html" title=" " alt="" coords="26,10,127,35"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="141,26,217,40,298,64,361,97,408,130,405,135,358,102,296,69,216,45,140,32"/>
+<area shape="rect" id="Node000004" href="$classRandom.html" title=" " alt="" coords="39,59,115,85"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="129,76,209,89,298,107,396,134,394,139,297,112,208,94,128,82"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="732,273,628,269,581,261,549,248,541,238,536,228,535,208,535,189,525,171,509,160,490,153,452,147,453,142,491,148,511,155,529,168,540,188,541,208,542,227,545,235,552,243,582,256,629,264,733,268"/>
+<area shape="rect" id="Node000006" href="$classLevelType.html" title=" " alt="" coords="381,279,467,305"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="481,292,574,293,678,288,745,277,746,282,679,293,574,298,481,297"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="387,265,398,256,424,253,445,255,458,261,462,271,455,281,451,278,457,270,455,265,444,260,424,258,400,261,390,269"/>
+<area shape="rect" id="Node000007" href="$classBiomeSource.html" title=" " alt="" coords="370,329,478,354"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="492,337,581,329,678,312,724,297,764,280,766,285,726,302,679,317,582,334,493,342"/>
+<area shape="rect" id="Node000008" href="$classChunkSource.html" title=" " alt="" coords="23,109,130,134"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="144,123,395,141,395,146,144,129"/>
+<area shape="rect" id="Node000009" href="$classLevelData.html" title=" " alt="" coords="33,158,121,183"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="134,165,297,155,395,146,396,151,298,160,135,170"/>
+<area shape="rect" id="Node000010" href="$classSavedDataStorage.html" title=" " alt="" coords="5,207,148,233"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="161,214,229,204,296,184,308,176,320,167,359,154,395,146,396,151,360,159,323,172,311,180,298,189,230,209,162,219"/>
+<area shape="rect" id="Node000011" href="$classVillageSiege.html" title=" " alt="" coords="25,257,128,282"/>
+<area shape="poly" id="edge12_Node000002_Node000011" title=" " alt="" coords="142,273,180,273,221,267,261,255,295,234,306,219,307,203,309,185,319,167,337,156,357,148,394,142,395,148,358,153,339,161,323,171,314,187,312,203,311,221,299,238,263,260,222,272,181,278,142,279"/>
+<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="729,71,644,80,551,97,498,115,452,135,450,130,496,110,550,92,643,74,728,66"/>
+<area shape="rect" id="Node000013" href="$classarrayWithLength.html" title=" " alt="" coords="321,7,527,33"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="541,30,679,47,743,55,742,61,678,52,541,35"/>
+</map>

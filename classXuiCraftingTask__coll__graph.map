@@ -1,0 +1,10 @@
+<map id="XuiCraftingTask" name="XuiCraftingTask">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,93,128,119"/>
+<area shape="rect" id="Node000002" href="$classTutorialTask.html" title=" " alt="" coords="61,5,160,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,44,88,56,72,94,68,92,83,53,91,41"/>
+<area shape="rect" id="Node000003" href="$classTutorial.html" title=" " alt="" coords="186,93,257,119"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="105,44,105,57,109,68,120,76,139,84,186,96,185,101,138,89,118,81,105,71,99,58,100,44"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,82,190,57,171,43,149,33,151,28,173,38,194,53,213,79"/>
+<area shape="rect" id="Node000004" href="$classTutorialConstraint.html" title=" " alt="" coords="235,5,373,31"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="295,45,277,71,245,95,242,91,273,67,291,42"/>
+</map>

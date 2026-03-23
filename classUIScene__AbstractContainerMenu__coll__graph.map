@@ -1,0 +1,35 @@
+<map id="UIScene_AbstractContainerMenu" name="UIScene_AbstractContainerMenu">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1703,262,1937,287"/>
+<area shape="rect" id="Node000002" href="$classUIScene.html" title=" " alt="" coords="502,386,577,411"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="591,399,773,404,1390,404,1473,402,1537,395,1600,380,1678,354,1747,320,1800,285,1803,290,1749,325,1680,358,1601,385,1538,401,1473,408,1390,409,773,409,591,404"/>
+<area shape="rect" id="Node000010" href="$classUIControl.html" title=" " alt="" coords="733,313,816,338"/>
+<area shape="poly" id="edge12_Node000010_Node000002" title=" " alt="" coords="590,388,647,375,708,356,751,336,753,341,710,361,649,380,591,393"/>
+<area shape="rect" id="Node000003" href="$structIggyValuePath.html" title=" " alt="" coords="233,329,348,354"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="360,355,502,388,501,393,359,360"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="265,314,273,305,291,302,306,304,315,311,318,320,313,330,308,327,312,320,311,314,304,309,291,307,275,310,269,317"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="362,336,733,324,733,329,362,342"/>
+<area shape="rect" id="Node000004" href="$classUILayer.html" title=" " alt="" coords="255,393,327,418"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="340,403,475,401,502,400,502,405,475,407,341,409"/>
+<area shape="rect" id="Node000005" href="$classUIGroup.html" title=" " alt="" coords="5,393,80,418"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="94,403,255,403,255,408,94,408"/>
+<area shape="rect" id="Node000006" href="$classIUIScene__AbstractContainerMenu.html" title=" " alt="" coords="1269,190,1508,215"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="1522,203,1600,210,1679,223,1739,240,1791,260,1789,264,1738,245,1678,228,1600,215,1522,208"/>
+<area shape="rect" id="Node000007" href="$classAbstractContainerMenu.html" title=" " alt="" coords="865,239,1040,265"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1053,240,1245,220,1301,213,1301,218,1246,225,1054,246"/>
+<area shape="rect" id="Node000008" href="$struct__UIVec2D.html" title=" " alt="" coords="911,141,995,166"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="1009,156,1246,180,1301,187,1301,193,1245,185,1008,161"/>
+<area shape="rect" id="Node000009" href="$classSlot.html" title=" " alt="" coords="929,190,976,215"/>
+<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="990,200,1269,200,1269,205,990,205"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="776,298,784,258,800,210,826,163,843,143,864,126,920,93,973,67,1023,49,1072,38,1119,32,1166,31,1212,36,1258,44,1351,72,1450,109,1558,152,1680,195,1715,209,1749,226,1802,259,1799,264,1746,231,1713,214,1678,200,1556,157,1448,114,1349,77,1256,50,1211,41,1166,37,1120,37,1073,43,1025,54,975,72,922,97,867,130,847,146,830,166,805,212,790,260,782,299"/>
+<area shape="rect" id="Node000012" href="$classUIControl__Base.html" title=" " alt="" coords="891,313,1014,338"/>
+<area shape="poly" id="edge15_Node000012_Node000010" title=" " alt="" coords="830,323,891,323,891,328,830,328"/>
+<area shape="rect" id="Node000011" href="$classUIControl__SlotList.html" title=" " alt="" coords="1319,241,1458,266"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="1472,255,1703,266,1702,272,1472,260"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="1027,310,1319,262,1319,267,1028,316"/>
+<area shape="rect" id="Node000013" href="$classUIControl__Cursor.html" title=" " alt="" coords="1323,293,1455,318"/>
+<area shape="poly" id="edge17_Node000013_Node000012" title=" " alt="" coords="1027,319,1323,306,1323,311,1028,325"/>
+<area shape="rect" id="Node000014" href="$classUIControl__Label.html" title=" " alt="" coords="1326,343,1451,369"/>
+<area shape="poly" id="edge19_Node000014_Node000012" title=" " alt="" coords="1028,328,1326,349,1326,354,1028,333"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="1468,298,1678,284,1702,282,1703,287,1679,289,1468,303"/>
+<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="1465,353,1567,346,1623,339,1678,328,1740,308,1792,285,1794,290,1742,313,1679,333,1624,344,1568,351,1465,358"/>
+</map>

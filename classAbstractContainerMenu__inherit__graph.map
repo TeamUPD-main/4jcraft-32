@@ -1,0 +1,25 @@
+<map id="AbstractContainerMenu" name="AbstractContainerMenu">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,268,180,293"/>
+<area shape="rect" id="Node000002" href="$classBrewingStandMenu.html" title=" " alt="" coords="245,5,393,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,254,115,208,141,150,178,90,200,63,226,40,246,28,249,33,230,44,204,67,182,94,145,152,120,210,104,256"/>
+<area shape="rect" id="Node000003" href="$classContainerMenu.html" title=" " alt="" coords="259,55,380,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="102,254,121,217,148,173,184,127,227,89,257,75,259,79,229,94,187,131,153,176,126,220,107,257"/>
+<area shape="rect" id="Node000004" href="$classCraftingMenu.html" title=" " alt="" coords="265,104,374,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="109,255,157,197,190,166,227,140,263,124,265,129,229,144,193,170,161,201,113,258"/>
+<area shape="rect" id="Node000005" href="$classCreativeInventoryScreen_1_1ContainerCreative.html" title=" " alt="" coords="228,154,411,194"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="125,259,172,231,227,204,256,192,258,197,229,208,175,236,127,263"/>
+<area shape="rect" id="Node000006" href="$classEnchantmentMenu.html" title=" " alt="" coords="247,219,391,244"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="164,262,260,241,261,247,166,268"/>
+<area shape="rect" id="Node000007" href="$classFurnaceMenu.html" title=" " alt="" coords="265,268,374,293"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="194,278,265,278,265,283,194,283"/>
+<area shape="rect" id="Node000008" href="$classIUIScene__CreativeMenu_1_1ItemPickerMenu.html" title=" " alt="" coords="231,318,408,358"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="157,294,240,315,239,321,156,299"/>
+<area shape="rect" id="Node000009" href="$classInventoryMenu.html" title=" " alt="" coords="259,383,379,408"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="122,300,170,334,229,368,263,380,261,385,227,372,167,339,119,304"/>
+<area shape="rect" id="Node000010" href="$classMerchantMenu.html" title=" " alt="" coords="260,432,379,457"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="113,303,161,361,193,391,229,417,261,431,259,436,227,422,190,395,157,364,109,306"/>
+<area shape="rect" id="Node000011" href="$classRepairMenu.html" title=" " alt="" coords="269,481,369,507"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="108,305,126,341,153,385,188,429,230,466,249,477,270,484,268,489,247,482,226,471,184,433,149,388,122,344,103,307"/>
+<area shape="rect" id="Node000012" href="$classTrapMenu.html" title=" " alt="" coords="277,531,362,556"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="104,306,120,352,146,409,182,467,205,493,230,516,252,529,277,536,276,541,250,533,226,520,201,497,178,470,141,411,115,354,99,308"/>
+</map>

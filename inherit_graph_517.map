@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classSlot.html" title=" " alt="" coords="5,129,52,155"/>
+<area shape="rect" id="Node000001" href="$classArmorSlot.html" title=" " alt="" coords="131,5,218,31"/>
+<area shape="poly" id="edge996_Node000000_Node000001" title=" " alt="" coords="39,116,63,77,79,57,99,40,130,24,132,29,101,44,83,61,67,80,44,119"/>
+<area shape="rect" id="Node000002" href="$classEnchantmentSlot.html" title=" " alt="" coords="108,55,241,80"/>
+<area shape="poly" id="edge997_Node000000_Node000002" title=" " alt="" coords="54,118,99,89,126,78,128,83,101,94,57,123"/>
+<area shape="rect" id="Node000003" href="$classFurnaceResultSlot.html" title=" " alt="" coords="105,104,244,129"/>
+<area shape="poly" id="edge998_Node000000_Node000003" title=" " alt="" coords="65,133,105,126,106,131,66,138"/>
+<area shape="rect" id="Node000004" href="$classMerchantResultSlot.html" title=" " alt="" coords="100,153,249,179"/>
+<area shape="poly" id="edge999_Node000000_Node000004" title=" " alt="" coords="66,145,100,151,99,156,65,151"/>
+<area shape="rect" id="Node000005" href="$classRepairResultSlot.html" title=" " alt="" coords="109,203,240,228"/>
+<area shape="poly" id="edge1000_Node000000_Node000005" title=" " alt="" coords="58,160,101,188,131,200,129,205,99,192,55,165"/>
+<area shape="rect" id="Node000006" href="$classResultSlot.html" title=" " alt="" coords="131,252,219,277"/>
+<area shape="poly" id="edge1001_Node000000_Node000006" title=" " alt="" coords="44,165,68,203,102,237,132,252,129,257,98,241,64,206,40,168"/>
+</map>

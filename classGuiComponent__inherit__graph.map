@@ -1,0 +1,77 @@
+<map id="GuiComponent" name="GuiComponent">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,179,124,204"/>
+<area shape="rect" id="Node000002" href="$classAchievementPopup.html" title=" " alt="" coords="172,55,320,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,166,121,127,171,89,195,78,197,83,173,94,125,131,87,170"/>
+<area shape="rect" id="Node000003" href="$classButton.html" title=" " alt="" coords="213,104,279,129"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="102,170,171,138,212,124,214,129,173,143,104,175"/>
+<area shape="rect" id="Node000006" href="$classEditBox.html" title=" " alt="" coords="210,153,282,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="137,179,209,168,210,174,138,184"/>
+<area shape="rect" id="Node000007" href="$classGui.html" title=" " alt="" coords="224,203,268,228"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="138,198,224,210,223,215,137,204"/>
+<area shape="rect" id="Node000008" href="$classGuiParticles.html" title=" " alt="" coords="197,252,295,277"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="106,207,173,237,207,249,205,254,171,242,104,212"/>
+<area shape="rect" id="Node000009" href="$classScreen.html" title=" " alt="" coords="213,647,279,672"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="78,216,242,646,237,648,73,218"/>
+<area shape="rect" id="Node000004" href="$classSlideButton.html" title=" " alt="" coords="411,55,508,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="291,104,410,76,411,81,293,109"/>
+<area shape="rect" id="Node000005" href="$classSmallButton.html" title=" " alt="" coords="408,104,511,129"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="293,114,408,114,408,119,293,119"/>
+<area shape="rect" id="Node000010" href="$classAbstractContainerScreen.html" title=" " alt="" coords="368,153,551,179"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="250,632,303,387,336,259,352,213,366,188,382,177,385,181,370,192,357,216,342,260,308,389,255,633"/>
+<area shape="rect" id="Node000017" href="$classAchievementScreen.html" title=" " alt="" coords="383,203,535,228"/>
+<area shape="poly" id="edge16_Node000009_Node000017" title=" " alt="" coords="244,633,247,556,252,505,262,450,277,392,299,336,328,284,366,237,382,226,385,230,370,241,333,287,304,338,282,394,267,451,258,506,252,556,249,633"/>
+<area shape="rect" id="Node000018" href="$classChatScreen.html" title=" " alt="" coords="411,252,507,277"/>
+<area shape="poly" id="edge17_Node000009_Node000018" title=" " alt="" coords="245,633,251,564,268,471,284,421,305,372,332,327,366,287,387,273,410,266,412,271,389,278,370,291,336,330,309,374,289,423,274,472,256,564,250,633"/>
+<area shape="rect" id="Node000020" href="$classConfirmScreen.html" title=" " alt="" coords="401,301,518,327"/>
+<area shape="poly" id="edge19_Node000009_Node000020" title=" " alt="" coords="247,633,255,572,275,492,290,450,310,408,335,370,366,336,382,325,400,318,402,323,385,330,370,340,340,373,315,411,295,452,280,494,260,573,252,634"/>
+<area shape="rect" id="Node000021" href="$classConnectScreen.html" title=" " alt="" coords="400,351,519,376"/>
+<area shape="poly" id="edge20_Node000009_Node000021" title=" " alt="" coords="249,632,260,580,282,513,316,444,339,413,366,385,398,368,401,373,370,389,343,416,321,447,287,515,265,581,254,633"/>
+<area shape="rect" id="Node000022" href="$classControlsScreen.html" title=" " alt="" coords="399,400,519,425"/>
+<area shape="poly" id="edge21_Node000009_Node000022" title=" " alt="" coords="252,632,266,589,289,536,322,481,343,456,366,434,398,419,400,423,370,439,347,460,327,484,294,538,271,591,257,634"/>
+<area shape="rect" id="Node000023" href="$classCreateWorldScreen.html" title=" " alt="" coords="386,449,533,475"/>
+<area shape="poly" id="edge22_Node000009_Node000023" title=" " alt="" coords="256,633,272,599,297,559,328,518,366,484,388,472,391,477,370,488,332,522,301,562,277,602,260,635"/>
+<area shape="rect" id="Node000024" href="$classDeathScreen.html" title=" " alt="" coords="407,499,512,524"/>
+<area shape="poly" id="edge23_Node000009_Node000024" title=" " alt="" coords="262,634,305,583,334,556,367,533,406,518,408,522,369,538,338,560,309,587,266,638"/>
+<area shape="rect" id="Node000025" href="$classDisconnectedScreen.html" title=" " alt="" coords="382,548,537,573"/>
+<area shape="poly" id="edge24_Node000009_Node000025" title=" " alt="" coords="274,636,317,608,367,582,399,571,401,576,369,587,319,613,277,641"/>
+<area shape="rect" id="Node000026" href="$classErrorScreen.html" title=" " alt="" coords="411,597,508,623"/>
+<area shape="poly" id="edge25_Node000009_Node000026" title=" " alt="" coords="292,646,410,618,411,624,293,651"/>
+<area shape="rect" id="Node000027" href="$classJoinMultiplayerScreen.html" title=" " alt="" coords="377,647,541,672"/>
+<area shape="poly" id="edge26_Node000009_Node000027" title=" " alt="" coords="293,657,377,657,377,662,293,662"/>
+<area shape="rect" id="Node000028" href="$classMessageScreen.html" title=" " alt="" coords="397,696,521,721"/>
+<area shape="poly" id="edge27_Node000009_Node000028" title=" " alt="" coords="294,667,404,693,403,699,292,673"/>
+<area shape="rect" id="Node000029" href="$classNameEntryScreen.html" title=" " alt="" coords="390,745,529,771"/>
+<area shape="poly" id="edge28_Node000009_Node000029" title=" " alt="" coords="278,678,320,705,369,730,404,743,403,748,367,735,317,709,275,682"/>
+<area shape="rect" id="Node000030" href="$classOptionsScreen.html" title=" " alt="" coords="401,795,517,820"/>
+<area shape="poly" id="edge29_Node000009_Node000030" title=" " alt="" coords="266,681,310,731,338,757,369,780,402,794,400,799,367,784,335,762,306,735,262,685"/>
+<area shape="rect" id="Node000031" href="$classPauseScreen.html" title=" " alt="" coords="407,844,511,869"/>
+<area shape="poly" id="edge30_Node000009_Node000031" title=" " alt="" coords="261,684,278,717,302,756,332,796,370,829,388,839,408,846,406,851,386,844,366,834,329,799,297,759,273,719,256,686"/>
+<area shape="rect" id="Node000032" href="$classReceivingLevelScreen.html" title=" " alt="" coords="377,893,542,919"/>
+<area shape="poly" id="edge31_Node000009_Node000032" title=" " alt="" coords="257,684,271,727,294,780,327,833,347,857,370,879,391,891,388,896,366,883,343,861,322,836,289,782,266,729,252,686"/>
+<area shape="rect" id="Node000033" href="$classRenameWorldScreen.html" title=" " alt="" coords="381,943,538,968"/>
+<area shape="poly" id="edge32_Node000009_Node000033" title=" " alt="" coords="254,685,266,737,287,802,321,870,343,901,370,928,390,940,387,945,366,932,339,904,317,873,282,804,261,738,249,686"/>
+<area shape="rect" id="Node000034" href="$classSelectWorldScreen.html" title=" " alt="" coords="388,992,531,1017"/>
+<area shape="poly" id="edge33_Node000009_Node000034" title=" " alt="" coords="252,686,261,746,281,825,296,866,316,907,340,944,370,977,389,990,386,994,366,981,336,948,311,909,291,868,276,826,256,747,247,687"/>
+<area shape="rect" id="Node000035" href="$classStatsScreen.html" title=" " alt="" coords="410,1041,509,1067"/>
+<area shape="poly" id="edge34_Node000009_Node000035" title=" " alt="" coords="251,685,256,754,274,846,289,895,310,943,336,988,370,1027,389,1039,411,1047,409,1052,386,1044,366,1031,332,991,305,945,284,897,269,847,251,754,245,686"/>
+<area shape="rect" id="Node000036" href="$classTextEditScreen.html" title=" " alt="" coords="400,1091,519,1116"/>
+<area shape="poly" id="edge35_Node000009_Node000036" title=" " alt="" coords="249,686,252,762,258,813,267,868,282,925,304,980,333,1032,370,1077,384,1088,401,1095,399,1100,381,1092,366,1081,328,1035,299,983,277,926,262,869,252,814,247,763,244,686"/>
+<area shape="rect" id="Node000037" href="$classTitleScreen.html" title=" " alt="" coords="412,1140,507,1165"/>
+<area shape="poly" id="edge36_Node000009_Node000037" title=" " alt="" coords="253,685,267,783,292,916,308,983,327,1044,347,1093,370,1127,389,1140,412,1147,411,1152,387,1145,366,1131,343,1096,322,1046,303,984,287,917,262,784,248,686"/>
+<area shape="rect" id="Node000038" href="$classVideoSettingsScreen.html" title=" " alt="" coords="381,1189,537,1215"/>
+<area shape="poly" id="edge37_Node000009_Node000038" title=" " alt="" coords="253,686,265,793,289,941,305,1015,324,1083,346,1139,370,1176,385,1187,381,1191,366,1180,341,1141,319,1085,300,1017,284,942,260,794,247,687"/>
+<area shape="rect" id="Node000011" href="$classContainerScreen.html" title=" " alt="" coords="625,5,755,31"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="540,145,549,139,560,127,566,115,572,91,578,65,585,52,597,40,624,25,627,30,600,44,589,55,583,67,577,92,571,117,564,130,552,143,544,149"/>
+<area shape="rect" id="Node000012" href="$classCraftingScreen.html" title=" " alt="" coords="631,55,749,80"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="534,146,549,138,564,127,572,114,582,102,597,89,630,75,632,80,600,94,586,105,577,117,567,130,552,143,536,151"/>
+<area shape="rect" id="Node000013" href="$classCreativeInventoryScreen.html" title=" " alt="" coords="599,104,781,129"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="532,148,629,127,630,132,533,153"/>
+<area shape="rect" id="Node000014" href="$classFurnaceScreen.html" title=" " alt="" coords="631,153,749,179"/>
+<area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="564,163,631,163,631,169,564,169"/>
+<area shape="rect" id="Node000015" href="$classInventoryScreen.html" title=" " alt="" coords="626,203,754,228"/>
+<area shape="poly" id="edge14_Node000010_Node000015" title=" " alt="" coords="533,179,630,200,629,205,532,184"/>
+<area shape="rect" id="Node000016" href="$classTrapScreen.html" title=" " alt="" coords="643,252,737,277"/>
+<area shape="poly" id="edge15_Node000010_Node000016" title=" " alt="" coords="539,181,552,188,568,200,577,213,586,225,600,237,644,254,642,259,597,242,582,229,573,216,564,204,549,192,537,186"/>
+<area shape="rect" id="Node000019" href="$classInBedChatScreen.html" title=" " alt="" coords="623,301,757,327"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="521,275,630,299,629,304,520,280"/>
+</map>

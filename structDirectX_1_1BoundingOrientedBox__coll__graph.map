@@ -1,0 +1,7 @@
+<map id="DirectX::BoundingOrientedBox" name="DirectX::BoundingOrientedBox">
+<area shape="rect" id="Node000001" title=" " alt="" coords="55,108,275,133"/>
+<area shape="rect" id="Node000002" href="$structDirectX_1_1XMFLOAT3.html" title=" " alt="" coords="5,5,153,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,39,157,106,153,110,96,43"/>
+<area shape="rect" id="Node000003" href="$structDirectX_1_1XMFLOAT4.html" title=" " alt="" coords="177,5,325,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="234,43,177,110,172,106,230,39"/>
+</map>

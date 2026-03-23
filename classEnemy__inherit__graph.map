@@ -1,0 +1,33 @@
+<map id="Enemy" name="Enemy">
+<area shape="rect" id="Node000001" title=" " alt="" coords="387,79,453,104"/>
+<area shape="rect" id="Node000003" href="$classGhast.html" title=" " alt="" coords="298,152,358,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="396,114,345,154,341,150,393,110"/>
+<area shape="rect" id="Node000004" href="$classMonster.html" title=" " alt="" coords="383,152,457,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="423,118,423,152,417,152,417,118"/>
+<area shape="rect" id="Node000015" href="$classSlime.html" title=" " alt="" coords="635,152,693,177"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="467,104,635,152,634,157,466,109"/>
+<area shape="rect" id="Node000002" href="$classCreature.html" title=" " alt="" coords="381,5,459,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="423,44,423,79,417,79,417,44"/>
+<area shape="rect" id="Node000005" href="$classBlaze.html" title=" " alt="" coords="5,225,64,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="370,180,370,180,223,203,158,212,77,228,65,231,64,226,75,223,158,207,222,198,369,175,369,175"/>
+<area shape="rect" id="Node000006" href="$classCreeper.html" title=" " alt="" coords="89,225,162,251"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="370,181,163,230,162,225,368,176"/>
+<area shape="rect" id="Node000007" href="$classEnderMan.html" title=" " alt="" coords="186,225,273,251"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="377,185,261,228,260,223,376,180"/>
+<area shape="rect" id="Node000008" href="$classGiant.html" title=" " alt="" coords="297,225,354,251"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="395,188,342,227,339,223,392,183"/>
+<area shape="rect" id="Node000009" href="$classSilverfish.html" title=" " alt="" coords="379,225,461,251"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="423,191,423,225,417,225,417,191"/>
+<area shape="rect" id="Node000010" href="$classSkeleton.html" title=" " alt="" coords="486,225,565,251"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="450,183,510,223,507,227,447,187"/>
+<area shape="rect" id="Node000011" href="$classSpider.html" title=" " alt="" coords="589,225,651,251"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="466,179,589,223,588,228,464,184"/>
+<area shape="rect" id="Node000013" href="$classZombie.html" title=" " alt="" coords="676,225,748,251"/>
+<area shape="poly" id="edge12_Node000004_Node000013" title=" " alt="" coords="471,176,677,225,675,231,470,181"/>
+<area shape="rect" id="Node000012" href="$classCaveSpider.html" title=" " alt="" coords="559,299,655,324"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="618,265,611,299,606,298,613,264"/>
+<area shape="rect" id="Node000014" href="$classPigZombie.html" title=" " alt="" coords="679,299,771,324"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="719,264,726,298,721,299,714,265"/>
+<area shape="rect" id="Node000016" href="$classLavaSlime.html" title=" " alt="" coords="772,225,863,251"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="702,181,793,223,791,228,700,185"/>
+</map>

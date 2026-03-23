@@ -1,0 +1,14 @@
+<map id="UIComponent_Tooltips" name="UIComponent_Tooltips">
+<area shape="rect" id="Node000001" title=" " alt="" coords="180,284,348,309"/>
+<area shape="rect" id="Node000002" href="$classUIScene.html" title=" " alt="" coords="119,189,193,214"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,221,252,282,249,286,178,225"/>
+<area shape="rect" id="Node000003" href="$structIggyValuePath.html" title=" " alt="" coords="5,93,120,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,126,146,187,143,190,82,130"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="135,97,147,106,138,114,120,116,120,111,136,109,141,106,132,102"/>
+<area shape="rect" id="Node000004" href="$classUILayer.html" title=" " alt="" coords="215,93,287,119"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="231,130,170,190,166,187,228,126"/>
+<area shape="rect" id="Node000005" href="$classUIGroup.html" title=" " alt="" coords="213,5,288,31"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="253,45,253,93,248,93,248,45"/>
+<area shape="rect" id="Node000006" href="$structUIComponent__Tooltips_1_1__TooltipValues.html" title=" " alt="" coords="217,181,385,221"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="291,235,271,285,266,283,286,233"/>
+</map>

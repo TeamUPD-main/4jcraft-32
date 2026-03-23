@@ -1,0 +1,9 @@
+<map id="TextureAndGeometryPacket" name="TextureAndGeometryPacket">
+<area shape="rect" id="Node000001" title=" " alt="" coords="115,123,317,148"/>
+<area shape="rect" id="Node000002" href="$classPacket.html" title=" " alt="" coords="5,20,69,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,50,83,58,196,120,194,125,80,62,67,55"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="94,5,338,60"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,74,219,122,213,122,213,74"/>
+<area shape="rect" id="Node000004" href="$structSKIN__BOX.html" title=" " alt="" coords="363,20,451,45"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="374,54,239,125,236,120,371,50"/>
+</map>

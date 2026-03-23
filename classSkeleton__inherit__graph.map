@@ -1,0 +1,17 @@
+<map id="Skeleton" name="Skeleton">
+<area shape="rect" id="Node000001" title=" " alt="" coords="103,387,181,412"/>
+<area shape="rect" id="Node000002" href="$classMonster.html" title=" " alt="" coords="105,313,179,339"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,352,145,387,139,387,139,352"/>
+<area shape="rect" id="Node000003" href="$classPathfinderMob.html" title=" " alt="" coords="27,240,142,265"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="105,274,135,312,131,315,100,278"/>
+<area shape="rect" id="Node000004" href="$classMob.html" title=" " alt="" coords="59,167,110,192"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,206,87,240,82,240,82,206"/>
+<area shape="rect" id="Node000005" href="$classEntity.html" title=" " alt="" coords="55,93,115,119"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,132,87,167,82,167,82,132"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,59,87,93,82,93,82,59"/>
+<area shape="rect" id="Node000007" href="$classEnemy.html" title=" " alt="" coords="166,240,233,265"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="184,278,153,315,149,312,179,274"/>
+<area shape="rect" id="Node000008" href="$classCreature.html" title=" " alt="" coords="160,167,239,192"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="202,206,202,240,197,240,197,206"/>
+</map>

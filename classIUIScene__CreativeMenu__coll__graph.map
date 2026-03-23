@@ -1,0 +1,16 @@
+<map id="IUIScene_CreativeMenu" name="IUIScene_CreativeMenu">
+<area shape="rect" id="Node000001" title=" " alt="" coords="779,81,956,106"/>
+<area shape="rect" id="Node000002" href="$classIUIScene__AbstractContainerMenu.html" title=" " alt="" coords="383,81,621,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="636,91,778,91,778,96,636,96"/>
+<area shape="rect" id="Node000003" href="$classAbstractContainerMenu.html" title=" " alt="" coords="5,23,180,49"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="187,48,204,51,403,78,402,83,204,56,186,53"/>
+<area shape="rect" id="Node000006" href="$classIUIScene__CreativeMenu_1_1ItemPickerMenu.html" title=" " alt="" coords="413,5,591,45"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="194,31,413,25,413,30,194,36"/>
+<area shape="rect" id="Node000004" href="$struct__UIVec2D.html" title=" " alt="" coords="51,87,135,113"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="148,98,359,96,382,95,383,101,359,101,148,103"/>
+<area shape="rect" id="Node000005" href="$classSlot.html" title=" " alt="" coords="69,137,116,162"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="130,144,232,134,358,119,442,103,443,109,359,124,233,140,130,149"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="605,42,799,78,798,83,604,47"/>
+<area shape="rect" id="Node000007" href="$structIUIScene__CreativeMenu_1_1TabSpec.html" title=" " alt="" coords="413,131,591,171"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="604,134,754,111,797,103,798,109,755,116,604,139"/>
+</map>

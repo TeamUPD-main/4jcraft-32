@@ -1,0 +1,43 @@
+<map id="UIControl_Base" name="UIControl_Base">
+<area shape="rect" id="Node000001" title=" " alt="" coords="136,325,259,351"/>
+<area shape="rect" id="Node000003" href="$classUIControl__Button.html" title=" " alt="" coords="344,17,477,43"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,311,209,260,228,195,259,126,280,94,305,65,325,51,347,40,350,45,328,55,308,69,284,97,264,128,233,196,214,261,205,312"/>
+<area shape="rect" id="Node000005" href="$classUIControl__ButtonList.html" title=" " alt="" coords="333,79,489,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="201,311,213,268,233,215,263,161,283,136,305,115,331,100,334,105,308,119,286,140,268,164,238,217,218,270,206,313"/>
+<area shape="rect" id="Node000009" href="$classUIControl__CheckBox.html" title=" " alt="" coords="333,128,488,153"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="205,311,219,278,241,238,269,198,305,164,332,150,334,155,308,168,273,201,245,240,224,280,210,314"/>
+<area shape="rect" id="Node000010" href="$classUIControl__Cursor.html" title=" " alt="" coords="345,177,477,203"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="211,312,249,262,276,235,305,213,343,197,346,202,308,218,279,239,254,265,215,315"/>
+<area shape="rect" id="Node000011" href="$classUIControl__Label.html" title=" " alt="" coords="348,227,473,252"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="223,315,260,287,306,262,347,248,349,253,308,267,263,292,226,319"/>
+<area shape="rect" id="Node000014" href="$classUIControl__LeaderboardList.html" title=" " alt="" coords="313,276,508,301"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="266,320,354,299,356,304,267,325"/>
+<area shape="rect" id="Node000015" href="$classUIControl__Progress.html" title=" " alt="" coords="337,325,484,351"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="272,335,337,335,337,341,272,341"/>
+<area shape="rect" id="Node000016" href="$classUIControl__Slider.html" title=" " alt="" coords="347,375,474,400"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="267,351,307,361,356,372,354,377,306,366,266,356"/>
+<area shape="rect" id="Node000017" href="$classUIControl__SlotList.html" title=" " alt="" coords="341,424,480,449"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="225,357,263,385,308,410,342,422,340,427,306,415,260,389,222,362"/>
+<area shape="rect" id="Node000018" href="$classUIControl__SpaceIndicatorBar.html" title=" " alt="" coords="307,473,515,499"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="215,361,253,412,279,438,308,460,332,471,330,476,305,464,275,442,249,415,211,364"/>
+<area shape="rect" id="Node000019" href="$classUIControl__TextInput.html" title=" " alt="" coords="335,523,486,548"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="210,363,224,397,245,436,273,476,308,509,336,523,334,528,305,514,269,480,241,439,219,399,205,365"/>
+<area shape="rect" id="Node000020" href="$classUIControl__TexturePackList.html" title=" " alt="" coords="315,572,506,597"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="206,364,218,407,238,460,267,514,286,538,308,559,326,569,324,574,305,563,282,541,263,517,233,462,213,408,201,365"/>
+<area shape="rect" id="Node000021" href="$classUIControl__Touch.html" title=" " alt="" coords="347,621,474,647"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="204,364,212,416,231,483,244,517,262,550,283,581,308,608,327,620,348,627,346,632,325,624,305,612,279,585,257,553,239,519,226,484,207,418,199,365"/>
+<area shape="rect" id="Node000002" href="$classUIControl.html" title=" " alt="" coords="5,325,88,351"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,335,136,335,136,341,102,341"/>
+<area shape="rect" id="Node000004" href="$classUIControl__EnchantmentButton.html" title=" " alt="" coords="563,5,781,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="491,24,562,20,563,26,491,29"/>
+<area shape="rect" id="Node000006" href="$classUIControl__DLCList.html" title=" " alt="" coords="603,55,741,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="502,80,602,71,603,76,503,86"/>
+<area shape="rect" id="Node000007" href="$classUIControl__PlayerList.html" title=" " alt="" coords="595,104,749,129"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="503,98,595,107,594,112,502,103"/>
+<area shape="rect" id="Node000008" href="$classUIControl__SaveList.html" title=" " alt="" coords="599,153,745,179"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="488,105,516,114,540,127,564,140,601,151,600,156,562,144,537,132,514,119,487,110"/>
+<area shape="rect" id="Node000012" href="$classUIControl__DynamicLabel.html" title=" " alt="" coords="581,203,763,228"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="487,230,580,221,581,226,488,235"/>
+<area shape="rect" id="Node000013" href="$classUIControl__HTMLLabel.html" title=" " alt="" coords="591,252,753,277"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="488,244,591,254,590,259,487,249"/>
+</map>

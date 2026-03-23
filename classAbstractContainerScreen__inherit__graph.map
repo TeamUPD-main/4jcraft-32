@@ -1,0 +1,19 @@
+<map id="AbstractContainerScreen" name="AbstractContainerScreen">
+<area shape="rect" id="Node000001" title=" " alt="" coords="287,129,469,155"/>
+<area shape="rect" id="Node000004" href="$classContainerScreen.html" title=" " alt="" coords="544,5,673,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="402,118,452,78,516,40,546,28,548,33,518,44,455,83,405,123"/>
+<area shape="rect" id="Node000005" href="$classCraftingScreen.html" title=" " alt="" coords="550,55,667,80"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="423,122,517,89,555,78,557,83,518,94,425,127"/>
+<area shape="rect" id="Node000006" href="$classCreativeInventoryScreen.html" title=" " alt="" coords="517,104,700,129"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="483,128,517,124,517,129,483,133"/>
+<area shape="rect" id="Node000007" href="$classFurnaceScreen.html" title=" " alt="" coords="550,153,667,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="483,150,550,157,550,163,483,156"/>
+<area shape="rect" id="Node000008" href="$classInventoryScreen.html" title=" " alt="" coords="545,203,673,228"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="426,157,518,189,557,200,556,205,517,194,424,162"/>
+<area shape="rect" id="Node000009" href="$classTrapScreen.html" title=" " alt="" coords="562,252,655,277"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="405,161,456,201,518,238,563,253,561,258,516,243,453,205,402,166"/>
+<area shape="rect" id="Node000002" href="$classScreen.html" title=" " alt="" coords="172,129,239,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,139,286,139,286,145,253,145"/>
+<area shape="rect" id="Node000003" href="$classGuiComponent.html" title=" " alt="" coords="5,129,124,155"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,139,172,139,172,145,138,145"/>
+</map>

@@ -1,0 +1,27 @@
+<map id="Tag" name="Tag">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,277,49,303"/>
+<area shape="rect" id="Node000002" href="$classByteArrayTag.html" title=" " alt="" coords="100,5,209,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="26,263,30,217,40,158,61,96,76,67,95,40,110,29,113,33,99,44,81,69,65,98,45,159,35,217,31,264"/>
+<area shape="rect" id="Node000003" href="$classByteTag.html" title=" " alt="" coords="117,55,192,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="28,263,34,225,46,179,66,132,95,89,116,75,119,80,99,93,71,134,51,181,40,227,34,264"/>
+<area shape="rect" id="Node000004" href="$classCompoundTag.html" title=" " alt="" coords="97,104,212,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="32,263,53,202,72,168,96,139,112,127,115,132,99,143,76,171,58,204,37,265"/>
+<area shape="rect" id="Node000005" href="$classDoubleTag.html" title=" " alt="" coords="109,153,200,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="38,263,62,225,96,188,114,176,117,181,99,192,66,228,43,266"/>
+<area shape="rect" id="Node000006" href="$classEndTag.html" title=" " alt="" coords="121,203,189,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="53,267,96,237,119,226,121,230,99,242,56,271"/>
+<area shape="rect" id="Node000007" href="$classFloatTag.html" title=" " alt="" coords="116,252,193,277"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="63,280,115,270,116,275,64,286"/>
+<area shape="rect" id="Node000008" href="$classIntArrayTag.html" title=" " alt="" coords="107,301,203,327"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="64,294,107,302,106,308,63,299"/>
+<area shape="rect" id="Node000009" href="$classIntTag.html" title=" " alt="" coords="124,351,185,376"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="57,309,99,336,125,349,123,354,96,340,54,313"/>
+<area shape="rect" id="Node000010" href="$classListTag.html" title=" " alt="" coords="102,400,207,425"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="44,314,67,350,99,385,119,398,116,402,96,389,63,353,39,316"/>
+<area shape="rect" id="Node000011" href="$classLongTag.html" title=" " alt="" coords="117,449,192,475"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="37,315,59,374,76,406,99,435,119,448,116,452,96,439,72,409,54,377,32,317"/>
+<area shape="rect" id="Node000012" href="$classShortTag.html" title=" " alt="" coords="115,499,194,524"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="34,316,40,353,52,398,71,443,99,484,117,497,113,501,95,488,67,446,47,399,35,354,29,317"/>
+<area shape="rect" id="Node000013" href="$classStringTag.html" title=" " alt="" coords="113,548,196,573"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="32,317,35,362,46,420,66,480,81,508,99,533,115,546,111,550,95,537,76,511,61,482,41,421,30,363,26,317"/>
+</map>

@@ -1,0 +1,42 @@
+<map id="TheEndBiomeDecorator" name="TheEndBiomeDecorator">
+<area shape="rect" id="Node000001" title=" " alt="" coords="166,547,342,572"/>
+<area shape="rect" id="Node000002" href="$classBiomeDecorator.html" title=" " alt="" coords="366,383,494,409"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="409,420,268,549,264,545,405,416"/>
+<area shape="rect" id="Node000015" href="$classBiome.html" title=" " alt="" coords="382,547,446,572"/>
+<area shape="poly" id="edge20_Node000015_Node000002" title=" " alt="" coords="412,421,402,441,397,470,399,499,412,546,407,547,394,500,392,469,396,439,407,418"/>
+<area shape="rect" id="Node000003" href="$classLevel.html" title=" " alt="" coords="726,117,784,143"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="713,143,611,168,567,182,545,193,532,212,526,231,527,269,530,310,525,331,513,354,492,373,468,386,466,381,489,368,509,350,520,330,525,309,522,270,521,230,527,209,541,189,565,177,610,163,712,138"/>
+<area shape="rect" id="Node000006" href="$classDimension.html" title=" " alt="" coords="909,383,1001,409"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="778,152,803,190,811,214,814,236,812,276,813,312,820,331,833,350,849,365,868,375,909,388,908,393,866,380,846,369,829,354,815,333,808,313,806,276,808,236,806,215,798,192,773,155"/>
+<area shape="rect" id="Node000013" href="$classLevelChunk.html" title=" " alt="" coords="559,383,658,409"/>
+<area shape="poly" id="edge16_Node000013_Node000003" title=" " alt="" coords="759,157,759,263,753,317,748,338,740,354,723,370,702,382,658,394,657,389,700,377,720,366,736,350,743,336,748,316,754,262,754,157"/>
+<area shape="rect" id="Node000004" href="$classLevelSource.html" title=" " alt="" coords="704,5,806,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="758,45,758,117,752,117,752,45"/>
+<area shape="rect" id="Node000005" href="$classRandom.html" title=" " alt="" coords="292,5,368,31"/>
+<area shape="poly" id="edge17_Node000002_Node000005" title=" " alt="" coords="324,45,311,101,310,134,314,166,337,233,368,295,423,382,419,385,363,298,332,235,308,167,304,134,306,100,319,43"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="364,34,402,52,444,67,485,77,519,81,595,91,727,119,726,124,595,96,518,86,484,82,442,72,400,57,362,39"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="919,377,897,353,886,330,883,309,886,270,888,232,883,213,872,192,853,173,830,158,783,140,785,135,832,154,856,169,876,189,888,211,893,232,891,270,888,309,892,329,901,351,923,373"/>
+<area shape="rect" id="Node000007" href="$classLevelType.html" title=" " alt="" coords="1085,117,1172,143"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1136,156,1140,198,1139,250,1128,305,1117,331,1101,354,1080,372,1054,385,1002,396,1001,391,1052,379,1077,368,1097,350,1112,328,1123,303,1134,250,1135,198,1130,157"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="1186,117,1195,122,1198,130,1190,141,1172,145,1171,140,1187,137,1193,130,1191,125,1184,122"/>
+<area shape="rect" id="Node000008" href="$classBiomeSource.html" title=" " alt="" coords="953,117,1061,143"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="1009,157,1002,245,994,299,980,353,965,384,960,382,975,351,989,298,997,244,1004,157"/>
+<area shape="rect" id="Node000009" href="$classChunkSource.html" title=" " alt="" coords="830,5,936,31"/>
+<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="861,42,770,119,767,115,857,38"/>
+<area shape="rect" id="Node000010" href="$classLevelData.html" title=" " alt="" coords="960,5,1048,31"/>
+<area shape="poly" id="edge11_Node000003_Node000010" title=" " alt="" coords="981,42,935,72,854,104,785,124,783,119,853,99,932,67,978,37"/>
+<area shape="rect" id="Node000011" href="$classSavedDataStorage.html" title=" " alt="" coords="406,5,549,31"/>
+<area shape="poly" id="edge12_Node000003_Node000011" title=" " alt="" coords="495,41,507,55,522,67,552,78,608,93,727,120,726,125,607,98,551,83,519,72,503,59,491,44"/>
+<area shape="rect" id="Node000012" href="$classVillageSiege.html" title=" " alt="" coords="577,5,680,31"/>
+<area shape="poly" id="edge13_Node000003_Node000012" title=" " alt="" coords="644,41,666,67,701,95,734,115,731,120,698,99,662,71,640,44"/>
+<area shape="poly" id="edge14_Node000003_Node000013" title=" " alt="" coords="598,371,589,333,584,286,588,236,596,211,608,189,632,164,664,147,697,137,726,131,727,136,698,142,666,152,636,168,612,192,601,213,594,237,589,286,594,332,603,370"/>
+<area shape="rect" id="Node000014" href="$classarrayWithLength.html" title=" " alt="" coords="378,117,583,143"/>
+<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="463,155,451,172,443,192,428,238,419,276,418,294,421,312,429,330,442,350,456,357,485,366,559,383,558,388,484,371,454,362,439,354,424,333,416,313,413,294,413,275,423,236,438,190,447,170,459,152"/>
+<area shape="poly" id="edge18_Node000002_Node000015" title=" " alt="" coords="429,534,451,497,468,454,468,441,458,424,444,411,448,407,462,421,474,439,474,455,456,500,433,537"/>
+<area shape="poly" id="edge19_Node000015_Node000015" title=" " alt="" coords="438,538,450,536,461,539,469,547,472,559,468,575,456,582,440,582,425,575,427,570,441,577,454,577,463,571,467,559,465,549,459,543,450,541,438,543"/>
+<area shape="rect" id="Node000016" href="$classFeature.html" title=" " alt="" coords="21,117,92,143"/>
+<area shape="poly" id="edge22_Node000001_Node000016" title=" " alt="" coords="47,157,29,207,12,274,9,310,9,346,16,382,29,415,46,440,67,462,117,499,169,526,215,544,214,549,167,531,114,504,64,466,42,443,25,417,11,383,4,347,3,309,7,273,24,205,42,155"/>
+<area shape="poly" id="edge21_Node000002_Node000016" title=" " alt="" coords="58,156,59,199,67,253,85,306,100,330,119,350,138,360,165,366,231,371,301,371,354,373,388,381,387,386,353,379,300,376,231,376,164,371,136,365,116,354,96,333,81,308,61,254,53,200,52,156"/>
+<area shape="rect" id="Node000017" href="$structTheEndBiomeDecorator_1_1SPIKE.html" title=" " alt="" coords="166,376,342,416"/>
+<area shape="poly" id="edge23_Node000001_Node000017" title=" " alt="" coords="256,430,256,547,251,547,251,430"/>
+</map>

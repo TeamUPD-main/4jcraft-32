@@ -1,0 +1,13 @@
+<map id="MapItemSavedData::HoldingPlayer" name="MapItemSavedData::HoldingPlayer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="68,285,277,325"/>
+<area shape="rect" id="Node000002" href="$classarrayWithLength.html" title=" " alt="" coords="5,183,183,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,220,128,260,151,283,147,287,124,263,101,222"/>
+<area shape="rect" id="Node000003" href="$classMapItemSavedData.html" title=" " alt="" coords="207,183,357,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="265,220,224,263,198,287,194,283,220,259,261,216"/>
+<area shape="rect" id="Node000004" href="$classSavedData.html" title=" " alt="" coords="117,95,210,120"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="192,126,267,180,264,185,189,130"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="67,5,259,45"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="166,59,166,94,161,94,161,59"/>
+<area shape="rect" id="Node000006" href="$classarrayWithLength.html" title=" " alt="" coords="234,95,439,120"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="324,133,292,184,287,181,320,130"/>
+</map>

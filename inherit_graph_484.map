@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classRecipy.html" title=" " alt="" coords="5,55,72,80"/>
+<area shape="rect" id="Node000001" href="$classArmorDyeRecipe.html" title=" " alt="" coords="120,5,252,31"/>
+<area shape="poly" id="edge991_Node000000_Node000001" title=" " alt="" coords="84,49,146,28,148,33,86,54"/>
+<area shape="rect" id="Node000002" href="$classShapedRecipy.html" title=" " alt="" coords="129,55,243,80"/>
+<area shape="poly" id="edge992_Node000000_Node000002" title=" " alt="" coords="86,65,128,65,128,70,86,70"/>
+<area shape="rect" id="Node000003" href="$classShapelessRecipy.html" title=" " alt="" coords="120,104,252,129"/>
+<area shape="poly" id="edge993_Node000000_Node000003" title=" " alt="" coords="86,80,148,101,146,106,84,85"/>
+</map>

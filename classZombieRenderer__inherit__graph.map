@@ -1,0 +1,9 @@
+<map id="ZombieRenderer" name="ZombieRenderer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="28,225,159,251"/>
+<area shape="rect" id="Node000002" href="$classHumanoidMobRenderer.html" title=" " alt="" coords="5,152,181,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,191,96,225,91,225,91,191"/>
+<area shape="rect" id="Node000003" href="$classMobRenderer.html" title=" " alt="" coords="39,79,148,104"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,118,96,152,91,152,91,118"/>
+<area shape="rect" id="Node000004" href="$classEntityRenderer.html" title=" " alt="" coords="34,5,153,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="96,44,96,79,91,79,91,44"/>
+</map>

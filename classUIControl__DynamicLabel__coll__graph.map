@@ -1,0 +1,19 @@
+<map id="UIControl_DynamicLabel" name="UIControl_DynamicLabel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,493,188,519"/>
+<area shape="rect" id="Node000002" href="$classUIControl__Label.html" title=" " alt="" coords="34,419,159,444"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,458,99,493,94,493,94,458"/>
+<area shape="rect" id="Node000003" href="$classUIControl__Base.html" title=" " alt="" coords="35,344,158,369"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,384,99,418,94,418,94,384"/>
+<area shape="rect" id="Node000004" href="$classUIControl.html" title=" " alt="" coords="55,269,138,295"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="99,309,99,344,94,344,94,309"/>
+<area shape="rect" id="Node000005" href="$structIggyValuePath.html" title=" " alt="" coords="18,93,133,119"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="81,132,90,206,98,269,93,269,85,207,76,133"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="148,97,159,106,151,114,133,116,132,111,149,109,154,106,145,102"/>
+<area shape="rect" id="Node000006" href="$classUIScene.html" title=" " alt="" coords="181,181,255,207"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="105,124,154,155,197,179,195,184,151,160,102,129"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="192,217,115,271,112,267,189,213"/>
+<area shape="rect" id="Node000007" href="$classUILayer.html" title=" " alt="" coords="227,93,299,119"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="253,132,227,182,222,180,248,130"/>
+<area shape="rect" id="Node000008" href="$classUIGroup.html" title=" " alt="" coords="226,5,301,31"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="266,45,266,93,261,93,261,45"/>
+</map>

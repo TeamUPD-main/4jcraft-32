@@ -1,0 +1,9 @@
+<map id="RemoveEntitiesPacket" name="RemoveEntitiesPacket">
+<area shape="rect" id="Node000001" title=" " alt="" coords="115,123,282,148"/>
+<area shape="rect" id="Node000002" href="$classPacket.html" title=" " alt="" coords="5,20,69,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,50,182,120,179,125,66,55"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="94,5,303,60"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,74,201,122,196,122,196,74"/>
+<area shape="rect" id="Node000004" href="$classarrayWithLength.html" title=" " alt="" coords="327,20,505,45"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="380,54,224,125,222,120,378,49"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="CXuiSceneTrading" name="CXuiSceneTrading">
+<area shape="rect" id="Node000001" title=" " alt="" coords="165,256,304,281"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,168,125,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,197,213,253,210,258,99,202"/>
+<area shape="rect" id="Node000003" href="$classIUIScene__TradingMenu.html" title=" " alt="" coords="150,168,319,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,207,237,255,232,255,232,207"/>
+<area shape="rect" id="Node000004" href="$classMerchantMenu.html" title=" " alt="" coords="175,80,294,105"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="237,119,237,167,232,167,232,119"/>
+<area shape="rect" id="Node000005" href="$classAbstractContainerMenu.html" title=" " alt="" coords="147,5,322,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="237,45,237,80,232,80,232,45"/>
+<area shape="rect" id="Node000006" href="$classD3DXVECTOR3.html" title=" " alt="" coords="344,168,464,193"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="370,202,259,258,256,253,368,197"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="CXuiSceneCraftingPanel" name="CXuiSceneCraftingPanel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="147,211,325,236"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,125,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,138,218,208,215,213,95,143"/>
+<area shape="rect" id="Node000003" href="$classIUIScene__CraftingMenu.html" title=" " alt="" coords="149,108,323,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="239,147,239,211,233,211,233,147"/>
+<area shape="rect" id="Node000004" href="$structIUIScene__CraftingMenu_1_1CANBEMADE.html" title=" " alt="" coords="149,5,323,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="239,59,239,108,233,108,233,59"/>
+<area shape="rect" id="Node000005" href="$classCXuiCtrlSlotList.html" title=" " alt="" coords="347,108,469,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="378,142,257,213,254,208,375,138"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="356,13,460,38"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="411,52,411,108,405,108,405,52"/>
+</map>

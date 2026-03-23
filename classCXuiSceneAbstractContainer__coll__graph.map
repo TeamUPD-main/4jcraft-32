@@ -1,0 +1,25 @@
+<map id="CXuiSceneAbstractContainer" name="CXuiSceneAbstractContainer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="813,157,1021,182"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="453,58,573,83"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="587,75,684,88,790,112,846,132,893,154,890,159,844,137,789,117,683,94,586,80"/>
+<area shape="rect" id="Node000003" href="$classIUIScene__AbstractContainerMenu.html" title=" " alt="" coords="393,107,632,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="646,122,790,136,872,154,871,159,789,141,645,127"/>
+<area shape="rect" id="Node000004" href="$classAbstractContainerMenu.html" title=" " alt="" coords="11,9,185,34"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="199,16,242,20,286,28,330,41,371,60,380,69,384,77,388,85,395,92,421,105,419,110,392,97,383,88,379,80,375,72,368,65,328,46,285,33,241,25,199,21"/>
+<area shape="rect" id="Node000005" href="$struct__UIVec2D.html" title=" " alt="" coords="56,58,140,83"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="154,73,370,97,425,105,424,110,369,103,153,79"/>
+<area shape="rect" id="Node000006" href="$classSlot.html" title=" " alt="" coords="75,107,121,133"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="135,117,393,117,393,123,135,123"/>
+<area shape="rect" id="Node000007" href="$classCXuiCtrlSlotList.html" title=" " alt="" coords="451,157,574,182"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="588,167,813,167,813,172,588,172"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="46,157,150,182"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="164,167,451,167,451,172,164,172"/>
+<area shape="rect" id="Node000009" href="$classCXuiCtrlSlotItem.html" title=" " alt="" coords="447,206,578,231"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="591,209,789,187,839,179,840,185,790,192,592,214"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="34,206,162,231"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="176,216,447,216,447,221,176,221"/>
+<area shape="rect" id="Node000011" href="$classCXuiCtrlSlotItemCtrlBase.html" title=" " alt="" coords="5,255,191,281"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="204,253,447,224,447,229,205,258"/>
+<area shape="rect" id="Node000012" href="$classD3DXVECTOR3.html" title=" " alt="" coords="453,255,573,281"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="586,259,683,246,789,223,845,202,891,180,894,184,847,207,790,228,684,251,587,265"/>
+</map>

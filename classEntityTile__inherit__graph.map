@@ -1,0 +1,31 @@
+<map id="EntityTile" name="EntityTile">
+<area shape="rect" id="Node000001" title=" " alt="" coords="100,301,184,327"/>
+<area shape="rect" id="Node000003" href="$classBrewingStandTile.html" title=" " alt="" coords="247,5,383,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="141,287,147,235,160,169,172,134,187,100,206,68,230,40,247,29,250,33,234,44,210,71,192,103,177,136,166,171,152,236,147,288"/>
+<area shape="rect" id="Node000004" href="$classChestTile.html" title=" " alt="" coords="274,55,357,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="144,287,152,244,167,191,193,137,210,111,230,89,251,76,273,69,274,74,253,81,234,93,214,115,197,139,172,193,157,245,149,288"/>
+<area shape="rect" id="Node000005" href="$classDispenserTile.html" title=" " alt="" coords="260,104,371,129"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="147,287,158,253,175,213,199,173,230,139,258,123,261,128,234,143,203,176,180,216,163,255,152,288"/>
+<area shape="rect" id="Node000006" href="$classEnchantmentTableTile.html" title=" " alt="" coords="232,153,399,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="153,288,183,237,205,210,230,188,252,176,254,181,234,192,209,214,187,240,157,290"/>
+<area shape="rect" id="Node000007" href="$classEnderChestTile.html" title=" " alt="" coords="255,203,375,228"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="163,290,193,262,231,237,258,226,260,230,233,242,197,266,166,294"/>
+<area shape="rect" id="Node000008" href="$classFurnaceTile.html" title=" " alt="" coords="267,252,364,277"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="197,296,269,275,271,280,198,301"/>
+<area shape="rect" id="Node000009" href="$classMobSpawnerTile.html" title=" " alt="" coords="250,301,381,327"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="198,311,249,311,249,317,198,317"/>
+<area shape="rect" id="Node000010" href="$classMusicTile.html" title=" " alt="" coords="273,351,357,376"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="198,327,274,349,272,354,197,332"/>
+<area shape="rect" id="Node000011" href="$classPistonMovingPiece.html" title=" " alt="" coords="243,400,388,425"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="166,334,197,362,233,386,260,398,258,402,231,391,193,366,163,338"/>
+<area shape="rect" id="Node000012" href="$classRecordPlayerTile.html" title=" " alt="" coords="249,449,381,475"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="157,338,187,388,209,414,234,436,254,447,252,452,230,440,205,418,183,391,153,340"/>
+<area shape="rect" id="Node000013" href="$classSignTile.html" title=" " alt="" coords="278,499,353,524"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="152,340,163,373,180,412,203,452,234,485,255,498,279,505,277,510,253,503,230,489,199,455,175,415,158,375,147,341"/>
+<area shape="rect" id="Node000014" href="$classSkullTile.html" title=" " alt="" coords="277,548,354,573"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="149,340,157,383,172,435,197,489,214,513,234,535,254,547,277,554,276,560,252,552,230,539,210,517,193,491,167,437,152,384,144,341"/>
+<area shape="rect" id="Node000015" href="$classTheEndPortal.html" title=" " alt="" coords="261,597,369,623"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="147,340,152,392,166,457,177,492,192,525,210,557,234,584,247,594,262,600,260,605,244,598,230,588,206,560,187,528,172,494,160,459,147,393,141,341"/>
+<area shape="rect" id="Node000002" href="$classTile.html" title=" " alt="" coords="5,301,52,327"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,311,100,311,100,317,66,317"/>
+</map>

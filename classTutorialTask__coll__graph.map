@@ -1,0 +1,8 @@
+<map id="TutorialTask" name="TutorialTask">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,104,31"/>
+<area shape="rect" id="Node000002" href="$classTutorial.html" title=" " alt="" coords="105,93,175,119"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="33,42,25,56,28,68,43,83,62,92,105,102,104,107,61,97,40,87,23,71,20,55,28,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,83,109,57,77,33,80,29,113,53,131,80"/>
+<area shape="rect" id="Node000003" href="$classTutorialConstraint.html" title=" " alt="" coords="154,5,291,31"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="214,45,195,71,164,95,160,91,191,67,209,42"/>
+</map>

@@ -1,0 +1,19 @@
+<map id="_TutorialPopupInfo" name="_TutorialPopupInfo">
+<area shape="rect" id="Node000001" title=" " alt="" coords="175,269,318,295"/>
+<area shape="rect" id="Node000002" href="$classUIScene.html" title=" " alt="" coords="137,181,212,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,221,174,233,178,244,191,257,207,267,205,271,188,261,174,247,169,234,168,221"/>
+<area shape="rect" id="Node000003" href="$structIggyValuePath.html" title=" " alt="" coords="5,93,120,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,125,127,155,160,179,156,183,124,159,86,130"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="135,97,147,106,138,114,120,116,120,111,136,109,141,106,132,102"/>
+<area shape="rect" id="Node000004" href="$classUILayer.html" title=" " alt="" coords="215,93,287,119"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="233,131,187,183,183,179,229,127"/>
+<area shape="rect" id="Node000005" href="$classUIGroup.html" title=" " alt="" coords="213,5,288,31"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="253,45,253,93,248,93,248,45"/>
+<area shape="rect" id="Node000006" href="$classTutorial.html" title=" " alt="" coords="346,181,417,207"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="348,215,317,233,263,271,260,267,315,228,345,211"/>
+<area shape="rect" id="Node000007" href="$classTutorialTask.html" title=" " alt="" coords="373,269,472,295"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="377,220,377,232,380,244,389,257,402,267,399,271,385,261,375,246,371,233,372,220"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="433,256,435,243,432,232,422,219,408,209,411,205,425,215,437,229,440,243,438,257"/>
+<area shape="rect" id="Node000008" href="$classTutorialConstraint.html" title=" " alt="" coords="313,93,450,119"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="384,133,384,181,379,181,379,133"/>
+</map>

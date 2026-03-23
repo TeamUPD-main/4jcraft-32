@@ -1,0 +1,11 @@
+<map id="SimpleContainer" name="SimpleContainer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="235,79,365,104"/>
+<area shape="rect" id="Node000003" href="$classEnchantmentContainer.html" title=" " alt="" coords="5,152,176,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="254,111,125,154,124,149,252,106"/>
+<area shape="rect" id="Node000004" href="$classPlayerEnderChestContainer.html" title=" " alt="" coords="200,152,400,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="303,118,303,152,297,152,297,118"/>
+<area shape="rect" id="Node000005" href="$classRepairContainer.html" title=" " alt="" coords="425,152,551,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="344,106,458,149,456,154,342,111"/>
+<area shape="rect" id="Node000002" href="$classContainer.html" title=" " alt="" coords="257,5,343,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="303,44,303,79,297,79,297,44"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,80,120,105"/>
+<area shape="rect" id="Node000001" href="$classEOFException.html" title=" " alt="" coords="207,5,319,31"/>
+<area shape="poly" id="edge1016_Node000000_Node000001" title=" " alt="" coords="98,71,167,40,206,27,208,33,169,44,100,76"/>
+<area shape="rect" id="Node000002" href="$classIOException.html" title=" " alt="" coords="213,55,313,80"/>
+<area shape="poly" id="edge1017_Node000000_Node000002" title=" " alt="" coords="133,81,213,71,213,76,134,86"/>
+<area shape="rect" id="Node000003" href="$classIllegalArgumentException.html" title=" " alt="" coords="168,104,359,129"/>
+<area shape="poly" id="edge1018_Node000000_Node000003" title=" " alt="" coords="134,98,168,103,167,108,133,104"/>
+<area shape="rect" id="Node000004" href="$classRuntimeException.html" title=" " alt="" coords="193,153,334,179"/>
+<area shape="poly" id="edge1019_Node000000_Node000004" title=" " alt="" coords="102,109,169,138,209,151,208,156,167,143,100,114"/>
+<area shape="rect" id="Node000005" href="$classLevelConflictException.html" title=" " alt="" coords="407,153,577,179"/>
+<area shape="poly" id="edge1020_Node000004_Node000005" title=" " alt="" coords="348,163,407,163,407,169,348,169"/>
+</map>

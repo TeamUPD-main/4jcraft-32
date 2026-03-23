@@ -1,0 +1,10 @@
+<map id="InfoTask" name="InfoTask">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,93,81,119"/>
+<area shape="rect" id="Node000002" href="$classTutorialTask.html" title=" " alt="" coords="38,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,44,64,56,49,94,44,92,60,53,67,41"/>
+<area shape="rect" id="Node000003" href="$classTutorial.html" title=" " alt="" coords="163,93,233,119"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="82,44,81,57,86,68,101,83,120,92,163,102,162,107,119,97,98,87,81,71,76,58,76,44"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="186,82,167,57,147,43,126,33,128,28,150,38,171,53,190,79"/>
+<area shape="rect" id="Node000004" href="$classTutorialConstraint.html" title=" " alt="" coords="212,5,349,31"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="272,45,253,71,222,95,218,91,249,67,267,42"/>
+</map>

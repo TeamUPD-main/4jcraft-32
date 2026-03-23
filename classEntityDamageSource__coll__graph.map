@@ -1,0 +1,6 @@
+<map id="EntityDamageSource" name="EntityDamageSource">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,216,164,241"/>
+<area shape="rect" id="Node000002" href="$classDamageSource.html" title=" " alt="" coords="24,73,145,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,112,87,216,82,216,82,112"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="117,66,137,64,154,66,167,73,172,86,165,100,149,107,127,107,104,101,106,96,128,102,147,102,162,96,167,86,163,77,152,71,137,69,118,72"/>
+</map>

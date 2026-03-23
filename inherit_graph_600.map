@@ -1,0 +1,35 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classTutorialTask.html" title=" " alt="" coords="5,376,104,401"/>
+<area shape="rect" id="Node000001" href="$classAreaTask.html" title=" " alt="" coords="205,5,286,31"/>
+<area shape="poly" id="edge1174_Node000000_Node000001" title=" " alt="" coords="52,362,54,297,67,211,79,165,96,120,120,77,150,40,175,24,204,17,205,22,178,29,154,44,124,80,101,122,84,166,72,212,60,298,58,362"/>
+<area shape="rect" id="Node000002" href="$classChoiceTask.html" title=" " alt="" coords="198,55,293,80"/>
+<area shape="poly" id="edge1175_Node000000_Node000002" title=" " alt="" coords="54,362,59,306,73,232,85,193,102,156,123,120,150,89,172,75,197,68,199,73,175,80,154,93,128,123,107,158,90,195,78,234,64,306,59,362"/>
+<area shape="rect" id="Node000003" href="$classCompleteUsingItemTask.html" title=" " alt="" coords="155,104,336,129"/>
+<area shape="poly" id="edge1176_Node000000_Node000003" title=" " alt="" coords="56,361,64,314,80,253,108,192,127,163,150,139,168,127,170,132,154,143,131,167,113,194,85,255,69,315,61,362"/>
+<area shape="rect" id="Node000004" href="$classControllerTask.html" title=" " alt="" coords="188,153,303,179"/>
+<area shape="poly" id="edge1177_Node000000_Node000004" title=" " alt="" coords="59,362,69,323,87,276,114,228,150,188,168,177,187,170,189,175,170,182,154,192,118,232,92,278,74,325,64,363"/>
+<area shape="rect" id="Node000005" href="$classCraftTask.html" title=" " alt="" coords="204,203,287,228"/>
+<area shape="poly" id="edge1178_Node000000_Node000005" title=" " alt="" coords="63,362,95,299,120,266,150,237,176,224,203,217,204,222,178,229,154,242,124,269,100,302,68,365"/>
+<area shape="rect" id="Node000006" href="$classEffectChangedTask.html" title=" " alt="" coords="173,252,318,277"/>
+<area shape="poly" id="edge1179_Node000000_Node000006" title=" " alt="" coords="71,363,104,324,126,303,151,286,176,275,178,280,153,291,130,308,108,327,75,367"/>
+<area shape="rect" id="Node000007" href="$classFullTutorialActiveTask.html" title=" " alt="" coords="164,301,327,327"/>
+<area shape="poly" id="edge1180_Node000000_Node000007" title=" " alt="" coords="87,367,151,336,186,324,188,329,153,340,90,372"/>
+<area shape="rect" id="Node000008" href="$classInfoTask.html" title=" " alt="" coords="207,351,283,376"/>
+<area shape="poly" id="edge1181_Node000000_Node000008" title=" " alt="" coords="118,378,207,366,207,371,118,383"/>
+<area shape="rect" id="Node000009" href="$classPickupTask.html" title=" " alt="" coords="199,400,292,425"/>
+<area shape="poly" id="edge1182_Node000000_Node000009" title=" " alt="" coords="118,394,199,404,198,409,117,399"/>
+<area shape="rect" id="Node000010" href="$classProcedureCompoundTask.html" title=" " alt="" coords="152,449,339,475"/>
+<area shape="poly" id="edge1183_Node000000_Node000010" title=" " alt="" coords="92,406,153,434,192,447,190,452,151,439,89,410"/>
+<area shape="rect" id="Node000011" href="$classProgressFlagTask.html" title=" " alt="" coords="178,499,313,524"/>
+<area shape="poly" id="edge1184_Node000000_Node000011" title=" " alt="" coords="76,411,109,449,153,484,181,496,179,501,151,488,105,453,72,414"/>
+<area shape="rect" id="Node000012" href="$classStatTask.html" title=" " alt="" coords="207,548,284,573"/>
+<area shape="poly" id="edge1185_Node000000_Node000012" title=" " alt="" coords="68,413,100,474,124,506,154,533,179,546,207,554,206,559,177,551,150,538,120,510,96,477,63,415"/>
+<area shape="rect" id="Node000013" href="$classStateChangeTask.html" title=" " alt="" coords="178,597,313,623"/>
+<area shape="poly" id="edge1186_Node000000_Node000013" title=" " alt="" coords="64,414,75,452,93,497,119,543,154,583,179,597,176,601,150,587,114,547,88,500,70,453,59,415"/>
+<area shape="rect" id="Node000014" href="$classUseItemTask.html" title=" " alt="" coords="192,647,299,672"/>
+<area shape="poly" id="edge1187_Node000000_Node000014" title=" " alt="" coords="61,415,69,462,86,520,113,581,132,608,154,632,172,644,193,651,191,656,169,649,150,636,127,611,108,583,81,522,64,463,56,416"/>
+<area shape="rect" id="Node000015" href="$classUseTileTask.html" title=" " alt="" coords="195,696,295,721"/>
+<area shape="poly" id="edge1188_Node000000_Node000015" title=" " alt="" coords="59,415,64,470,79,542,91,580,107,617,128,651,154,681,173,694,196,702,194,707,171,699,150,685,124,654,102,619,86,582,74,543,59,471,54,415"/>
+<area shape="rect" id="Node000016" href="$classXuiCraftingTask.html" title=" " alt="" coords="184,745,307,771"/>
+<area shape="poly" id="edge1189_Node000000_Node000016" title=" " alt="" coords="58,415,60,479,73,564,85,609,102,653,124,695,154,731,168,741,185,748,183,753,165,746,150,735,120,698,97,656,79,611,67,565,55,480,53,415"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="SkeletonModel" name="SkeletonModel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="27,360,145,385"/>
+<area shape="rect" id="Node000002" href="$classZombieModel.html" title=" " alt="" coords="30,285,142,311"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,325,89,360,83,360,83,325"/>
+<area shape="rect" id="Node000003" href="$classHumanoidModel.html" title=" " alt="" coords="21,211,151,236"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,250,89,285,83,285,83,250"/>
+<area shape="rect" id="Node000004" href="$classModel.html" title=" " alt="" coords="5,5,68,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="45,43,86,210,81,211,40,44"/>
+<area shape="rect" id="Node000005" href="$classModelPart.html" title=" " alt="" coords="92,5,179,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="132,44,91,211,86,210,127,43"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="HumanoidModel" name="HumanoidModel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="21,211,151,236"/>
+<area shape="rect" id="Node000002" href="$classModel.html" title=" " alt="" coords="5,5,68,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="45,43,86,210,81,211,40,44"/>
+<area shape="rect" id="Node000003" href="$classModelPart.html" title=" " alt="" coords="92,5,179,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,44,91,211,86,210,127,43"/>
+</map>

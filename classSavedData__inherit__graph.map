@@ -1,0 +1,9 @@
+<map id="SavedData" name="SavedData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="102,93,195,119"/>
+<area shape="rect" id="Node000003" href="$classMapItemSavedData.html" title=" " alt="" coords="5,167,156,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="130,130,94,168,90,165,126,127"/>
+<area shape="rect" id="Node000004" href="$classVillages.html" title=" " alt="" coords="181,167,255,192"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,127,209,165,205,168,168,131"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="53,5,245,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,59,151,93,146,93,146,59"/>
+</map>
