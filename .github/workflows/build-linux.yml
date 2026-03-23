@@ -1,26 +1,8 @@
 name: Build (Linux, x86_64)
 
 on:
-  push:
-    paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.c'
-      - '**/meson.build'
-      - 'meson.build'
-      - '**/CMakeLists.txt'
-      - 'CMakeLists.txt'
-      - '.github/workflows/build-linux.yml'
-  pull_request:
-    paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.c'
-      - '**/meson.build'
-      - 'meson.build'
-      - '**/CMakeLists.txt'
-      - 'CMakeLists.txt'
-      - '.github/workflows/build-linux.yml'
+  workflow_dispatch:
+    
 
 jobs:
   build-linux:
