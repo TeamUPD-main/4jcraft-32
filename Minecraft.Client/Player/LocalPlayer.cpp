@@ -549,7 +549,7 @@ void LocalPlayer::closeContainer() {
 
 void LocalPlayer::openTextEdit(std::shared_ptr<TileEntity> tileEntity) {
 #ifdef ENABLE_JAVA_GUIS
-    minecraft->setScreen(new TextEditScreen(sign));
+//    minecraft->setScreen(new TextEditScreen(sign));
     bool success = true;
 #else
     bool success;
